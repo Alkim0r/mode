@@ -39,4 +39,11 @@
 | C10 | claude | review (v3 собран, ждёт живую проверку Кодекса) | Новый запрос владельца: бойцы реагируют на видимые предупреждения атак и пытаются выйти из опасной зоны с учётом роли, реакции и навигации; контракт в INBOX 15:40 | kingdom/ai, SoldierEntity, dungeon/boss/Telegraph |
 | C11 | claude | todo | Подтверждённый пользователем idle brood: summoned minions не должны бросать цель на свету, переискать бойцов/игроков после смерти target; запрос в INBOX | mine/CrawlerEntity, CrawlerQueenEntity, core/SelfTest |
 
-| G1 | codex | doing | Локальный Git transition: baseline main + отдельный worktree для Lite Codex | .git, coord/GIT_WORKFLOW.md, client/ClientSetup |
+| G1 | codex | done | Локальный Git: baseline main + отдельный worktree Lite Codex созданы (второй внутренний sub-agent остановлен отдельно по просьбе владельца) | .git, coord/GIT_WORKFLOW.md |
+
+| L1 | codex-lite | review | `d6758f9`; compileJava OK (2 existing deprecation warnings); visual test blocked by approval review | client/render/SiegeTowerRenderer.java |
+| G2 | codex | done | Remote `origin` привязан к `https://github.com/Alkim0r/mode.git`; baseline `main` ранее запушен; текущие commit скоро будут отправлены non-force | GitHub `main`, coord/GIT_WORKFLOW.md |
+| G3 | codex | done | Создан handoff: моды, зависимости, слои интеграции Regnum/Create/Aeronautics и однодневный разделённый план | ПЛАН_МОДОВ_И_ИНТЕГРАЦИИ.md |
+| M1 | claude | review | ExternalBosses optional bridge: dedicated build/selftest OK; runtime external boss и multiplayer/unloaded-world edge cases остаются непроверенными | story/ExternalBosses.java, story/, core/SelfTest.java |
+| M2 | codex-lite | cancelled | Внутренний sub-agent lite_performance_codex остановлен по просьбе владельца; новый audit не продолжается. Сохранённая ветка L1 — отдельный старый Git-артефакт, не активный Codex | tools/reference_profile_audit.py, coord/MOD_PROFILE_MATRIX.md |
+| M3 | codex | doing | Однодневный visual QA-срез: Королева + только её выводок (походка, атаки, реакция на цель), 1–2 видимых дефекта максимум; отдать кадр/логи/статус, не править серверные файлы | client/model/, client/render/, coord/previews/ |
