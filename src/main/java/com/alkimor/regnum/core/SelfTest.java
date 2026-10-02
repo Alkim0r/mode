@@ -609,6 +609,50 @@ public final class SelfTest {
                     if (!lbok) fails.add("labor");
                 } catch (Exception lbe) { fails.add("labor " + lbe); log("labor EX " + lbe); }
                 try {
+                    var adm = new java.util.EnumMap<com.alkimor.regnum.kingdom.SoldierType, Integer>(com.alkimor.regnum.kingdom.SoldierType.class);
+                    boolean adok = com.alkimor.regnum.kingdom.Espionage.assaultAdvice(adm).contains("не нужен");
+                    adm.put(com.alkimor.regnum.kingdom.SoldierType.ARCHER, 6);
+                    adm.put(com.alkimor.regnum.kingdom.SoldierType.SPEARMAN, 2);
+                    adok &= com.alkimor.regnum.kingdom.Espionage.assaultAdvice(adm).contains("лучников");
+                    log("assaultadvice: " + (adok ? "OK" : "FAIL"));
+                    if (!adok) fails.add("assaultadvice");
+                } catch (Exception ade) { fails.add("assaultadvice " + ade); log("assaultadvice EX " + ade); }
+                try {
+                    var drc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), spy.getUUID(), "Засуха", new net.minecraft.core.BlockPos(5600, 70, 5600));
+                    drc.droughtDays = 1;
+                    drc.treasury = 100;
+                    String drMsg = com.alkimor.regnum.kingdom.Industry.daily(level, com.alkimor.regnum.kingdom.KingdomData.get(server), drc);
+                    boolean drok = drc.droughtDays == 0 && drMsg.contains("бунт") && drc.treasury == 90
+                            && com.alkimor.regnum.kingdom.City.load(drc.save()).droughtDays == 0;
+                    log("drought: " + (drok ? "OK" : "FAIL") + " " + drMsg);
+                    if (!drok) fails.add("drought");
+                } catch (Exception dre) { fails.add("drought " + dre); log("drought EX " + dre); }
+                try {
+                    boolean rpok = com.alkimor.regnum.kingdom.Espionage.reported(20, 100, new java.util.Random(1)) == 20;
+                    for (int rpi = 0; rpi < 50; rpi++) {
+                        int rpv = com.alkimor.regnum.kingdom.Espionage.reported(20, 0, new java.util.Random(rpi));
+                        rpok &= rpv >= 15 && rpv <= 25;
+                    }
+                    log("reported: " + (rpok ? "OK" : "FAIL"));
+                    if (!rpok) fails.add("reported");
+                } catch (Exception rpe) { fails.add("reported " + rpe); log("reported EX " + rpe); }
+                try {
+                    var kdx = com.alkimor.regnum.kingdom.KingdomData.get(server);
+                    var scx = com.alkimor.regnum.kingdom.Science.get(server);
+                    var sxo = java.util.UUID.randomUUID();
+                    var sxc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), sxo, "Знание", new net.minecraft.core.BlockPos(5700, 70, 5700));
+                    sxc.treasury = 100;
+                    var sxr = new com.alkimor.regnum.kingdom.Realm(java.util.UUID.randomUUID(), "Учёные", "Правитель", 0, 5800, 5800);
+                    boolean sxok = com.alkimor.regnum.kingdom.Science.exchange(server, sxo, kdx, sxr, sxc, 10) != null; // не союзник
+                    sxr.trade = true;
+                    sxok &= com.alkimor.regnum.kingdom.Science.exchange(server, sxo, kdx, sxr, sxc, 10) != null; // нет исследования
+                    scx.of(sxo).current = com.alkimor.regnum.kingdom.Science.Tech.WRITING;
+                    sxok &= com.alkimor.regnum.kingdom.Science.exchange(server, sxo, kdx, sxr, sxc, 10) == null && sxc.treasury == 70 && scx.of(sxo).progress > 0;
+                    sxok &= com.alkimor.regnum.kingdom.Science.exchange(server, sxo, kdx, sxr, sxc, 11) != null; // кулдаун
+                    log("sciexchange: " + (sxok ? "OK" : "FAIL"));
+                    if (!sxok) fails.add("sciexchange");
+                } catch (Exception sxe) { fails.add("sciexchange " + sxe); log("sciexchange EX " + sxe); }
+                try {
                     var spc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), java.util.UUID.randomUUID(), "Спец", spy.blockPosition());
                     spc.treasury = 100;
                     boolean spk = com.alkimor.regnum.kingdom.Specialization.choose(spc, 2, 10) == null && spc.spec == 2 && spc.treasury == 100

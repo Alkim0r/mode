@@ -23,6 +23,8 @@ public class CaravanEntity extends PathfinderMob {
     @Nullable private UUID realmId;
     @Nullable private UUID cityId;
     private int walked = 0;
+    /** Были ли рядом бойцы города в пути: охраняемый караван платит на 50% больше. */
+    private boolean escorted = false;
 
     public CaravanEntity(EntityType<? extends CaravanEntity> type, Level level) {
         super(type, level);
@@ -65,6 +67,7 @@ public class CaravanEntity extends PathfinderMob {
         KingdomData data = KingdomData.get(sl.getServer());
         City c = data.byId(cityId);
         if (c == null || walked > 600) { discard(); return; }
+        if (!escorted && walked % 3 == 0 && !sl.getEntitiesOfClass(SoldierEntity.class, getBoundingBox().inflate(12), so -> so.isAlive() && cityId.equals(so.getCityId())).isEmpty()) escorted = true;
         if (blockPosition().closerThan(c.hall, 6)) arrive(sl, data, c);
     }
 
@@ -72,10 +75,11 @@ public class CaravanEntity extends PathfinderMob {
     public void arrive(ServerLevel sl, KingdomData data, City c) {
         Realm r = realmId == null ? null : data.realm(realmId);
         int pay = 12 + (r == null ? 0 : Math.max(0, r.relation) / 5) + (r != null && r.ally ? 10 : 0);
+        if (escorted) pay += pay / 2;
         c.treasury += pay;
         if (r != null) r.relation = Math.min(100, r.relation + 1);
         data.setDirty();
-        ServerPlayer_msg(sl, c, "Караван «" + (r == null ? "торговцев" : r.name) + "» привёз в казну " + pay + ".");
+        ServerPlayer_msg(sl, c, "Караван «" + (r == null ? "торговцев" : r.name) + "» привёз в казну " + pay + (escorted ? " (охрана доплатила: путь был безопасен)." : "."));
         discard();
     }
 
@@ -108,6 +112,7 @@ public class CaravanEntity extends PathfinderMob {
         super.addAdditionalSaveData(tag);
         if (realmId != null) tag.putUUID("Realm", realmId);
         if (cityId != null) tag.putUUID("City", cityId);
+        tag.putBoolean("Escorted", escorted);
     }
 
     @Override
@@ -115,5 +120,6 @@ public class CaravanEntity extends PathfinderMob {
         super.readAdditionalSaveData(tag);
         if (tag.hasUUID("Realm")) realmId = tag.getUUID("Realm");
         if (tag.hasUUID("City")) cityId = tag.getUUID("City");
+        escorted = tag.getBoolean("Escorted");
     }
 }

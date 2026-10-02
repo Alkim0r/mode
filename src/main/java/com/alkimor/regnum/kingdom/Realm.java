@@ -60,6 +60,8 @@ public class Realm {
     public UUID offerTo;
     public long spyDay = -1;
     public int spyOps = 0;
+    /** День последнего обмена знаниями с этим королевством. */
+    public long sciDay = -100;
     public long armyStart = 0;
     /** Цель войны игрока: 0 дань, 1 вассалитет, 2 слава (трофеи). */
     public int warGoal = 0;
@@ -126,6 +128,7 @@ public class Realm {
         if (offerTo != null) t.putUUID("offerTo", offerTo);
         t.putLong("spyDay", spyDay);
         t.putInt("spyOps", spyOps);
+        t.putLong("sciDay", sciDay);
         t.putLong("armyStart", armyStart);
         t.putInt("warGoal", warGoal);
         return t;
@@ -163,6 +166,7 @@ public class Realm {
         if (t.hasUUID("offerTo")) r.offerTo = t.getUUID("offerTo");
         r.spyDay = t.contains("spyDay") ? t.getLong("spyDay") : -1;
         r.spyOps = t.getInt("spyOps");
+        r.sciDay = t.contains("sciDay") ? t.getLong("sciDay") : -100;
         r.warGoal = t.getInt("warGoal");
         r.armyStart = t.getLong("armyStart");
         return r;

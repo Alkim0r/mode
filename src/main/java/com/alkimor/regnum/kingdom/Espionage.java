@@ -115,6 +115,34 @@ public final class Espionage {
         return "Неудача (шанс " + ch + "%): ничего не вышло, но подозрений нет — агент затаился.";
     }
 
+    /** Достоверность донесения (I061): чем меньше накоплено знаний о королевстве, тем сильнее агент ошибается (до ±25%). */
+    public static int reported(int truth, int intel, Random rng) {
+        int maxErr = Math.max(0, (100 - Math.min(100, intel)) / 4);
+        if (maxErr == 0 || truth <= 0) return truth;
+        double f = (rng.nextInt(2 * maxErr + 1) - maxErr) / 100.0;
+        return Math.max(1, (int) Math.round(truth * (1 + f)));
+    }
+
+    /** Как лучше брать их укрепления, по составу гарнизона (I029): без угадывания, только по числам. */
+    public static String assaultAdvice(Map<SoldierType, Integer> m) {
+        int total = 0, shooters = 0, heavy = 0, cav = 0, gunners = 0;
+        for (var e : m.entrySet()) {
+            int n = e.getValue();
+            total += n;
+            var role = e.getKey().role;
+            if (role == SoldierType.Role.ARCHER || role == SoldierType.Role.HORSE_ARCHER) shooters += n;
+            else if (role == SoldierType.Role.GUNNER) gunners += n;
+            else if (role == SoldierType.Role.HEAVY || role == SoldierType.Role.SHIELD) heavy += n;
+            else if (role == SoldierType.Role.CAVALRY) cav += n;
+        }
+        if (total == 0) return "гарнизона нет — штурм не нужен, хватит небольшого отряда";
+        if (gunners * 4 >= total) return "много стрелков с порохом: идите щитами и осадной башней, не стойте под залпом";
+        if (shooters * 3 >= total) return "много лучников: берите щитников и башню, давите ночью или в дождь";
+        if (heavy * 2 >= total) return "тяжёлая пехота: катапульты и стрелки издали, в ближний бой не лезьте";
+        if (cav * 3 >= total) return "конница: стройте копейщиков в плотный ряд, коней остановят пики";
+        return "смешанный гарнизон: берите всех родов войск поровну";
+    }
+
     private static String apply(ServerPlayer p, Realm r, Op op, long day) {
         switch (op) {
             case SCOUT -> {
@@ -122,12 +150,13 @@ public final class Espionage {
                 r.lastSpyDay = day;
                 StringBuilder sb = new StringBuilder();
                 Map<SoldierType, Integer> m = new EnumMap<>(SoldierType.class);
-                for (int i = 0; i < r.strength; i++) m.merge(Doctrine.garrison(r.culture, i), 1, Integer::sum);
+                int seen = reported(r.strength, r.intel, RNG);
+                for (int i = 0; i < seen; i++) m.merge(Doctrine.garrison(r.culture, i), 1, Integer::sum);
                 m.forEach((t, n) -> sb.append(t.title.toLowerCase()).append(' ').append(n).append(", "));
                 String comp = sb.length() > 2 ? sb.substring(0, sb.length() - 2) : "пусто";
                 String when = r.state == Realm.WAR ? "следующая армия — через ~" + Math.max(0, (r.armyTimer - p.serverLevel().getGameTime()) / 1200) + " мин"
                         : "армии пока не собирают";
-                return "гарнизон «" + r.name + "»: " + r.strength + " (" + comp + "), " + when + ".";
+                return "гарнизон «" + r.name + "»: " + (seen == r.strength ? "" : "по слухам ≈") + seen + " (" + comp + "), " + when + ". Совет разведчика: " + assaultAdvice(m) + ".";
             }
             case STEAL -> {
                 int gold = Math.min(30 + RNG.nextInt(51), 10 + r.strength * 3);

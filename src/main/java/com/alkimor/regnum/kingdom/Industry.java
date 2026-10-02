@@ -77,6 +77,7 @@ public final class Industry {
         int pop = c.population, soldiers = c.soldiers.size();
         boolean agri = Science.has(ow.getServer(), c.owner, Science.Tech.AGRICULTURE);
         int produce = (int) Math.round(pop * (agri ? 1.35 : 1.15));
+        if (c.droughtDays > 0) produce /= 2;
         int mounted = 0;
         for (int v : c.soldiers.values()) if (SoldierType.byId(v).mounted()) mounted++;
         int spoil = c.stock(Resource.FOOD) / (c.count(BuildingType.WAREHOUSE) > 0 ? 60 : 25);
@@ -140,6 +141,17 @@ public final class Industry {
             }
         }
         if (c.quarantine) c.treasury -= Math.min(c.treasury, Math.max(1, c.dailyIncome(2) / 6));
+        if (c.droughtDays > 0 && --c.droughtDays == 0) {
+            // цепочка событий: засуха → голодный бунт, если запасы пусты, иначе город пережил её
+            if (c.stock(Resource.FOOD) < 20) {
+                int loss = Math.max(1, c.treasury / 10);
+                c.treasury -= loss;
+                c.hungerDays = Math.max(c.hungerDays, 1);
+                msg += ", после засухи — голодный бунт (−" + loss + " в казне)";
+            } else {
+                msg += ", засуха кончилась, запасы выручили";
+            }
+        }
         c.mech = Compat.mechanization(ow, c);
         if (c.mech > 0) msg += ", механизмы x" + c.mech;
         // кузница

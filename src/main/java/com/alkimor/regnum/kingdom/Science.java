@@ -268,6 +268,16 @@ public class Science extends SavedData {
                 }))
                 .then(Commands.literal("research").then(Commands.argument("tech", StringArgumentType.word()).executes(ctx ->
                         research(ctx.getSource().getPlayerOrException(), Tech.byName(StringArgumentType.getString(ctx, "tech"))) ? 1 : 0)))
+                .then(Commands.literal("exchange").then(Commands.argument("id", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 16)).executes(ctx -> {
+                    ServerPlayer p = ctx.getSource().getPlayerOrException();
+                    KingdomData data = KingdomData.get(p.server);
+                    Realm r = Realms.byIndex(data, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "id"));
+                    City c = Realms.cityOf(p, data);
+                    if (r == null || c == null) { Text.bad(p, "Нужны свой город и известное королевство (номер из /regnum realm)."); return 0; }
+                    String err = exchange(p.server, p.getUUID(), data, r, c, p.serverLevel().getDayTime() / 24000L);
+                    if (err != null) Text.bad(p, err);
+                    return err == null ? 1 : 0;
+                })))
                 .then(Commands.literal("grant").requires(s -> s.hasPermission(2)).then(Commands.argument("tech", StringArgumentType.word()).executes(ctx -> {
                     ServerPlayer p = ctx.getSource().getPlayerOrException();
                     String n = StringArgumentType.getString(ctx, "tech");
@@ -282,6 +292,24 @@ public class Science extends SavedData {
                     Text.good(p, "Знания выданы.");
                     return 1;
                 })))));
+    }
+
+    /** Обмен знаниями (I068): учёные союзного или торгового королевства делятся опытом. Раз в 3 суток на королевство, 30 монет. */
+    public static String exchange(MinecraftServer server, UUID owner, KingdomData data, Realm r, City c, long day) {
+        if (r.state != Realm.PEACE || !(r.ally || r.trade)) return "Обмениваться знаниями можно только с союзным или торговым королевством в мире.";
+        Science sc = Science.get(server);
+        Kingdom k = sc.of(owner);
+        if (k.current == null) return "Сначала выберите исследование: /regnum science";
+        if (day - r.sciDay < 3) return "Учёные «" + r.name + "» уже делились знаниями; ждите ещё " + (3 - (day - r.sciDay)) + " сут.";
+        if (c.treasury < 30) return "Для обмена нужно 30 монет в казне.";
+        c.treasury -= 30;
+        r.sciDay = day;
+        int pts = 10 + 2 * c.level + (r.ally ? 10 : 0);
+        Tech done = sc.addPoints(owner, pts);
+        data.setDirty();
+        ServerPlayer p = server.getPlayerList().getPlayer(owner);
+        if (p != null) Text.gold(p, "Учёные «" + r.name + "» поделились знаниями: +" + pts + " очков" + (done != null ? " — изучено «" + done.title + "»!" : "."));
+        return null;
     }
 
     private static int show(ServerPlayer p, boolean all) {

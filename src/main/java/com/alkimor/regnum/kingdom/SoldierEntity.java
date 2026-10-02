@@ -799,11 +799,30 @@ public class SoldierEntity extends PathfinderMob implements RangedAttackMob {
         }
         if (realmId != null) d += 0.4f;
         d += SquadRoles.bannerBonus(this);
+        d += supplyMorale(lead);
         addMorale(d);
         if (morale < 20f && foes > 0 && routTicks == 0) {
             routTicks = 160;
             if (getOwnerPlayer() instanceof ServerPlayer king && random.nextInt(4) == 0) Text.bad(king, getName().getString() + " бежит с поля боя — дух сломлен!");
         }
+    }
+
+    /**
+     * Снабжение (I026): далеко от родного города (160+ блоков) армия держится на провианте командира. Нет еды в сумках —
+     * дух падает; есть — иногда съедается ломоть. Рядом с городом ничего не меняется.
+     */
+    private float supplyMorale(Player lead) {
+        if (cityId == null || !(level() instanceof ServerLevel sl)) return 0f;
+        City home = KingdomData.get(sl.getServer()).byId(cityId);
+        if (home == null || home.hall.distSqr(blockPosition()) < 160 * 160) return 0f;
+        if (lead == null) return -1.0f;
+        for (var st : lead.getInventory().items) {
+            if (st.isEmpty() || st.get(net.minecraft.core.component.DataComponents.FOOD) == null) continue;
+            if (random.nextInt(600) == 0) { st.shrink(1); }
+            return 0f;
+        }
+        if (random.nextInt(40) == 0 && lead instanceof ServerPlayer sp) Text.bad(sp, "Армия вдали от города без провианта: дух падает. Возьмите еду в сумку или вернитесь.");
+        return -1.5f;
     }
 
     private boolean mountSpawned = false;

@@ -29,7 +29,7 @@ public final class Fortune {
     private Fortune() {}
 
     public enum Kind {
-        HARVEST, SCHOLAR, DESERTERS, MERCHANTS, METEOR, BLIGHT, BOUNTY, PLEA
+        HARVEST, SCHOLAR, DESERTERS, MERCHANTS, METEOR, BLIGHT, BOUNTY, PLEA, DROUGHT
     }
 
     @SubscribeEvent
@@ -110,6 +110,11 @@ public final class Fortune {
                 int loss = have / 4;
                 c.take(Resource.FOOD, loss);
                 Text.bad(p, "🍂 Ржавчина на полях «" + c.name + "»: потеряно " + loss + " провианта. Склады и лазарет не помогут — копите запас.");
+            }
+            case DROUGHT -> {
+                if (c.droughtDays > 0) return false;
+                c.droughtDays = 3;
+                Text.bad(p, "☀ Засуха в «" + c.name + "»: 3 суток поля дают вдвое меньше. Копите провиант; если запас кончится — начнётся голодный бунт.");
             }
             case PLEA -> {
                 if (!Villages.plea(ow, p)) return false;

@@ -30,6 +30,8 @@ public class City {
     public int absentDays = 0;
     /** Заказ производства (0 — нет; см. Labor). */
     public int labor = 0;
+    /** Дней засухи осталось (производство провианта вдвое ниже). */
+    public int droughtDays = 0;
     /** Вклад игроков в город (очки: изумруды в казну, ресурсы на склад). Даёт титул и порядок в совете. */
     public final java.util.Map<UUID, Integer> contrib = new java.util.HashMap<>();
 
@@ -261,6 +263,7 @@ public class City {
         t.putInt("prisoners", prisoners);
         t.putInt("absentDays", absentDays);
         t.putInt("labor", labor);
+        t.putInt("droughtDays", droughtDays);
         t.putInt("population", population);
         t.putInt("recruitSquad", recruitSquad);
         t.putLong("lastEconomyDay", lastEconomyDay);
@@ -358,6 +361,7 @@ public class City {
         c.prisoners = t.getInt("prisoners");
         c.absentDays = t.getInt("absentDays");
         c.labor = t.getInt("labor");
+        c.droughtDays = t.getInt("droughtDays");
         c.population = t.getInt("population");
         c.recruitSquad = Math.max(1, t.getInt("recruitSquad"));
         c.lastEconomyDay = t.getLong("lastEconomyDay");
