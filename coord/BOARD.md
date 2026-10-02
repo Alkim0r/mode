@@ -47,3 +47,4 @@
 | M1 | claude | review | ExternalBosses optional bridge: dedicated build/selftest OK; runtime external boss и multiplayer/unloaded-world edge cases остаются непроверенными | story/ExternalBosses.java, story/, core/SelfTest.java |
 | M2 | codex-lite | cancelled | Внутренний sub-agent lite_performance_codex остановлен по просьбе владельца; новый audit не продолжается. Сохранённая ветка L1 — отдельный старый Git-артефакт, не активный Codex | tools/reference_profile_audit.py, coord/MOD_PROFILE_MATRIX.md |
 | M3 | codex | doing | Однодневный visual QA-срез: Королева + только её выводок (походка, атаки, реакция на цель), 1–2 видимых дефекта максимум; отдать кадр/логи/статус, не править серверные файлы | client/model/, client/render/, coord/previews/ |
+| I1 | codex | done | Справка-индекс по архитектуре, подсистемам, данным, генераторам и проверкам проекта | coord/CODEX_PROJECT_INDEX.md |
