@@ -73,6 +73,14 @@ neoForge {
             programArguments.addAll '--quickPlaySingleplayer', 'regnum-tour', '--width', '1280', '--height', '720'
         }
 
+        // Трёхсторонняя арена (босс + две фракции по 15): безголовый прогон с логом [REGNUM-ARENA3]
+        arena3 {
+            server()
+            programArgument '--nogui'
+            systemProperty 'regnum.arena3', System.getProperty('regnum.arena3.boss', 'crypt')
+            gameDirectory = project.file('run-arena3')
+        }
+
         // Автотест Regnum: сервер стартует, проверяет контент и выключается
         selfTest {
             server()
@@ -226,6 +234,12 @@ if (file('_selftest.flag').exists()) {
     tasks.named('build') { finalizedBy 'runSelfTest' }
     tasks.matching { it.name == 'runSelfTest' }.configureEach {
         doFirst { file('_selftest.flag').delete() }
+    }
+}
+if (file('_arena3.flag').exists()) {
+    tasks.named('build') { finalizedBy 'runArena3' }
+    tasks.matching { it.name == 'runArena3' }.configureEach {
+        doFirst { file('_arena3.flag').delete() }
     }
 }
 if (file('_visualtest.flag').exists()) {

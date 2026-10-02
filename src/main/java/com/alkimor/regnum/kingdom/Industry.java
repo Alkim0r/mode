@@ -76,7 +76,7 @@ public final class Industry {
     public static FoodBalance foodBalance(ServerLevel ow, City c) {
         int pop = c.population, soldiers = c.soldiers.size();
         boolean agri = Science.has(ow.getServer(), c.owner, Science.Tech.AGRICULTURE);
-        int produce = (int) Math.round(pop * (agri ? 1.35 : 1.15));
+        int produce = (int) Math.round(pop * (agri ? 1.35 : 1.15) * Priority.foodMult(c));
         if (c.droughtDays > 0) produce /= 2;
         int mounted = 0;
         for (int v : c.soldiers.values()) if (SoldierType.byId(v).mounted()) mounted++;

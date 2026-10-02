@@ -609,6 +609,41 @@ public final class SelfTest {
                     if (!lbok) fails.add("labor");
                 } catch (Exception lbe) { fails.add("labor " + lbe); log("labor EX " + lbe); }
                 try {
+                    var pyc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), spy.getUUID(), "Курс", new net.minecraft.core.BlockPos(5600, 70, 5600));
+                    pyc.population = 40;
+                    int pyBase = pyc.dailyIncome(2);
+                    pyc.priority = com.alkimor.regnum.kingdom.Priority.byKey("казна");
+                    int pyTreas = pyc.dailyIncome(2);
+                    pyc.priority = com.alkimor.regnum.kingdom.Priority.byKey("оборона");
+                    int pyDef = pyc.dailyIncome(2);
+                    boolean pyok = pyTreas > pyBase && pyDef < pyBase && com.alkimor.regnum.kingdom.Priority.foodMult(pyc) == 1.0
+                            && com.alkimor.regnum.kingdom.Priority.upkeepMult(pyc) < 1.0 && com.alkimor.regnum.kingdom.City.load(pyc.save()).priority == 3;
+                    log("priority: " + (pyok ? "OK" : "FAIL") + " " + pyBase + "/" + pyTreas + "/" + pyDef);
+                    if (!pyok) fails.add("priority");
+                } catch (Exception pye) { fails.add("priority " + pye); log("priority EX " + pye); }
+                try {
+                    var soc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), spy.getUUID(), "Вылазка", new net.minecraft.core.BlockPos(5700, 70, 5700));
+                    soc.treasury = 100;
+                    String soNo = com.alkimor.regnum.kingdom.Sortie.start(soc, 1000);
+                    soc.soldiers.put(java.util.UUID.randomUUID(), 0);
+                    String soOk = com.alkimor.regnum.kingdom.Sortie.start(soc, 1000);
+                    String soAgain = com.alkimor.regnum.kingdom.Sortie.start(soc, 1100);
+                    boolean sook = soNo != null && soOk == null && soc.treasury == 80 && soAgain != null
+                            && com.alkimor.regnum.kingdom.Sortie.extraRadius(soc.id, 1100) == 40 && com.alkimor.regnum.kingdom.Sortie.extraRadius(soc.id, 2300) == 16
+                            && com.alkimor.regnum.kingdom.Sortie.start(soc, 1000 + com.alkimor.regnum.kingdom.Sortie.COOLDOWN + 1) == null;
+                    log("sortie: " + (sook ? "OK" : "FAIL") + " " + soNo + " | " + soAgain);
+                    if (!sook) fails.add("sortie");
+                } catch (Exception soe) { fails.add("sortie " + soe); log("sortie EX " + soe); }
+                try {
+                    boolean dfok = com.alkimor.regnum.kingdom.Diplomacy.driftStep(80, false, false) == 79
+                            && com.alkimor.regnum.kingdom.Diplomacy.driftStep(30, true, false) == 30
+                            && com.alkimor.regnum.kingdom.Diplomacy.driftStep(65, true, true) == 64
+                            && com.alkimor.regnum.kingdom.Diplomacy.driftStep(-10, false, false) == -9
+                            && com.alkimor.regnum.kingdom.Diplomacy.driftStep(-60, false, false) == -60;
+                    log("drift: " + (dfok ? "OK" : "FAIL"));
+                    if (!dfok) fails.add("drift");
+                } catch (Exception dfe) { fails.add("drift " + dfe); log("drift EX " + dfe); }
+                try {
                     var adm = new java.util.EnumMap<com.alkimor.regnum.kingdom.SoldierType, Integer>(com.alkimor.regnum.kingdom.SoldierType.class);
                     boolean adok = com.alkimor.regnum.kingdom.Espionage.assaultAdvice(adm).contains("не нужен");
                     adm.put(com.alkimor.regnum.kingdom.SoldierType.ARCHER, 6);
@@ -656,11 +691,44 @@ public final class SelfTest {
                     var ebm = com.alkimor.regnum.story.ExternalBosses.parse("[{\"id\":\"othermod:titan\",\"title\":\"Титан\",\"emeralds\":40,\"steward\":10}]");
                     var ebe = ebm.get("othermod:titan");
                     boolean ebok = ebe != null && ebe.emeralds() == 40 && ebe.title().equals("Титан");
+                    ebok &= com.alkimor.regnum.story.ExternalBosses.parse(com.alkimor.regnum.story.ExternalBosses.DEFAULTS).containsKey("cataclysm:ender_guardian");
                     ebok &= com.alkimor.regnum.story.ExternalBosses.reward(spy, ebe);
                     ebok &= !com.alkimor.regnum.story.ExternalBosses.reward(spy, ebe); // повторно награды нет
                     log("externalboss: " + (ebok ? "OK" : "FAIL"));
                     if (!ebok) fails.add("externalboss");
                 } catch (Exception ebx) { fails.add("externalboss " + ebx); log("externalboss EX " + ebx); }
+                try {
+                                        boolean frcok = com.alkimor.regnum.kingdom.FireControl.allows(0, false, 900)
+                            && !com.alkimor.regnum.kingdom.FireControl.allows(1, false, 20 * 20) && com.alkimor.regnum.kingdom.FireControl.allows(1, false, 8 * 8)
+                            && !com.alkimor.regnum.kingdom.FireControl.allows(2, false, 4) && com.alkimor.regnum.kingdom.FireControl.allows(2, true, 900)
+                            && com.alkimor.regnum.kingdom.FireControl.byName("засада") == 1;
+                    com.alkimor.regnum.kingdom.FireControl.set(spy, 2);
+                    frcok &= com.alkimor.regnum.kingdom.FireControl.mode(spy) == 2;
+                    com.alkimor.regnum.kingdom.FireControl.set(spy, 0);
+                    log("firecontrol: " + (frcok ? "OK" : "FAIL"));
+                    if (!frcok) fails.add("firecontrol");
+                } catch (Exception frce) { fails.add("firecontrol " + frce); log("firecontrol EX " + frce); }
+                try {
+                    var flv = com.alkimor.regnum.kingdom.KingdomModule.SOLDIER.get().create(level);
+                    var fla = com.alkimor.regnum.kingdom.KingdomModule.SOLDIER.get().create(level);
+                    flv.setPos(0, 80, 0);
+                    flv.yBodyRot = 0f; // смотрит на +Z
+                    fla.setPos(0, 80, 3);
+                    boolean flok = !com.alkimor.regnum.kingdom.KingdomEvents.isBehind(flv, fla);
+                    fla.setPos(0, 80, -3);
+                    flok &= com.alkimor.regnum.kingdom.KingdomEvents.isBehind(flv, fla);
+                    fla.setPos(3, 80, 0);
+                    flok &= !com.alkimor.regnum.kingdom.KingdomEvents.isBehind(flv, fla);
+                    log("flank: " + (flok ? "OK" : "FAIL"));
+                    if (!flok) fails.add("flank");
+                } catch (Exception fle) { fails.add("flank " + fle); log("flank EX " + fle); }
+                try {
+                    boolean rtok = com.alkimor.regnum.kingdom.KingdomEvents.retreatFactor(com.alkimor.regnum.kingdom.SoldierType.Role.SHIELD, 0) == 0.6f
+                            && com.alkimor.regnum.kingdom.KingdomEvents.retreatFactor(com.alkimor.regnum.kingdom.SoldierType.Role.ARCHER, 0) == 1.0f
+                            && Math.abs(com.alkimor.regnum.kingdom.KingdomEvents.retreatFactor(com.alkimor.regnum.kingdom.SoldierType.Role.HEAVY, 5) - 0.48f) < 0.001f;
+                    log("retreat: " + (rtok ? "OK" : "FAIL"));
+                    if (!rtok) fails.add("retreat");
+                } catch (Exception rte) { fails.add("retreat " + rte); log("retreat EX " + rte); }
                 try {
                     var spc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), java.util.UUID.randomUUID(), "Спец", spy.blockPosition());
                     spc.treasury = 100;

@@ -164,6 +164,27 @@ public final class Territory {
             if (c == null) continue;
             if (!c.war || !damage(sl, pos, 4f)) it.remove();
         }
+        // рамки, картины и стойки в мирном городе взрыв не трогает
+        event.getAffectedEntities().removeIf(e -> isDecor(e) && peaceCityAt(sl, e) != null);
+    }
+
+    private static boolean isDecor(net.minecraft.world.entity.Entity e) {
+        return e instanceof net.minecraft.world.entity.decoration.HangingEntity || e instanceof net.minecraft.world.entity.decoration.ArmorStand;
+    }
+
+    private static City peaceCityAt(net.minecraft.world.level.Level lv, net.minecraft.world.entity.Entity e) {
+        City c = cityAt(lv, e.blockPosition());
+        return c != null && !c.war ? c : null;
+    }
+
+    /** Стрела или снаряд чужака не сбивает рамки, картины и стойки в мирном городе. */
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onDecorShot(net.neoforged.neoforge.event.entity.ProjectileImpactEvent event) {
+        if (!(event.getRayTraceResult() instanceof net.minecraft.world.phys.EntityHitResult hit) || !isDecor(hit.getEntity())) return;
+        City c = peaceCityAt(hit.getEntity().level(), hit.getEntity());
+        if (c == null) return;
+        if (event.getProjectile().getOwner() instanceof Player p && isFriend(c, p)) return;
+        event.setCanceled(true);
     }
 
     /** Поршни снаружи не двигают чужие постройки: проверяем всю линию толчка до 13 блоков. */

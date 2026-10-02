@@ -72,7 +72,7 @@ public class SoldierRangedGoal extends Goal {
         }
         soldier.getLookControl().setLookAt(t, 30f, 30f);
 
-        if (--cooldown <= 0 && see && seeTime > 5 && d2 <= (double) (range + 2) * (range + 2)) {
+        if (--cooldown <= 0 && see && seeTime > 5 && d2 <= (double) (range + 2) * (range + 2) && com.alkimor.regnum.kingdom.FireControl.canFire(soldier, t)) {
             soldier.performRangedAttack(t, 1.0f);
             soldier.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
             cooldown = type.reload() - 3 * kite + soldier.getRandom().nextInt(10);

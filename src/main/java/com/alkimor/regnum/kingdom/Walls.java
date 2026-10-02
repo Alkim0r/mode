@@ -347,7 +347,7 @@ public final class Walls {
         }
         long now = ow.getGameTime();
         int huts = Math.max(1, c.count(BuildingType.BUILDER_HUT));
-        int interval = Math.max(2, 14 - 2 * c.level - 2 * (huts - 1));
+        int interval = Math.max(2, 14 - 2 * c.level - 2 * (huts - 1) - c.ownerSteward / 25); // навык управления ускоряет стройку
         Long last = LAST_PLACE.get(c.id);
         if (last != null && now - last < interval) return;
         j.paused = false;
@@ -378,7 +378,7 @@ public final class Walls {
     private static void workPiece(ServerLevel ow, KingdomData data, City c, WallJob j, Villager b) {
         long now = ow.getGameTime();
         int huts = Math.max(1, c.count(BuildingType.BUILDER_HUT));
-        int interval = Math.max(2, 10 - c.level - (huts - 1));
+        int interval = Math.max(2, 10 - c.level - (huts - 1) - c.ownerSteward / 40);
         Long last = LAST_PLACE.get(c.id);
         if (last != null && now - last < interval) return;
         String id = j.oid[j.op];

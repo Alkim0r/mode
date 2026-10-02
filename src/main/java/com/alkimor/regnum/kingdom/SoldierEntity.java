@@ -576,7 +576,7 @@ public class SoldierEntity extends PathfinderMob implements RangedAttackMob {
         if (isAlliedTo(e)) return false;
         Vec3 center = order == Order.FOLLOW && getControllerPlayer() != null ? getControllerPlayer().position()
                 : order == Order.GUARD || order == Order.PATROL ? post : desiredPosition();
-        double r = order == Order.GUARD ? cityRadius + 16 : order == Order.PATROL ? cityRadius + 8 : order.engageRadius;
+        double r = order == Order.GUARD ? cityRadius + (cityId != null ? Sortie.extraRadius(cityId, level().getGameTime()) : 16) : order == Order.PATROL ? cityRadius + 8 : order.engageRadius;
         return e.position().distanceToSqr(center) <= r * r;
     }
 

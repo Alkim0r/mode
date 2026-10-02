@@ -30,6 +30,8 @@ public class City {
     public int absentDays = 0;
     /** Заказ производства (0 — нет; см. Labor). */
     public int labor = 0;
+    /** Курс развития (0 — нет; см. Priority). */
+    public int priority = 0;
     /** Дней засухи осталось (производство провианта вдвое ниже). */
     public int droughtDays = 0;
     /** Вклад игроков в город (очки: изумруды в казну, ресурсы на склад). Даёт титул и порядок в совете. */
@@ -224,14 +226,14 @@ public class City {
         int u = 0;
         for (int v : soldiers.values()) u += SoldierType.byId(v).upkeep;
         double m = (governor.isEmpty() ? 1.0 : 0.75) * (perk(P_QUARTER) ? 0.9 : 1.0) * (perk(P_PAY) ? 0.85 : 1.0);
-        return (int) Math.round(u * m);
+        return (int) Math.round(u * m * Priority.upkeepMult(this));
     }
 
     public int dailyIncome(int taxPerVillager) {
         double tax = population * taxPerVillager * (perk(P_TAX) ? 1.1 : 1.0) * (perk(P_PEOPLE) ? 1.1 : 1.0);
         double base = tax + count(BuildingType.MARKET) * 3 + level;
         double m = (1 + 0.002 * ownerSteward) * (perk(P_REGENT) ? 1.1 : 1.0) * (perk(P_GOLDEN) ? 1.15 : 1.0) * (spec == 2 ? 1.15 : spec == 3 ? 0.95 : 1.0)
-                * (labor > 0 ? 0.85 : 1.0) * (absentDays >= 5 && governor.isEmpty() && !hasRegent() ? 0.8 : 1.0);
+                * (labor > 0 ? 0.85 : 1.0) * Priority.incomeMult(this) * (absentDays >= 5 && governor.isEmpty() && !hasRegent() ? 0.8 : 1.0);
         int total = (int) Math.round(base * m);
         return governor.isEmpty() ? total : total + Math.max(1, total / 10);
     }
@@ -263,6 +265,7 @@ public class City {
         t.putInt("prisoners", prisoners);
         t.putInt("absentDays", absentDays);
         t.putInt("labor", labor);
+        t.putInt("priority", priority);
         t.putInt("droughtDays", droughtDays);
         t.putInt("population", population);
         t.putInt("recruitSquad", recruitSquad);
@@ -361,6 +364,7 @@ public class City {
         c.prisoners = t.getInt("prisoners");
         c.absentDays = t.getInt("absentDays");
         c.labor = t.getInt("labor");
+        c.priority = t.getInt("priority");
         c.droughtDays = t.getInt("droughtDays");
         c.population = t.getInt("population");
         c.recruitSquad = Math.max(1, t.getInt("recruitSquad"));

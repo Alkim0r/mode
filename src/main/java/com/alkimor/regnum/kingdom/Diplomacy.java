@@ -81,8 +81,20 @@ public final class Diplomacy {
         data.setDirty();
     }
 
+    /**
+     * Суточное остывание отношений в мире: дружба без поддержки выветривается к «привычному» уровню
+     * (союзник 60, торговый партнёр 30, остальные 0), а мелкая вражда затихает; глубокая вражда (−40 и ниже) не проходит сама.
+     */
+    public static int driftStep(int relation, boolean trade, boolean ally) {
+        int base = ally ? 60 : trade ? 30 : 0;
+        if (relation > base) return relation - 1;
+        if (relation < base && relation > -40) return relation + 1;
+        return relation;
+    }
+
     public static void daily(ServerLevel ow, KingdomData data, Realm r) {
         if (!r.built) return;
+        if (r.state == Realm.PEACE) r.relation = driftStep(r.relation, r.trade, r.ally);
         long now = ow.getGameTime();
         UUID target = null;
         City tc = null;

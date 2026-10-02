@@ -66,7 +66,7 @@ public final class RegnumConfig {
                 .define("smartMobs", true);
         MOB_PARRY = B.comment("Ветераны и элита парируют слабые удары (наказывают за «закликивание»)").define("mobParry", true);
         SOLDIER_DAMAGE_TO_BOSSES = B.comment("Доля урона солдат по боссам (армией босса не задавить)")
-                .defineInRange("soldierDamageToBosses", 0.35, 0.0, 1.0);
+                .defineInRange("soldierDamageToBosses", 0.25, 0.0, 1.0);
         BOSS_HP_PER_EXTRA_PLAYER = B.comment("Прибавка здоровья босса за каждого дополнительного игрока рядом")
                 .defineInRange("bossHpPerExtraPlayer", 0.75, 0.0, 3.0);
         LOOT_SCARCITY = B.comment("Дефицит: в сундуках меньше алмазов, золота, книг чар и золотых яблок")

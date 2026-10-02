@@ -100,6 +100,18 @@ public final class KingdomEvents {
                 return;
             }
         }
+        // фланг и тыл (I019): удар сзади по бойцу в строю на 20% сильнее; щитник и тяжёлая пехота прикрыты хуже всего спереди, но сзади уязвимы так же
+        if (victim instanceof SoldierEntity fs && direct != null && direct == attacker && attacker instanceof LivingEntity fa && !(attacker instanceof SoldierEntity ff && ff.isAlliedTo(fs))) {
+            if (isBehind(fs, fa)) {
+                event.setAmount(event.getAmount() * 1.2f);
+                if (fs.level() instanceof ServerLevel fl && fs.getRandom().nextInt(6) == 0)
+                    fl.sendParticles(ParticleTypes.CRIT, fs.getX(), fs.getY(0.7), fs.getZ(), 4, 0.2, 0.2, 0.2, 0.1);
+            }
+        }
+        // управляемое отступление (I024): при приказе «Отступить» арьергард (щитники, тяжёлая пехота) и ветераны держатся — потери меньше
+        if (victim instanceof SoldierEntity rs && rs.getOrder() == Order.RETREAT) {
+            event.setAmount(event.getAmount() * retreatFactor(rs.getSoldierType().role, rs.getKills()));
+        }
         // приёмы атакующего солдата
         if (attacker instanceof SoldierEntity s && direct == s) {
             int crit = s.tech(Technique.JUMP_CRIT);
@@ -110,6 +122,23 @@ public final class KingdomEvents {
             }
             event.setAmount(amount);
         }
+    }
+
+    /** Множитель урона по отступающему бойцу: арьергард прикрывает отход, ветеран знает, как уходить. */
+    public static float retreatFactor(SoldierType.Role role, int kills) {
+        float f = (role == SoldierType.Role.SHIELD || role == SoldierType.Role.HEAVY) ? 0.6f : 1.0f;
+        if (kills >= 3) f *= 0.8f;
+        return f;
+    }
+
+    /** Атакующий находится в задней полусфере цели (угол от взгляда больше 120°). */
+    public static boolean isBehind(LivingEntity victim, LivingEntity attacker) {
+        double dx = attacker.getX() - victim.getX(), dz = attacker.getZ() - victim.getZ();
+        double len = Math.sqrt(dx * dx + dz * dz);
+        if (len < 0.01) return false;
+        float yaw = victim.yBodyRot * ((float) Math.PI / 180f);
+        double fx = -Math.sin(yaw), fz = Math.cos(yaw);
+        return (dx * fx + dz * fz) / len < -0.5;
     }
 
     /** Отбрасывание (w-tap). */

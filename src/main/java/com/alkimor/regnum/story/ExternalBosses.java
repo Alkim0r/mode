@@ -38,6 +38,9 @@ public final class ExternalBosses {
 
     private static Map<String, Entry> table = null;
 
+    /** Записи по умолчанию (registry id из метаданных L_Ender's Cataclysm 3.33; без мода просто не срабатывают). */
+    public static final String DEFAULTS = "[{\"id\":\"cataclysm:ender_guardian\",\"title\":\"Страж Края\",\"emeralds\":60,\"steward\":40}]";
+
     /** Разбор JSON-массива вида [{"id":"mod:boss","title":"..","emeralds":40,"steward":30,"faction":"x","rep":10}]. */
     public static Map<String, Entry> parse(String json) {
         Map<String, Entry> m = new HashMap<>();
@@ -55,7 +58,8 @@ public final class ExternalBosses {
 
     private static Map<String, Entry> table() {
         if (table != null) return table;
-        table = new HashMap<>();
+        // стандартная запись: работает только если мод-спутник с таким существом установлен
+        table = parse(DEFAULTS);
         try {
             Path f = FMLPaths.CONFIGDIR.get().resolve("regnum_external_bosses.json");
             if (Files.isRegularFile(f)) table = parse(Files.readString(f));
