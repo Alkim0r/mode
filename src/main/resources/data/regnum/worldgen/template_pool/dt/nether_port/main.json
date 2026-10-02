@@ -1,0 +1,15 @@
+{
+	"name": "regnum:dt/nether_port/main",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 3,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/nether_port/nether_port_main",
+				"projection": "rigid",
+				"processors": "regnum:dt/nether_fortress_generic_degradation"
+			}
+		}
+	]
+}

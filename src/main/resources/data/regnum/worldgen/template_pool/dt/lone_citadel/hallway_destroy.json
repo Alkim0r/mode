@@ -1,0 +1,60 @@
+{
+	"name": "regnum:dt/lone_citadel/vault",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_1",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 5
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_2",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_3",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_4",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_5",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/hallway_destroy_6",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

@@ -1,0 +1,926 @@
+[
+  {
+    "culture": "north",
+    "type": "militia",
+    "parts": 11,
+    "cubes": 23,
+    "triangles": 276,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "swordsman",
+    "parts": 12,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "archer",
+    "parts": 12,
+    "cubes": 29,
+    "triangles": 348,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "knight",
+    "parts": 17,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "shieldman",
+    "parts": 14,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "spearman",
+    "parts": 15,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "greatsword",
+    "parts": 21,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "light_cav",
+    "parts": 18,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "heavy_cav",
+    "parts": 24,
+    "cubes": 44,
+    "triangles": 528,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "horse_archer",
+    "parts": 18,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "crossbow",
+    "parts": 14,
+    "cubes": 30,
+    "triangles": 360,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "musketeer",
+    "parts": 15,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "bombardier",
+    "parts": 15,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "north",
+    "type": "scout",
+    "parts": 20,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "militia",
+    "parts": 11,
+    "cubes": 25,
+    "triangles": 300,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "swordsman",
+    "parts": 15,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "archer",
+    "parts": 12,
+    "cubes": 29,
+    "triangles": 348,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "knight",
+    "parts": 15,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "shieldman",
+    "parts": 17,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "spearman",
+    "parts": 18,
+    "cubes": 39,
+    "triangles": 468,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "greatsword",
+    "parts": 19,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "light_cav",
+    "parts": 21,
+    "cubes": 42,
+    "triangles": 504,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "heavy_cav",
+    "parts": 22,
+    "cubes": 43,
+    "triangles": 516,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "horse_archer",
+    "parts": 18,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "crossbow",
+    "parts": 14,
+    "cubes": 30,
+    "triangles": 360,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "musketeer",
+    "parts": 15,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "bombardier",
+    "parts": 18,
+    "cubes": 44,
+    "triangles": 528,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "empire",
+    "type": "scout",
+    "parts": 20,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "militia",
+    "parts": 11,
+    "cubes": 24,
+    "triangles": 288,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "swordsman",
+    "parts": 12,
+    "cubes": 27,
+    "triangles": 324,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "archer",
+    "parts": 12,
+    "cubes": 28,
+    "triangles": 336,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "knight",
+    "parts": 15,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "shieldman",
+    "parts": 14,
+    "cubes": 28,
+    "triangles": 336,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "spearman",
+    "parts": 15,
+    "cubes": 30,
+    "triangles": 360,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "greatsword",
+    "parts": 19,
+    "cubes": 34,
+    "triangles": 408,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "light_cav",
+    "parts": 18,
+    "cubes": 33,
+    "triangles": 396,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "heavy_cav",
+    "parts": 22,
+    "cubes": 39,
+    "triangles": 468,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "horse_archer",
+    "parts": 18,
+    "cubes": 34,
+    "triangles": 408,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "crossbow",
+    "parts": 14,
+    "cubes": 29,
+    "triangles": 348,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "musketeer",
+    "parts": 15,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "bombardier",
+    "parts": 15,
+    "cubes": 34,
+    "triangles": 408,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "west",
+    "type": "scout",
+    "parts": 20,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "militia",
+    "parts": 12,
+    "cubes": 27,
+    "triangles": 324,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "swordsman",
+    "parts": 13,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "archer",
+    "parts": 14,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "knight",
+    "parts": 17,
+    "cubes": 39,
+    "triangles": 468,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "shieldman",
+    "parts": 15,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "spearman",
+    "parts": 16,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "greatsword",
+    "parts": 21,
+    "cubes": 40,
+    "triangles": 480,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "light_cav",
+    "parts": 19,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "heavy_cav",
+    "parts": 24,
+    "cubes": 46,
+    "triangles": 552,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "horse_archer",
+    "parts": 19,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "crossbow",
+    "parts": 16,
+    "cubes": 33,
+    "triangles": 396,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "musketeer",
+    "parts": 17,
+    "cubes": 41,
+    "triangles": 492,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "bombardier",
+    "parts": 16,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "steppe",
+    "type": "scout",
+    "parts": 22,
+    "cubes": 41,
+    "triangles": 492,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "militia",
+    "parts": 10,
+    "cubes": 23,
+    "triangles": 276,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "swordsman",
+    "parts": 12,
+    "cubes": 30,
+    "triangles": 360,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "archer",
+    "parts": 11,
+    "cubes": 27,
+    "triangles": 324,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "knight",
+    "parts": 15,
+    "cubes": 38,
+    "triangles": 456,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "shieldman",
+    "parts": 14,
+    "cubes": 28,
+    "triangles": 336,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "spearman",
+    "parts": 15,
+    "cubes": 33,
+    "triangles": 396,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "greatsword",
+    "parts": 19,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "light_cav",
+    "parts": 18,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "heavy_cav",
+    "parts": 22,
+    "cubes": 45,
+    "triangles": 540,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "horse_archer",
+    "parts": 17,
+    "cubes": 33,
+    "triangles": 396,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "crossbow",
+    "parts": 13,
+    "cubes": 28,
+    "triangles": 336,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "musketeer",
+    "parts": 14,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "bombardier",
+    "parts": 15,
+    "cubes": 34,
+    "triangles": 408,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "sultanate",
+    "type": "scout",
+    "parts": 19,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "militia",
+    "parts": 14,
+    "cubes": 25,
+    "triangles": 300,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "swordsman",
+    "parts": 16,
+    "cubes": 33,
+    "triangles": 396,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "archer",
+    "parts": 13,
+    "cubes": 26,
+    "triangles": 312,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "knight",
+    "parts": 16,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      128,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "shieldman",
+    "parts": 18,
+    "cubes": 31,
+    "triangles": 372,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "spearman",
+    "parts": 19,
+    "cubes": 36,
+    "triangles": 432,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "greatsword",
+    "parts": 20,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "light_cav",
+    "parts": 22,
+    "cubes": 39,
+    "triangles": 468,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "heavy_cav",
+    "parts": 23,
+    "cubes": 43,
+    "triangles": 516,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "horse_archer",
+    "parts": 19,
+    "cubes": 32,
+    "triangles": 384,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "crossbow",
+    "parts": 15,
+    "cubes": 27,
+    "triangles": 324,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "musketeer",
+    "parts": 16,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "bombardier",
+    "parts": 19,
+    "cubes": 37,
+    "triangles": 444,
+    "texture": [
+      256,
+      128
+    ]
+  },
+  {
+    "culture": "clans",
+    "type": "scout",
+    "parts": 21,
+    "cubes": 35,
+    "triangles": 420,
+    "texture": [
+      256,
+      128
+    ]
+  }
+]

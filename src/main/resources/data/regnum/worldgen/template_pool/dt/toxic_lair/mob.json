@@ -1,0 +1,186 @@
+{
+	"name": "regnum:dt/toxic_lair/mob",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_fail",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 88
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_cave_spider",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_zombie",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_witch",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight":2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_bogged",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_cave_spider_oozing",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_zombie_oozing",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_witch_oozing",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_bogged_oozing",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_cave_spider_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_zombie_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_witch_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_bogged_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_cave_spider_oozing_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_zombie_oozing_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_witch_oozing_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_bogged_oozing_weaving",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_slime",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_pufferfish_fail",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/mob/mob_pufferfish",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    }
+  ],
+  "fallback": "regnum:dt/toxic_lair/mob"
+}

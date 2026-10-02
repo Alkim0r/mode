@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "regnum:dt/skeleton_camp_crimson",
+	"regnum:dt/skeleton_camp_soul",
+	"regnum:dt/skeleton_camp_warped",
+	"regnum:dt/skeleton_camp_waste"
+  ]
+}

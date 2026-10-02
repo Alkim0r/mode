@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:dt/witch_villa",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 46,
+    "separation": 23,
+    "salt": 70108,
+    "frequency": 0.6
+  }
+}

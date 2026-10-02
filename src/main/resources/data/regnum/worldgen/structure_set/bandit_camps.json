@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:bandit_camp",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 28,
+    "separation": 10,
+    "salt": 481516234
+  }
+}

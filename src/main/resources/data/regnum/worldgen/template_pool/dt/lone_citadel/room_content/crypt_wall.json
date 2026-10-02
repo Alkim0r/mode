@@ -1,0 +1,51 @@
+{
+	"name": "regnum:dt/lone_citadel/room_content/crypt",
+  "elements": [
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_content/crypt_wall_deko_1",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_content/crypt_wall_deko_2",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_content/crypt_wall_deko_3",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_content/crypt_wall_deko_4",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_content/crypt_wall_deko_5",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

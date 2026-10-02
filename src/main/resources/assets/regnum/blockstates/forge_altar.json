@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "enabled=false": {
+      "model": "regnum:block/forge_altar"
+    },
+    "enabled=true": {
+      "model": "regnum:block/forge_altar_used"
+    }
+  }
+}

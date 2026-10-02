@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MTM",
+    "MMM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "id": "regnum:sultanate_chestplate",
+    "count": 1
+  }
+}

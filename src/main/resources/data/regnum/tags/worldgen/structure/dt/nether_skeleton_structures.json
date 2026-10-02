@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#regnum:dt/nether_skeleton_camps",
+	"#regnum:dt/nether_skeleton_towers",
+	"#regnum:dt/nether_keep",
+	"#regnum:dt/nether_port",
+	"minecraft:fortress"
+  ]
+}

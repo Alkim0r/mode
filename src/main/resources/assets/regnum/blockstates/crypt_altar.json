@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "enabled=false": {
+      "model": "regnum:block/crypt_altar"
+    },
+    "enabled=true": {
+      "model": "regnum:block/crypt_altar_used"
+    }
+  }
+}

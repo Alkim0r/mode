@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "MMM",
+    "MTM",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "id": "regnum:empire_leggings",
+    "count": 1
+  }
+}

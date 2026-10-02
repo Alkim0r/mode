@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SHS",
+    "PTP",
+    "PPP"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:wooden_sword"
+    },
+    "H": {
+      "item": "minecraft:hay_block"
+    },
+    "T": {
+      "item": "minecraft:target"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "regnum:training_ground",
+    "count": 1
+  }
+}

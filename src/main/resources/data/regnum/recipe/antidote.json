@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "regnum:rot_root"
+    },
+    {
+      "item": "regnum:healing_herb"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "regnum:antidote",
+    "count": 2
+  }
+}

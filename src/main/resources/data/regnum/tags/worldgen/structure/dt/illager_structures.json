@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#regnum:dt/illager_manor",
+    "#regnum:dt/illager_hideout",
+    "#regnum:dt/badlands_miner_outpost",
+    "minecraft:mansion",
+    "minecraft:swamp_hut",
+    "minecraft:pillager_outpost",
+    "regnum:dt/illager_camp",
+    "regnum:dt/witch_villa",
+    "regnum:dt/toxic_lair"
+  ]
+}

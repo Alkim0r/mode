@@ -1,0 +1,89 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/**/build/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/**/out/
+
+.run/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.eclipse/
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/**/bin/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Minecraft Modding ###
+run/
+!**/src/**/run/
+**/src/generated/**/.cache/
+repo/
+!**/src/**/repo/
+# build products and local runtime
+/.gradle/
+/build/
+/run*/
+/_peek/
+/.jdk/
+/.codex-tools/
+/_perf_n.txt
+/_selftest.flag
+/_visualtest.flag
+/_clienttest.flag
+/_rebuild.flag
+/*.log
+/coord/*.log
+/coord/BUILD.lock
+/coord/previews/*.webp
+/coord/previews/*.gif
+/_source_backup.zip
+/_sync.zip
+# locally downloaded references are not project assets
+/_refs/**/*.jar
+/_refs/**/*.zip
+/_refs/**/*.7z
+/_refs/**/*.exe
+/_refs/**/*.dll
+# local credentials/runtime state
+/.env
+/.env.*
+*.keystore
+*.jks
+*_secret*
+
+# Python local bytecode
+__pycache__/
+*.py[cod]
+
+# Local mod references, binary and metadata stay outside Git
+/_refs/
+# Generated backups and local snapshots
+/coord/*.bak
+/coord/*before-*.java.bak
+/coord/*stub*.bak
+/coord/previews/*.png
+
+# Local backup bundles and preview videos
+/coord/*.bak
+/coord/**/*.bak
+/coord/source-before-*.zip
+/coord/video/

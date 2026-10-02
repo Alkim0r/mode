@@ -1,0 +1,15 @@
+{
+	"name": "regnum:dt/bunker_ladder",
+	"fallback": "regnum:dt/bunker_ladder_fallback",
+	"elements": [
+		{
+			"weight": 3,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/bunker/bunker_ladder",
+				"projection": "rigid",
+				"processors": "regnum:dt/bunker_degradation"
+			}
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+  "replace": true,
+  "values": [
+    "#regnum:dt/collections/swamps",
+    "#regnum:dt/collections/snowy_plains",
+    "#regnum:dt/collections/snowy_forests",
+    "#regnum:dt/collections/savannas",
+    "#regnum:dt/collections/plains",
+    "#regnum:dt/collections/mushrooms",
+    "#regnum:dt/collections/meadows",
+    "#regnum:dt/collections/mountains",
+    "#regnum:dt/collections/light_jungles",
+    "#regnum:dt/collections/icy",
+    "#regnum:dt/collections/hills",
+    "#regnum:dt/collections/floral",
+    "#regnum:dt/collections/deserts",
+    "#regnum:dt/collections/cherry_forests",
+    "#regnum:dt/collections/caves",
+    "#regnum:dt/collections/birch_forests",
+    "#regnum:dt/collections/beaches",
+    "#regnum:dt/collections/badlands",
+    "#regnum:dt/collections/taiga",
+    "#regnum:dt/collections/any_forests"
+  ]
+}

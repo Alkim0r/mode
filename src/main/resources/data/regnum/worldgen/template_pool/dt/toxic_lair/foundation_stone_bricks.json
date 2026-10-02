@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/toxic_lair/foundation_stone_bricks",
+	"fallback": "regnum:dt/toxic_lair/foundation_stone_bricks",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/stone_bricks_toxic_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

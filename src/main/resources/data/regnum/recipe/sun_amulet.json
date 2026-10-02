@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " T ",
+    "GAG",
+    " G "
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:string"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "regnum:sun_amber"
+    }
+  },
+  "result": {
+    "id": "regnum:sun_amulet",
+    "count": 1
+  }
+}

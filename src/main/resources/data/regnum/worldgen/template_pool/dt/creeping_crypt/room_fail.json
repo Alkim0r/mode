@@ -1,0 +1,24 @@
+{
+	"name": "regnum:dt/creeping_crypt/room_fail",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/creeping_crypt/crypt_rooms/creeping_crypit_room_fail_1",
+				"projection": "rigid",
+				"processors": "regnum:dt/mc/creeping_crypt_degradation"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/creeping_crypt/crypt_rooms/creeping_crypit_room_fail_2",
+				"projection": "rigid",
+				"processors": "regnum:dt/mc/creeping_crypt_degradation"
+			}
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "regnum:bandage"
+    },
+    {
+      "item": "regnum:bandage"
+    },
+    {
+      "item": "regnum:splint"
+    },
+    {
+      "item": "regnum:herbal_decoction"
+    },
+    {
+      "item": "minecraft:leather"
+    }
+  ],
+  "result": {
+    "id": "regnum:medkit",
+    "count": 1
+  }
+}

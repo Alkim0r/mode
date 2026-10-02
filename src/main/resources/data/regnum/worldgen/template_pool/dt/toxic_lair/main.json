@@ -1,0 +1,132 @@
+{
+  "name": "regnum:dt/toxic_lair/main",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_boss_room",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_boss_room_statue",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_death_hole",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_garden",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_slime_lair",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_spider_door",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_staircase_big",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_toxic_lair_backdoor",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/main/main_toxic_lair_staircase_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/spawner/spawner_spider_boss",
+        "processors": "regnum:dt/imported_anchors",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/spawner/spawner_spider_sub",
+        "processors": "regnum:dt/imported_anchors",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/spawner/spawner_cave_spider_sub",
+        "processors": "regnum:dt/imported_anchors",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/spawner/spawner_bogged_sub",
+        "processors": "regnum:dt/imported_anchors",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/vault/boss_vault",
+        "processors": "regnum:dt/imported_anchors",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "regnum:dt/toxic_lair/main"
+}

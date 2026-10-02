@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "regnum:block/forge_altar_side",
+    "top": "regnum:block/forge_altar_top_used",
+    "bottom": "minecraft:block/polished_blackstone"
+  }
+}

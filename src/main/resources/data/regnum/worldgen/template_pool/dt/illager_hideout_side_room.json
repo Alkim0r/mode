@@ -1,0 +1,51 @@
+{
+	"name": "regnum:dt/illager_hideout_side_room",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/illager_hideout/illager_hideout_side_room_1",
+				"projection": "rigid",
+				"processors": "regnum:dt/illager_hideout_degradation"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/illager_hideout/illager_hideout_side_room_2",
+				"projection": "rigid",
+				"processors": "regnum:dt/illager_hideout_degradation"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/illager_hideout/illager_hideout_side_room_3",
+				"projection": "rigid",
+				"processors": "regnum:dt/illager_hideout_degradation"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/illager_hideout/illager_hideout_side_room_4",
+				"projection": "rigid",
+				"processors": "regnum:dt/illager_hideout_degradation"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"location": "regnum:dt/illager_hideout/illager_hideout_side_room_5",
+				"projection": "rigid",
+				"processors": "regnum:dt/illager_hideout_degradation"
+			}
+		}
+	]
+}

@@ -1,0 +1,10 @@
+// Run with -I coord/client-test-window.init.gradle for two distinct GUI scales.
+allprojects {
+    afterEvaluate {
+        if (extensions.findByName('neoForge') != null) {
+            neoForge.runs.named('clientTest') {
+                programArguments.addAll '--width', '1280', '--height', '720'
+            }
+        }
+    }
+}

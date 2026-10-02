@@ -1,0 +1,636 @@
+{
+  "name": "regnum:dt/toxic_lair/underground_room",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/big_room_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/big_room_2",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/big_room_3",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/big_room_4",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/big_room_5",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/medium_room_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/medium_room_2",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/medium_room_3",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/medium_room_4",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/medium_room_5",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_2",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_3",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_4",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_5",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_7",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_8",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_9",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/small_room_10",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/tall_room_0",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/tall_room_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/tall_room_2",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/tall_room_3",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/tall_room_4",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_1",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_2",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_3",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_4",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_5",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_6",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_14",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_15",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_16",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_17",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_18",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_19",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_20",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_21",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_22",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_23",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_24",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_25",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_26",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_27",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_28",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_29",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_30",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_31",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_32",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_33",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_34",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_35",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_36",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_37",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_38",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_39",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_40",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_41",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_42",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_43",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_44",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_45",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_46",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_47",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_48",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_49",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_50",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_51",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_52",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/room/room_54",
+        "processors": "regnum:dt/toxic_lair_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "regnum:dt/toxic_lair/underground_room_fallback"
+}

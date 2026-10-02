@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/lone_citadel/pillar_cobblestone",
+	"fallback": "regnum:dt/lone_citadel/pillar_cobblestone",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/cobblestone_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

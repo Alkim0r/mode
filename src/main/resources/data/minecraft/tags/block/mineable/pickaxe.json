@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "regnum:watchtower",
+    "regnum:master_forge",
+    "regnum:ember_core"
+  ]
+}

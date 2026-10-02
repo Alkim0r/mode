@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#regnum:dt/hamlet",
+    "#regnum:dt/piglin_donjon",
+    "#regnum:dt/piglin_outstation",
+    "minecraft:bastion_remnant"
+  ]
+}

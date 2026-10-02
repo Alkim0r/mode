@@ -1,0 +1,78 @@
+{
+  "name": "regnum:dt/temple",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/temple/desert_ruins_temple_exit_foundation",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/temple/desert_ruins_temple_main_start",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/temple/desert_ruins_temple_exit",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/temple/desert_ruins_temple_exit_corner",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/temple/desert_ruins_temple_exit_corner_foundation",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/mob/desert_ruins_mob_skeleton",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/mob/desert_ruins_mob_husk",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/desert_ruin/mob/desert_ruins_mob_creeper",
+        "projection": "rigid",
+        "processors": "regnum:dt/desert_temple_degradation"
+      }
+    }
+  ]
+}

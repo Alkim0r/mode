@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:dt/illager_hideout",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 56,
+    "separation": 28,
+    "salt": 780307
+  }
+}

@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/lone_citadel/pillar_polished_tuff",
+	"fallback": "regnum:dt/lone_citadel/pillar_polished_tuff",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/polished_tuff_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

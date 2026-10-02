@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "regnum:town_hall",
+    "regnum:barracks",
+    "regnum:market",
+    "regnum:training_ground",
+    "regnum:builder_hut",
+    "regnum:library",
+    "regnum:university",
+    "regnum:infirmary",
+    "regnum:smithy",
+    "regnum:warehouse",
+    "regnum:stable"
+  ]
+}

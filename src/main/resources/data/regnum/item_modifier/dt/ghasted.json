@@ -1,0 +1,9 @@
+[
+  {
+    "add": false,
+    "enchantments": {
+      "regnum:dt/ghasted": 1.0
+    },
+    "function": "minecraft:set_enchantments"
+  }
+]

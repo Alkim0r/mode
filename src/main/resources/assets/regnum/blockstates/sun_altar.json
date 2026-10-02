@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "enabled=false": {
+      "model": "regnum:block/sun_altar"
+    },
+    "enabled=true": {
+      "model": "regnum:block/sun_altar_used"
+    }
+  }
+}

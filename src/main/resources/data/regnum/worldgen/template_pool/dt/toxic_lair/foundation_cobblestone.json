@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/toxic_lair/foundation_cobblestone",
+	"fallback": "regnum:dt/toxic_lair/foundation_cobblestone",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/cobblestone_toxic_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

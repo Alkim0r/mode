@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/lone_citadel/pillar_polished_andesite",
+	"fallback": "regnum:dt/lone_citadel/pillar_polished_andesite",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/polished_andesite_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

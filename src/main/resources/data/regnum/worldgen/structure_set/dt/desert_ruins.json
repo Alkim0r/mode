@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:dt/desert_ruins",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 20,
+    "salt": 70105,
+    "frequency": 0.8
+  }
+}

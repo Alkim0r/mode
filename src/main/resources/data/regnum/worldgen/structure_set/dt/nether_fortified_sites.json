@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:dt/nether_keep",
+      "weight": 1
+    },
+    {
+      "structure": "regnum:dt/nether_port",
+      "weight": 2
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 48,
+    "separation": 24,
+    "salt": 780301
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "regnum:region_dungeon",
+  "kind": "tomb",
+  "biomes": "#regnum:has_structure/sand_tomb",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

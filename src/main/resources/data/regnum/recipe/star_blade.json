@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " S ",
+    " S ",
+    " B "
+  ],
+  "key": {
+    "S": {
+      "item": "regnum:star_iron"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "id": "regnum:star_blade",
+    "count": 1
+  }
+}

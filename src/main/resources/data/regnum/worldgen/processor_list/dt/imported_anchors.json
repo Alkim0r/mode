@@ -1,0 +1,7 @@
+{
+  "processors": [
+    {
+      "processor_type": "regnum:imported_anchor"
+    }
+  ]
+}

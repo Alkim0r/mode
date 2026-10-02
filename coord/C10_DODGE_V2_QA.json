@@ -1,0 +1,16 @@
+{
+  "stops": 87,
+  "alive_stops_before_impact": 0,
+  "alive_safe_after_impact": 56,
+  "unsafe_stops": 13,
+  "deaths_during_dodge": 27,
+  "orders_lost": 0,
+  "targets_lost": 0,
+  "arena_escapes": 0,
+  "round_results": [
+    "[REGNUM-BATTLE] END round=1 result=Победа отряда ticks=498",
+    "[REGNUM-BATTLE] END round=2 result=Победа босса ticks=238",
+    "[REGNUM-BATTLE] END round=3 result=Победа босса ticks=1122"
+  ],
+  "limit": "Live sample only; safe uses center position against the tracked strike, not all overlapping zones."
+}

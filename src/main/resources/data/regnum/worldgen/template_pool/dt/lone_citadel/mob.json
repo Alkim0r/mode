@@ -1,0 +1,51 @@
+{
+	"name": "regnum:dt/lone_citadel/mob",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/mob/citadel_mob_fail",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 7
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/mob/citadel_zombie",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/mob/citadel_stray",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 3
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/mob/citadel_stray_armour",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/mob/citadel_breeze",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

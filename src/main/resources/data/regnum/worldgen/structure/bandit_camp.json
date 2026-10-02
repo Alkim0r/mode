@@ -1,0 +1,7 @@
+{
+  "type": "regnum:bandit_camp",
+  "biomes": "#regnum:has_structure/bandit_camp",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

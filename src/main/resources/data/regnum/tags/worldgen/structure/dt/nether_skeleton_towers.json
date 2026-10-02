@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "regnum:dt/nether_skeleton_tower_crimson",
+	"regnum:dt/nether_skeleton_tower_soul",
+	"regnum:dt/nether_skeleton_tower_warped",
+	"regnum:dt/nether_skeleton_tower_waste"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "ranged_new_clips": "Pending separate visual gate; not present in this live run",
+  "results": [
+    "[18:27:53] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=1 result=Победа отряда ticks=889 army=3 brood=0",
+    "[18:28:48] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=2 result=Победа босса ticks=897 army=0 brood=0",
+    "[18:30:05] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=3 result=Победа босса ticks=1338 army=0 brood=0",
+    "[18:31:45] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=4 result=Время демонстрации истекло ticks=1800 army=2 brood=0",
+    "[18:32:33] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=5 result=Победа босса ticks=770 army=0 brood=0",
+    "[18:33:17] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=1 result=Победа выводка ticks=675 army=0 brood=10",
+    "[18:34:15] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=2 result=Победа босса ticks=947 army=0 brood=0",
+    "[18:35:21] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] END round=3 result=Победа босса ticks=1122 army=0 brood=0"
+  ],
+  "queen_down": [
+    "[18:27:38] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] QUEEN_DOWN t=578 brood=13 army=6",
+    "[18:33:08] [Server thread/INFO] [co.al.re.Regnum/]: [REGNUM-BATTLE] QUEEN_DOWN t=484 brood=13 army=6"
+  ],
+  "limits": "Opt-in ten-unit arena; ordinary gameplay and world generation not covered",
+  "log": "coord/brood-result-live.log",
+  "arena_escape_count": 0
+}

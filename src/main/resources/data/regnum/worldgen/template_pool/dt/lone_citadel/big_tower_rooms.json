@@ -1,0 +1,87 @@
+{
+	"name": "regnum:dt/lone_citadel/room_frame",
+  "elements": [
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_1",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_2",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_3",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_4",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_5",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_6",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_7",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_8",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/room_frame/big_tower_room_9",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

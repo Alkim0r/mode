@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "armed=true,master=true": {
+      "model": "regnum:block/bear_trap"
+    },
+    "armed=true,master=false": {
+      "model": "regnum:block/bear_trap"
+    },
+    "armed=false,master=true": {
+      "model": "regnum:block/bear_trap_sprung"
+    },
+    "armed=false,master=false": {
+      "model": "regnum:block/bear_trap_sprung"
+    }
+  }
+}

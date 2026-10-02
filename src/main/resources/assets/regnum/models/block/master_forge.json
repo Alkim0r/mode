@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "regnum:block/master_forge_side",
+    "top": "regnum:block/master_forge_top",
+    "bottom": "minecraft:block/stone_bricks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "replace":true,
+  "values": [
+    "minecraft:unbreaking",
+    "regnum:dt/wax_wings"
+  ]
+}

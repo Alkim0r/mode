@@ -1,0 +1,8 @@
+{
+  "type": "regnum:region_dungeon",
+  "kind": "shrine",
+  "biomes": "#regnum:has_structure/sunken_shrine",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

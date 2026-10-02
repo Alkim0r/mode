@@ -1,0 +1,7 @@
+
+Algorithm Hash                                                             Path
+--------- ----                                                             ----
+SHA256    9A58963C3DCB2596F9930155FB48B9D3785F44571B1DD1FC9AA282628D19C2A0 C:\Users\Pavel\Desktop\for_mode\regnum\src\main\java\com\alkimor\regnum\client\screen\ScienceScreen.java
+SHA256    BA7134F467694FD86BDC6A813616BFA9D390B7F1F04E350E897607572D1EF261 C:\Users\Pavel\Desktop\for_mode\regnum\src\main\java\com\alkimor\regnum\client\screen\CommandersScreen.java
+
+

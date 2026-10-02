@@ -1,0 +1,24 @@
+{
+	"name": "regnum:dt/lone_citadel/vault",
+  "elements": [
+    {
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/citadel_vault",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/lone_citadel/citadel_vault_boss",
+        "processors": "regnum:dt/citadel_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

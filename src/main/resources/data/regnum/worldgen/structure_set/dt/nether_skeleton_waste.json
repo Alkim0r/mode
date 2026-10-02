@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "regnum:dt/skeleton_camp_waste",
+      "weight": 3
+    },
+    {
+      "structure": "regnum:dt/nether_skeleton_tower_waste",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 14,
+    "salt": 780305
+  }
+}

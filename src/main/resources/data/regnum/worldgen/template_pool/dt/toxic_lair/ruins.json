@@ -1,0 +1,285 @@
+{
+	"name": "regnum:dt/toxic_lair/ruins",
+  "elements": [
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_1",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_2",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_3",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_4",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_5",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_6",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_7",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_8",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 12
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_9",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_10",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 2
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_11",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_12",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_13",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_14",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_15",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_16",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_17",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/house/toxic_lair_outside_house_18",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_1",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_2",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_3",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_4",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_5",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_6",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_7",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_8",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_9",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_10",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_11",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_12",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    },
+	{
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "regnum:dt/toxic_lair/road/toxic_lair_outside_road_13",
+        "processors": "regnum:dt/toxic_lair_surface_degradation",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ],
+  "fallback": "minecraft:empty"
+}

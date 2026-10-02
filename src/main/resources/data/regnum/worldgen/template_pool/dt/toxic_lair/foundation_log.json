@@ -1,0 +1,14 @@
+{
+	"name": "regnum:dt/toxic_lair/foundation_log",
+	"fallback": "regnum:dt/toxic_lair/foundation_log",
+	"elements": [
+    {
+      "element": {
+        "element_type": "minecraft:feature_pool_element",
+        "feature": "regnum:dt/oak_log_base",
+        "projection": "rigid"
+      },
+      "weight": 1
+    }
+  ]
+}

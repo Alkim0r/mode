@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "TST",
+    "LLL",
+    "CLC"
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:torch"
+    },
+    "S": {
+      "item": "minecraft:spyglass"
+    },
+    "L": {
+      "tag": "minecraft:logs"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "id": "regnum:watchtower",
+    "count": 1
+  }
+}
