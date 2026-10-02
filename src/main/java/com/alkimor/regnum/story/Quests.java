@@ -612,7 +612,12 @@ public final class Quests {
     @SubscribeEvent
     public static void onKill(LivingDeathEvent e) {
         if (!(e.getSource().getEntity() instanceof ServerPlayer p)) return;
-        var type = e.getEntity().getType();
+        creditKill(p, e.getEntity());
+    }
+
+    /** Засчитывает убийство цели в активных квестах игрока (также для тех, кто бился рядом, а не только нанёс удар). */
+    public static void creditKill(ServerPlayer p, net.minecraft.world.entity.LivingEntity victim) {
+        var type = victim.getType();
         String key = BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
         boolean undead = type.is(EntityTypeTags.UNDEAD);
         for (String id : new ArrayList<>(root(p).getCompound("active").getAllKeys())) {

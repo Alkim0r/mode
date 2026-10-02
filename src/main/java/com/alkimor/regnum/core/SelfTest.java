@@ -653,6 +653,15 @@ public final class SelfTest {
                     if (!sxok) fails.add("sciexchange");
                 } catch (Exception sxe) { fails.add("sciexchange " + sxe); log("sciexchange EX " + sxe); }
                 try {
+                    var ebm = com.alkimor.regnum.story.ExternalBosses.parse("[{\"id\":\"othermod:titan\",\"title\":\"Титан\",\"emeralds\":40,\"steward\":10}]");
+                    var ebe = ebm.get("othermod:titan");
+                    boolean ebok = ebe != null && ebe.emeralds() == 40 && ebe.title().equals("Титан");
+                    ebok &= com.alkimor.regnum.story.ExternalBosses.reward(spy, ebe);
+                    ebok &= !com.alkimor.regnum.story.ExternalBosses.reward(spy, ebe); // повторно награды нет
+                    log("externalboss: " + (ebok ? "OK" : "FAIL"));
+                    if (!ebok) fails.add("externalboss");
+                } catch (Exception ebx) { fails.add("externalboss " + ebx); log("externalboss EX " + ebx); }
+                try {
                     var spc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), java.util.UUID.randomUUID(), "Спец", spy.blockPosition());
                     spc.treasury = 100;
                     boolean spk = com.alkimor.regnum.kingdom.Specialization.choose(spc, 2, 10) == null && spc.spec == 2 && spc.treasury == 100

@@ -22,5 +22,6 @@ public class StoryModule implements RegnumModule {
         NeoForge.EVENT_BUS.register(Quests.class);
         NeoForge.EVENT_BUS.register(Recovery.class);
         NeoForge.EVENT_BUS.register(NightArmy.class);
+        NeoForge.EVENT_BUS.register(ExternalBosses.class);
     }
 }
