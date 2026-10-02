@@ -42,7 +42,7 @@
 | G1 | codex | done | Локальный Git: baseline main + отдельный worktree Lite Codex созданы (второй внутренний sub-agent остановлен отдельно по просьбе владельца) | .git, coord/GIT_WORKFLOW.md |
 
 | L1 | codex-lite | review | `d6758f9`; compileJava OK (2 existing deprecation warnings); visual test blocked by approval review | client/render/SiegeTowerRenderer.java |
-| G2 | codex | done | Remote `origin` привязан к `https://github.com/Alkim0r/mode.git`; baseline `main` ранее запушен; текущие commit скоро будут отправлены non-force | GitHub `main`, coord/GIT_WORKFLOW.md |
+| G2 | codex | done | Non-force push успешен: `main` на `9b0d050`, включает `4cd5123`, `ea070c2` и handoff `9b0d050` | GitHub `main`, coord/GIT_WORKFLOW.md |
 | G3 | codex | done | Создан handoff: моды, зависимости, слои интеграции Regnum/Create/Aeronautics и однодневный разделённый план | ПЛАН_МОДОВ_И_ИНТЕГРАЦИИ.md |
 | M1 | claude | review | ExternalBosses optional bridge: dedicated build/selftest OK; runtime external boss и multiplayer/unloaded-world edge cases остаются непроверенными | story/ExternalBosses.java, story/, core/SelfTest.java |
 | M2 | codex-lite | cancelled | Внутренний sub-agent lite_performance_codex остановлен по просьбе владельца; новый audit не продолжается. Сохранённая ветка L1 — отдельный старый Git-артефакт, не активный Codex | tools/reference_profile_audit.py, coord/MOD_PROFILE_MATRIX.md |
