@@ -126,6 +126,7 @@ public class KingdomModule implements RegnumModule {
         NeoForge.EVENT_BUS.register(Goals.class);
         NeoForge.EVENT_BUS.register(Chronicle.class);
         NeoForge.EVENT_BUS.register(Persist.class);
+        NeoForge.EVENT_BUS.register(Envoy.class);
         NeoForge.EVENT_BUS.register(Mood.class);
         NeoForge.EVENT_BUS.register(Sortie.class);
         NeoForge.EVENT_BUS.register(FireControl.class);

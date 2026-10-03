@@ -870,6 +870,11 @@ public final class SelfTest {
                     if (!tgok) fails.add("techgraph");
                 } catch (Exception tge) { fails.add("techgraph " + tge); log("techgraph EX " + tge); }
                 try {
+                    boolean evk = com.alkimor.regnum.kingdom.Envoy.chance(0, 0) == 35 && com.alkimor.regnum.kingdom.Envoy.chance(-100, 0) == 25 && com.alkimor.regnum.kingdom.Envoy.chance(100, 10) == 85 && com.alkimor.regnum.kingdom.Envoy.chance(-100, -5) == 5;
+                    log("envoy: " + (evk ? "OK" : "FAIL"));
+                    if (!evk) fails.add("envoy");
+                } catch (Exception eve) { fails.add("envoy " + eve); log("envoy EX " + eve); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

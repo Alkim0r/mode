@@ -657,7 +657,7 @@ public final class Realms {
         }
     }
 
-    private static void endWar(ServerLevel ow, KingdomData data, Realm r, String msg) {
+    static void endWar(ServerLevel ow, KingdomData data, Realm r, String msg) {
         r.state = Realm.PEACE;
         r.warGoal = 0;
         Chronicle.add(r.warOwner, "война с «" + r.name + "» окончена");
