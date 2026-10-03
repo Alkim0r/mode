@@ -805,6 +805,15 @@ public final class SelfTest {
                     if (!sw) fails.add("scienceswitch");
                 } catch (Exception swe) { fails.add("scienceswitch " + swe); log("scienceswitch EX " + swe); }
                 try {
+                    boolean sd = com.alkimor.regnum.kingdom.Steward.buyAmount(10, 30, 2, 100, 500) == 20
+                            && com.alkimor.regnum.kingdom.Steward.buyAmount(10, 30, 2, 10, 500) == 5
+                            && com.alkimor.regnum.kingdom.Steward.buyAmount(10, 30, 2, 100, 60) == 5
+                            && com.alkimor.regnum.kingdom.Steward.buyAmount(30, 30, 2, 100, 500) == 0
+                            && com.alkimor.regnum.kingdom.Steward.buyAmount(0, 30, 2, 100, 40) == 0;
+                    log("stewardpolicy: " + (sd ? "OK" : "FAIL"));
+                    if (!sd) fails.add("stewardpolicy");
+                } catch (Exception sde) { fails.add("stewardpolicy " + sde); log("stewardpolicy EX " + sde); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
