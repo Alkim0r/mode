@@ -788,6 +788,17 @@ public final class SelfTest {
                     if (!gs) fails.add("gunsupply");
                 } catch (Exception gse) { fails.add("gunsupply " + gse); log("gunsupply EX " + gse); }
                 try {
+                    com.alkimor.regnum.kingdom.Exchange.resetPressure();
+                    boolean go = com.alkimor.regnum.kingdom.GuildOrders.qty(10) == 5 && com.alkimor.regnum.kingdom.GuildOrders.qty(100) == 20 && com.alkimor.regnum.kingdom.GuildOrders.qty(500) == 30
+                            && com.alkimor.regnum.kingdom.GuildOrders.reward(10, 10) == 130 && com.alkimor.regnum.kingdom.GuildOrders.byKey("лекари") == 1
+                            && com.alkimor.regnum.kingdom.GuildOrders.pick(0) == null;
+                    com.alkimor.regnum.kingdom.Exchange.addPressure(com.alkimor.regnum.kingdom.Resource.IRON, 60);
+                    go &= com.alkimor.regnum.kingdom.GuildOrders.pick(0) == com.alkimor.regnum.kingdom.Resource.IRON && com.alkimor.regnum.kingdom.GuildOrders.pick(1) == null && com.alkimor.regnum.kingdom.GuildOrders.pick(2) == com.alkimor.regnum.kingdom.Resource.IRON;
+                    com.alkimor.regnum.kingdom.Exchange.resetPressure();
+                    log("guildorders: " + (go ? "OK" : "FAIL"));
+                    if (!go) fails.add("guildorders");
+                } catch (Exception goe) { fails.add("guildorders " + goe); log("guildorders EX " + goe); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
