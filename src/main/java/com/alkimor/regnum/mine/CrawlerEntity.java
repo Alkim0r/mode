@@ -51,6 +51,14 @@ public class CrawlerEntity extends Spider {
         return best;
     }
 
+    /** Мёртвая или пропавшая цель: сразу выбрать ближайшую достижимую (максимум за 10 тиков), иначе очистить. Возвращает true, если цель была плохой. */
+    public boolean refreshTarget() {
+        LivingEntity t = getTarget();
+        if (t != null && t.isAlive() && !t.isRemoved()) return false;
+        retarget();
+        return true;
+    }
+
     /** Выводок застрял на недостижимой цели: берём ближайшую другую досягаемую; иначе сбрасываем цель, и поиск идёт заново. */
     public boolean retarget() {
         LivingEntity cur = getTarget();
@@ -73,7 +81,13 @@ public class CrawlerEntity extends Spider {
         super.aiStep();
         if (level().isClientSide || !isMinion()) return;
         LivingEntity t = getTarget();
-        if (t == null || !t.isAlive() || distanceToSqr(t) < 9.0) { stallTicks = 0; stallPos = position(); return; }
+        if (t == null || !t.isAlive()) {
+            stallTicks = 0;
+            stallPos = position();
+            if (tickCount % 10 == 0) refreshTarget();
+            return;
+        }
+        if (distanceToSqr(t) < 9.0) { stallTicks = 0; stallPos = position(); return; }
         if (tickCount % 10 == 0) {
             if (position().distanceToSqr(stallPos) < 0.04) stallTicks += 10; else stallTicks = 0;
             stallPos = position();

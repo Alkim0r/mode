@@ -815,6 +815,11 @@ public class SoldierEntity extends PathfinderMob implements RangedAttackMob {
         if (cityId == null || !(level() instanceof ServerLevel sl)) return 0f;
         City home = KingdomData.get(sl.getServer()).byId(cityId);
         if (home == null || home.hall.distSqr(blockPosition()) < 160 * 160) return 0f;
+        // местное снабжение: любой другой город или вассальная деревня владельца рядом заменяет обоз
+        if (owner != null) {
+            City near = KingdomData.get(sl.getServer()).nearestOwned(owner, blockPosition());
+            if (near != null && near.hall.distSqr(blockPosition()) < 160 * 160) return 0f;
+        }
         if (lead == null) return -1.0f;
         for (var st : lead.getInventory().items) {
             if (st.isEmpty() || st.get(net.minecraft.core.component.DataComponents.FOOD) == null) continue;

@@ -1044,6 +1044,25 @@ public final class SelfTest {
                     rq.discard(); rqs.discard();
                 } catch (Exception rte) { fails.add("minionretarget " + rte); log("minionretarget EX " + rte); }
                 try {
+                    var dq = com.alkimor.regnum.mine.MineModule.CRAWLER.get().create(level);
+                    var dqa = com.alkimor.regnum.kingdom.KingdomModule.SOLDIER.get().create(level);
+                    var dqb = com.alkimor.regnum.kingdom.KingdomModule.SOLDIER.get().create(level);
+                    dqa.setup(com.alkimor.regnum.kingdom.SoldierType.SPEARMAN, spy.getUUID(), null, 1);
+                    dqb.setup(com.alkimor.regnum.kingdom.SoldierType.SPEARMAN, spy.getUUID(), null, 1);
+                    dq.moveTo(1.5, 130, 1.5); dqa.moveTo(2.5, 130, 1.5); dqb.moveTo(4.5, 130, 1.5);
+                    level.addFreshEntity(dq); level.addFreshEntity(dqa); level.addFreshEntity(dqb);
+                    dq.addTag("regnum_minion");
+                    dq.setTarget(dqa);
+                    boolean aliveKept = !dq.refreshTarget() && dq.getTarget() == dqa;
+                    dqa.kill();
+                    boolean fixed = dq.refreshTarget();
+                    var after = dq.getTarget();
+                    boolean deadTransition = aliveKept && fixed && after != dqa && (after == null || after.isAlive());
+                    log("minionDeadTarget: kept=" + aliveKept + " fixed=" + fixed + " after=" + (after == null ? "null" : after.getClass().getSimpleName()) + " " + (deadTransition ? "OK" : "FAIL"));
+                    if (!deadTransition) fails.add("minionDeadTarget");
+                    dq.discard(); dqa.discard(); dqb.discard();
+                } catch (Exception dte) { fails.add("minionDeadTarget " + dte); log("minionDeadTarget EX " + dte); }
+                try {
                     var fv1 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:bread");
                     var fv2 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:bread");
                     var fv3 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:apple");
