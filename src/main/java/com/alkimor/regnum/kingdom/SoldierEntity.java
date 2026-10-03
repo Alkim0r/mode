@@ -931,6 +931,7 @@ public class SoldierEntity extends PathfinderMob implements RangedAttackMob {
 
     @Override
     public void performRangedAttack(LivingEntity target, float velocity) {
+        if (!GunSupply.allow(this)) return; // нет пороха на складе или осечка
         swing(net.minecraft.world.InteractionHand.MAIN_HAND, true); // сигнал выстрела для клиентской анимации
         ItemStack bow = getMainHandItem();
         if (getSoldierType() == SoldierType.BOMBARDIER) {

@@ -779,6 +779,15 @@ public final class SelfTest {
                     if (!rf) fails.add("retrofit");
                 } catch (Exception rfe) { fails.add("retrofit " + rfe); log("retrofit EX " + rfe); }
                 try {
+                    boolean gs = com.alkimor.regnum.kingdom.GunSupply.shotsPerPowder(com.alkimor.regnum.kingdom.SoldierType.MUSKETEER) == 5
+                            && com.alkimor.regnum.kingdom.GunSupply.shotsPerPowder(com.alkimor.regnum.kingdom.SoldierType.BOMBARDIER) == 2
+                            && com.alkimor.regnum.kingdom.GunSupply.shotsPerPowder(com.alkimor.regnum.kingdom.SoldierType.ARCHER) == 0
+                            && com.alkimor.regnum.kingdom.GunSupply.misfires(true, 0.1) && !com.alkimor.regnum.kingdom.GunSupply.misfires(true, 0.5) && !com.alkimor.regnum.kingdom.GunSupply.misfires(false, 0.0)
+                            && com.alkimor.regnum.kingdom.GunSupply.consumes(5, 5) && !com.alkimor.regnum.kingdom.GunSupply.consumes(4, 5) && !com.alkimor.regnum.kingdom.GunSupply.consumes(3, 0);
+                    log("gunsupply: " + (gs ? "OK" : "FAIL"));
+                    if (!gs) fails.add("gunsupply");
+                } catch (Exception gse) { fails.add("gunsupply " + gse); log("gunsupply EX " + gse); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
