@@ -647,6 +647,7 @@ public final class Realms {
     }
 
     private static void declareWithGoal(ServerPlayer p, KingdomData data, Realm r, int goal) {
+        Treaties.breach(data, r, p);
         r.warGoal = goal;
         r.armiesLost = 0;
         Diplomacy.declare(p.serverLevel(), data, r, p);
@@ -858,11 +859,19 @@ public final class Realms {
                     City c = cityOf(p, data);
                     if (c == null) return 0;
                     if (r.state != Realm.PEACE || r.relation < 25) Text.bad(p, "Они не хотят торговать: нужны отношения от 25 и мир.");
-                    else if (r.trade) Text.info(p, "Договор уже заключён.");
+                    else if (r.trade) {
+                        Long ex = Treaties.expiry(r);
+                        long nowT = p.serverLevel().getGameTime();
+                        int left = ex == null ? 0 : Treaties.daysLeft(ex, nowT);
+                        if (ex != null && left > Treaties.RENEW_WINDOW_DAYS) Text.info(p, "Договор действует ещё " + left + " сут.; продлить можно за " + Treaties.RENEW_WINDOW_DAYS + " сут. до конца.");
+                        else if (c.treasury < 30) Text.bad(p, "Для продления нужно 30 в казне.");
+                        else { c.treasury -= 30; Treaties.sign(r, nowT); data.setDirty(); Text.good(p, "Договор с «" + r.name + "» продлён на 30 суток."); }
+                    }
                     else if (c.treasury < 30) Text.bad(p, "Для договора нужно 30 в казне.");
                     else {
                         c.treasury -= 30;
                         r.trade = true;
+                        Treaties.sign(r, p.serverLevel().getGameTime());
                         data.setDirty();
                         Text.good(p, "Торговый договор с «" + r.name + "» заключён: ежедневный доход растёт.");
                     }

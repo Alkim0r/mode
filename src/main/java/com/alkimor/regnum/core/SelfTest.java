@@ -747,6 +747,17 @@ public final class SelfTest {
                     if (!mi) fails.add("marketintel");
                 } catch (Exception mie) { fails.add("marketintel " + mie); log("marketintel EX " + mie); }
                 try {
+                    boolean tr = com.alkimor.regnum.kingdom.Treaties.daysLeft(48000, 0) == 2
+                            && com.alkimor.regnum.kingdom.Treaties.daysLeft(0, 5000) == 0
+                            && com.alkimor.regnum.kingdom.Treaties.breachPenalty(true, true) == 40
+                            && com.alkimor.regnum.kingdom.Treaties.breachPenalty(true, false) == 20
+                            && com.alkimor.regnum.kingdom.Treaties.breachPenalty(false, false) == 0
+                            && com.alkimor.regnum.kingdom.Treaties.expired(100, 100)
+                            && !com.alkimor.regnum.kingdom.Treaties.expired(100, 99);
+                    log("treaties: " + (tr ? "OK" : "FAIL"));
+                    if (!tr) fails.add("treaties");
+                } catch (Exception tre) { fails.add("treaties " + tre); log("treaties EX " + tre); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

@@ -95,6 +95,7 @@ public final class Diplomacy {
     public static void daily(ServerLevel ow, KingdomData data, Realm r) {
         if (!r.built) return;
         if (r.state == Realm.PEACE) r.relation = driftStep(r.relation, r.trade, r.ally);
+        Treaties.daily(r, ow.getGameTime(), ow.getServer().getPlayerList().getPlayers().isEmpty() ? null : ow.getServer().getPlayerList().getPlayers().get(0));
         long now = ow.getGameTime();
         UUID target = null;
         City tc = null;
