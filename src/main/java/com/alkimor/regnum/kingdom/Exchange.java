@@ -36,6 +36,21 @@ public final class Exchange {
 
     public static void resetPressure() { pressure.clear(); }
 
+    /** Торговая разведка: последняя известная цена и день, когда её узнали (в памяти). */
+    private static final Map<Resource, int[]> SEEN = new EnumMap<>(Resource.class);
+    public static final int FRESH_DAYS = 2;
+
+    /** Сколько дней сведения старше свежих (0 — свежие). */
+    public static int staleDays(long today, long seenDay) { return (int) Math.max(0, today - seenDay - FRESH_DAYS); }
+
+    /** Какую цену показать: свежие данные — живую, старые — запомненную. */
+    public static int shownPrice(int live, int remembered, int stale) { return stale > 0 ? remembered : live; }
+
+    public static void markSeen(Resource r, int price, long day) { SEEN.put(r, new int[]{price, (int) day}); }
+    public static void markAllSeen(int season, long day) { for (Resource r : Resource.values()) markSeen(r, priceNow(r, season), day); }
+    public static int[] seen(Resource r) { return SEEN.get(r); }
+
+
     /** Цена с учётом давления: +-50% при предельном давлении. */
     public static int priceNow(Resource r, int season) {
         double p = price(r, season) * (1.0 + pressure(r) / (double) (MAX_PRESSURE * 2));
@@ -89,7 +104,16 @@ public final class Exchange {
                     ServerPlayer p = ctx.getSource().getPlayerOrException();
                     int s = com.alkimor.regnum.survival.Seasons.index(p.level());
                     Text.gold(p, "══ Обмен рынка (" + com.alkimor.regnum.survival.Seasons.name(p.level()) + ") ══");
-                    for (Resource r : Resource.values()) Text.info(p, r.title + " (" + r.name().toLowerCase() + "): купить за " + priceNow(r, s) + ", продать за " + (int) Math.floor(priceNow(r, s) * 0.6) + (pressure(r) > 20 ? " (дорожает из-за спроса)" : pressure(r) < -20 ? " (дешевеет из-за предложения)" : ""));
+                    long today = p.level().getDayTime() / 24000L;
+                    for (Resource r : Resource.values()) {
+                        int live = priceNow(r, s);
+                        int[] sn = seen(r);
+                        int stale = sn == null ? 0 : staleDays(today, sn[1]);
+                        int shown = sn == null ? live : shownPrice(live, sn[0], stale);
+                        if (stale == 0) markSeen(r, live, today);
+                        Text.info(p, r.title + " (" + r.name().toLowerCase() + "): купить за " + shown + ", продать за " + (int) Math.floor(shown * 0.6)
+                                + (stale > 0 ? " [сведения " + stale + " дн. назад — цена могла измениться; караван обновит]" : pressure(r) > 20 ? " (дорожает из-за спроса)" : pressure(r) < -20 ? " (дешевеет из-за предложения)" : ""));
+                    }
                     Text.info(p, "/regnum exchange buy <ресурс> <число> · /regnum exchange sell <ресурс> <число>");
                     return 1;
                 })

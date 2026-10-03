@@ -738,6 +738,15 @@ public final class SelfTest {
                     if (!crok) fails.add("caravanroute");
                 } catch (Exception cre) { fails.add("caravanroute " + cre); log("caravanroute EX " + cre); }
                 try {
+                    boolean mi = com.alkimor.regnum.kingdom.Exchange.staleDays(10, 9) == 0
+                            && com.alkimor.regnum.kingdom.Exchange.staleDays(10, 7) == 1
+                            && com.alkimor.regnum.kingdom.Exchange.staleDays(3, 9) == 0
+                            && com.alkimor.regnum.kingdom.Exchange.shownPrice(8, 5, 0) == 8
+                            && com.alkimor.regnum.kingdom.Exchange.shownPrice(8, 5, 2) == 5;
+                    log("marketintel: " + (mi ? "OK" : "FAIL"));
+                    if (!mi) fails.add("marketintel");
+                } catch (Exception mie) { fails.add("marketintel " + mie); log("marketintel EX " + mie); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

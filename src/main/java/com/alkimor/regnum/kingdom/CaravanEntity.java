@@ -76,6 +76,7 @@ public class CaravanEntity extends PathfinderMob {
         Realm r = realmId == null ? null : data.realm(realmId);
         int pay = 12 + (r == null ? 0 : Math.max(0, r.relation) / 5) + (r != null && r.ally ? 10 : 0);
         if (escorted) pay += pay / 2;
+        Exchange.markAllSeen(com.alkimor.regnum.survival.Seasons.index(sl), sl.getDayTime() / 24000L);
         int rmode = CaravanRoute.mode(c.id);
         double rm = CaravanRoute.payMult(rmode, sl.random.nextDouble());
         if (rm <= 0) { ServerPlayer_msg(sl, c, "Быстрый караван перехватили разбойники: груз потерян."); discard(); return; }
