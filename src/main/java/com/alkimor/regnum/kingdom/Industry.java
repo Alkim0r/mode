@@ -170,6 +170,8 @@ public final class Industry {
         }
         String labor = Labor.daily(c);
         if (!labor.isEmpty()) msg += ", " + labor;
+        String unrest = Mood.daily(c);
+        if (!unrest.isEmpty()) msg += ", " + unrest;
         String health = Health.daily(ow, data, c);
         if (!health.isEmpty()) msg += ", " + health;
         return msg;

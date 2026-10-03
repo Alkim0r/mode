@@ -207,6 +207,33 @@ public final class Tactics {
         if (ranged(mob)) rangedTactics(sl, mob, t, b, rank);
         else meleeTactics(sl, mob, t, b, rank);
         spread(mob, t);
+        encircle(mob, t);
+    }
+
+    /** Угол (рад) места номер i из n вокруг цели: равномерное кольцо. */
+    public static double slotAngle(int i, int n) {
+        return n <= 0 ? 0 : 2 * Math.PI * (i % n) / n;
+    }
+
+    /** Окружение: несколько врагов на одну цель занимают разные стороны кольца, а не лезут гуртом с одного бока. */
+    private static void encircle(Mob mob, LivingEntity t) {
+        if ((mob.tickCount & 3) != 0 || !mob.onGround()) return;
+        double d = mob.distanceTo(t);
+        if (d < 3.0 || d > 12) return;
+        java.util.List<Mob> pack = new java.util.ArrayList<>();
+        for (Mob o : mob.level().getEntitiesOfClass(Mob.class, t.getBoundingBox().inflate(12),
+                o -> o.isAlive() && o.getTarget() == t && tactical(o) && !ranged(o))) pack.add(o);
+        if (pack.size() < 2 || pack.size() > 8) return;
+        pack.sort(java.util.Comparator.comparingInt(Mob::getId));
+        int i = pack.indexOf(mob);
+        if (i < 0) return;
+        double a = slotAngle(i, pack.size());
+        Vec3 want = t.position().add(Math.cos(a) * 2.6, 0, Math.sin(a) * 2.6);
+        Vec3 dir = want.subtract(mob.position());
+        Vec3 h = new Vec3(dir.x, 0, dir.z);
+        if (h.lengthSqr() < 1.0) return;
+        Vec3 n = h.normalize();
+        if (safe(mob, n)) push(mob, n.scale(0.05));
     }
 
     private static void meleeTactics(ServerLevel sl, Mob mob, LivingEntity t, Brain b, int rank) {

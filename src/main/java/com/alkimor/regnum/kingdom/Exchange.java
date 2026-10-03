@@ -7,6 +7,10 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Обмен городского рынка (I046-I048): за монеты казны можно закупить запасы или продать излишки. Цена зависит от ресурса
@@ -16,6 +20,32 @@ public final class Exchange {
     private Exchange() {}
 
     public static final int MAX_LOT = 200;
+    public static final int MAX_PRESSURE = 200;
+    /** Давление спроса по ресурсам: покупки поднимают цену, продажи опускают; остывает на 10% в сутки (не сохраняется). */
+    private static final Map<Resource, Integer> pressure = new EnumMap<>(Resource.class);
+
+    public static int pressure(Resource r) { return pressure.getOrDefault(r, 0); }
+
+    public static void addPressure(Resource r, int delta) {
+        pressure.put(r, Math.max(-MAX_PRESSURE, Math.min(MAX_PRESSURE, pressure(r) + delta)));
+    }
+
+    public static void coolDown() {
+        for (Resource r : Resource.values()) pressure.put(r, (int) (pressure(r) * 0.9));
+    }
+
+    public static void resetPressure() { pressure.clear(); }
+
+    /** Цена с учётом давления: +-50% при предельном давлении. */
+    public static int priceNow(Resource r, int season) {
+        double p = price(r, season) * (1.0 + pressure(r) / (double) (MAX_PRESSURE * 2));
+        return (int) Math.max(1, Math.round(p));
+    }
+
+    @SubscribeEvent
+    public static void onTick(ServerTickEvent.Post e) {
+        if (e.getServer().getTickCount() % 100 == 57 && DayClock.newDay(e.getServer(), "exchange")) coolDown();
+    }
 
     public static int price(Resource r, int season) {
         double base = switch (r) {
@@ -30,7 +60,7 @@ public final class Exchange {
     public static String trade(City c, Resource r, int n, boolean buy, int season) {
         if (c.count(BuildingType.MARKET) == 0) return "Для обмена нужен Рынок в городе.";
         if (n < 1 || n > MAX_LOT) return "Партия — от 1 до " + MAX_LOT + ".";
-        int p = price(r, season);
+        int p = priceNow(r, season);
         if (buy) {
             long cost = (long) p * n;
             if (c.treasury < cost) return "Не хватает монет: нужно " + cost + ", в казне " + c.treasury + ".";
@@ -40,10 +70,12 @@ public final class Exchange {
                 if (put == 0) return "Склад переполнен.";
             }
             c.treasury -= (int) cost;
+            addPressure(r, put);
         } else {
             if (c.stock(r) < n) return "На складе только " + c.stock(r) + ".";
             c.take(r, n);
             c.treasury += (int) Math.floor(p * n * 0.6);
+            addPressure(r, -n);
         }
         return null;
     }
@@ -57,7 +89,7 @@ public final class Exchange {
                     ServerPlayer p = ctx.getSource().getPlayerOrException();
                     int s = com.alkimor.regnum.survival.Seasons.index(p.level());
                     Text.gold(p, "══ Обмен рынка (" + com.alkimor.regnum.survival.Seasons.name(p.level()) + ") ══");
-                    for (Resource r : Resource.values()) Text.info(p, r.title + " (" + r.name().toLowerCase() + "): купить за " + price(r, s) + ", продать за " + (int) Math.floor(price(r, s) * 0.6));
+                    for (Resource r : Resource.values()) Text.info(p, r.title + " (" + r.name().toLowerCase() + "): купить за " + priceNow(r, s) + ", продать за " + (int) Math.floor(priceNow(r, s) * 0.6) + (pressure(r) > 20 ? " (дорожает из-за спроса)" : pressure(r) < -20 ? " (дешевеет из-за предложения)" : ""));
                     Text.info(p, "/regnum exchange buy <ресурс> <число> · /regnum exchange sell <ресурс> <число>");
                     return 1;
                 })

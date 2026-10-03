@@ -644,6 +644,108 @@ public final class SelfTest {
                     if (!dfok) fails.add("drift");
                 } catch (Exception dfe) { fails.add("drift " + dfe); log("drift EX " + dfe); }
                 try {
+                    var exr = com.alkimor.regnum.kingdom.Resource.IRON;
+                    com.alkimor.regnum.kingdom.Exchange.resetPressure();
+                    int exp0 = com.alkimor.regnum.kingdom.Exchange.priceNow(exr, 0);
+                    com.alkimor.regnum.kingdom.Exchange.addPressure(exr, 500);
+                    int exp1 = com.alkimor.regnum.kingdom.Exchange.priceNow(exr, 0);
+                    com.alkimor.regnum.kingdom.Exchange.coolDown();
+                    int exCool = com.alkimor.regnum.kingdom.Exchange.pressure(exr);
+                    com.alkimor.regnum.kingdom.Exchange.addPressure(exr, -1000);
+                    int exp2 = com.alkimor.regnum.kingdom.Exchange.priceNow(exr, 0);
+                    com.alkimor.regnum.kingdom.Exchange.resetPressure();
+                    boolean expok = exp0 == 6 && exp1 == 9 && exCool == 180 && exp2 == 3;
+                    log("exchangepressure: " + (expok ? "OK" : "FAIL") + " " + exp0 + "/" + exp1 + "/" + exCool + "/" + exp2);
+                    if (!expok) fails.add("exchangepressure");
+                } catch (Exception exe2) { fails.add("exchangepressure " + exe2); log("exchangepressure EX " + exe2); }
+                try {
+                    boolean rtok = com.alkimor.regnum.kingdom.Villages.routeMul(100.0 * 100.0) == 1.2 && com.alkimor.regnum.kingdom.Villages.routeMul(250.0 * 250.0) == 1.0
+                            && com.alkimor.regnum.kingdom.Villages.routeMul(500.0 * 500.0) == 0.8;
+                    log("villageroute: " + (rtok ? "OK" : "FAIL"));
+                    if (!rtok) fails.add("villageroute");
+                } catch (Exception rte) { fails.add("villageroute " + rte); log("villageroute EX " + rte); }
+                try {
+                    var fk = com.alkimor.regnum.kingdom.Fortune.Kind.class;
+                    boolean fcnok = com.alkimor.regnum.kingdom.Fortune.nextInChain(com.alkimor.regnum.kingdom.Fortune.Kind.HARVEST) == com.alkimor.regnum.kingdom.Fortune.Kind.MERCHANTS
+                            && com.alkimor.regnum.kingdom.Fortune.nextInChain(com.alkimor.regnum.kingdom.Fortune.Kind.DROUGHT) == com.alkimor.regnum.kingdom.Fortune.Kind.BLIGHT
+                            && com.alkimor.regnum.kingdom.Fortune.nextInChain(com.alkimor.regnum.kingdom.Fortune.Kind.METEOR) == com.alkimor.regnum.kingdom.Fortune.Kind.SCHOLAR
+                            && com.alkimor.regnum.kingdom.Fortune.nextInChain(com.alkimor.regnum.kingdom.Fortune.Kind.PLEA) == null && fk != null;
+                    log("fortunechain: " + (fcnok ? "OK" : "FAIL"));
+                    if (!fcnok) fails.add("fortunechain");
+                } catch (Exception fce) { fails.add("fortunechain " + fce); log("fortunechain EX " + fce); }
+                try {
+                    boolean psok = com.alkimor.regnum.combat.Posture.threshold(0) == 30f && com.alkimor.regnum.combat.Posture.threshold(3) == 60f
+                            && com.alkimor.regnum.combat.Posture.gain(7f) == 14f
+                            && com.alkimor.regnum.combat.Posture.decayed(20f, 50) == 20f
+                            && Math.abs(com.alkimor.regnum.combat.Posture.decayed(20f, 60 + 100) - 12.5f) < 0.01f
+                            && com.alkimor.regnum.combat.Posture.decayed(5f, 1000) == 0f;
+                    log("posture: " + (psok ? "OK" : "FAIL"));
+                    if (!psok) fails.add("posture");
+                } catch (Exception pse) { fails.add("posture " + pse); log("posture EX " + pse); }
+                try {
+                    var mdc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), spy.getUUID(), "Дух", new net.minecraft.core.BlockPos(5800, 70, 5800));
+                    mdc.population = 40;
+                    int mdBase = com.alkimor.regnum.kingdom.Mood.score(mdc);
+                    int mdInc0 = mdc.dailyIncome(2);
+                    mdc.hungerDays = 5;
+                    mdc.plagueDays = 3;
+                    mdc.war = true;
+                    int mdBad = com.alkimor.regnum.kingdom.Mood.score(mdc);
+                    int mdInc1 = mdc.dailyIncome(2);
+                    boolean mdok = mdBase == 50 && mdBad == 0 && mdInc1 < mdInc0
+                            && com.alkimor.regnum.kingdom.Mood.incomeMult(80) == 1.10 && com.alkimor.regnum.kingdom.Mood.incomeMult(50) == 1.0
+                            && com.alkimor.regnum.kingdom.Mood.title(10).equals("на грани бунта");
+                    log("mood: " + (mdok ? "OK" : "FAIL") + " " + mdBase + "/" + mdBad + " " + mdInc0 + "->" + mdInc1);
+                    if (!mdok) fails.add("mood");
+                } catch (Exception mde) { fails.add("mood " + mde); log("mood EX " + mde); }
+                try {
+                    boolean cbok = com.alkimor.regnum.combat.Combo.next(0, 0, 100) == 1 && com.alkimor.regnum.combat.Combo.next(2, 100, 130) == 3
+                            && com.alkimor.regnum.combat.Combo.next(4, 100, 141) == 1
+                            && com.alkimor.regnum.combat.Combo.multiplier(1) == 1f && Math.abs(com.alkimor.regnum.combat.Combo.multiplier(6) - 1.15f) < 0.001f
+                            && Math.abs(com.alkimor.regnum.combat.Combo.multiplier(20) - 1.15f) < 0.001f;
+                    log("combo: " + (cbok ? "OK" : "FAIL"));
+                    if (!cbok) fails.add("combo");
+                } catch (Exception cbe) { fails.add("combo " + cbe); log("combo EX " + cbe); }
+                try {
+                    var rtc = new com.alkimor.regnum.kingdom.City(java.util.UUID.randomUUID(), spy.getUUID(), "Бунт", new net.minecraft.core.BlockPos(5900, 70, 5900));
+                    rtc.treasury = 200;
+                    rtc.hungerDays = 10;
+                    rtc.plagueDays = 3; // настроение 0
+                    String rt1 = com.alkimor.regnum.kingdom.Mood.daily(rtc);
+                    String rt2 = com.alkimor.regnum.kingdom.Mood.daily(rtc);
+                    String rt3 = com.alkimor.regnum.kingdom.Mood.daily(rtc);
+                    boolean rtok = rt1.contains("1/3") && rt2.contains("2/3") && rt3.startsWith("БУНТ") && rtc.treasury == 180 && rtc.unrestDays == 0
+                            && com.alkimor.regnum.kingdom.Mood.unrestStep(2, 50) == 0
+                            && com.alkimor.regnum.kingdom.City.load(rtc.save()).unrestDays == 0;
+                    log("riot: " + (rtok ? "OK" : "FAIL") + " " + rt3 + " treasury=" + rtc.treasury);
+                    if (!rtok) fails.add("riot");
+                } catch (Exception rte2) { fails.add("riot " + rte2); log("riot EX " + rte2); }
+                try {
+                    boolean fsok = "b".equals(com.alkimor.regnum.kingdom.ai.FoeScanGoal.mostCommon(java.util.List.of("a", "b", "b", "c")))
+                            && "a".equals(com.alkimor.regnum.kingdom.ai.FoeScanGoal.mostCommon(java.util.List.of("a", "b")))
+                            && com.alkimor.regnum.kingdom.ai.FoeScanGoal.mostCommon(java.util.List.<String>of()) == null;
+                    log("focusfire: " + (fsok ? "OK" : "FAIL"));
+                    if (!fsok) fails.add("focusfire");
+                } catch (Exception fse) { fails.add("focusfire " + fse); log("focusfire EX " + fse); }
+                try {
+                    boolean crok = com.alkimor.regnum.kingdom.CaravanRoute.payMult(1, 0.1) == 0.0
+                            && com.alkimor.regnum.kingdom.CaravanRoute.payMult(1, 0.9) == 1.35
+                            && com.alkimor.regnum.kingdom.CaravanRoute.payMult(2, 0.0) == 0.85
+                            && com.alkimor.regnum.kingdom.CaravanRoute.payMult(3, 0.0) == 1.0
+                            && com.alkimor.regnum.kingdom.CaravanRoute.toll(3) == 4
+                            && com.alkimor.regnum.kingdom.CaravanRoute.byKey("платный") == 3;
+                    log("caravanroute: " + (crok ? "OK" : "FAIL"));
+                    if (!crok) fails.add("caravanroute");
+                } catch (Exception cre) { fails.add("caravanroute " + cre); log("caravanroute EX " + cre); }
+                try {
+                    boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
+                            && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
+                            && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
+                            && com.alkimor.regnum.combat.Tactics.slotAngle(2, 0) == 0;
+                    log("encircle: " + (encok ? "OK" : "FAIL"));
+                    if (!encok) fails.add("encircle");
+                } catch (Exception ence) { fails.add("encircle " + ence); log("encircle EX " + ence); }
+                try {
                     var adm = new java.util.EnumMap<com.alkimor.regnum.kingdom.SoldierType, Integer>(com.alkimor.regnum.kingdom.SoldierType.class);
                     boolean adok = com.alkimor.regnum.kingdom.Espionage.assaultAdvice(adm).contains("не нужен");
                     adm.put(com.alkimor.regnum.kingdom.SoldierType.ARCHER, 6);

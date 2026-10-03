@@ -32,19 +32,45 @@ public final class Fortune {
         HARVEST, SCHOLAR, DESERTERS, MERCHANTS, METEOR, BLIGHT, BOUNTY, PLEA, DROUGHT
     }
 
+    /** Цепочки: у одного происшествия может быть продолжение через 2 суток (null — продолжения нет). */
+    public static Kind nextInChain(Kind k) {
+        return switch (k) {
+            case HARVEST -> Kind.MERCHANTS;   // слух о достатке привлекает купцов
+            case METEOR -> Kind.SCHOLAR;      // учёные едут изучать упавший камень
+            case DROUGHT -> Kind.BLIGHT;      // после засухи поля страдают от ржавчины
+            default -> null;
+        };
+    }
+
+    public static final int CHAIN_DELAY_DAYS = 2;
+    /** Ожидающие продолжения: id города -> {ordinal вида, сутки срабатывания}. Не сохраняется (перезапуск обрывает цепочку). */
+    private static final java.util.Map<UUID, long[]> pending = new java.util.HashMap<>();
+
     @SubscribeEvent
     public static void onTick(ServerTickEvent.Post e) {
         MinecraftServer server = e.getServer();
         if (server.getTickCount() % 100 != 53 || !DayClock.newDay(server, "fortune")) return;
         KingdomData data = KingdomData.get(server);
-        Random r = new Random(server.overworld().getDayTime() / 24000L * 7919L);
+        long day = server.overworld().getDayTime() / 24000L;
+        Random r = new Random(day * 7919L);
         List<UUID> owners = data.all().stream().map(c -> c.owner).distinct().toList();
         for (UUID owner : owners) {
             ServerPlayer p = server.getPlayerList().getPlayer(owner);
-            if (p == null || r.nextInt(100) >= 40) continue;
+            if (p == null) continue;
             City c = best(data, owner);
             if (c == null || c.war || c.raidActive || c.plagueDays > 0) continue;
-            fire(p, c, Kind.values()[r.nextInt(Kind.values().length)], r);
+            long[] due = pending.get(c.id);
+            if (due != null && day >= due[1]) {
+                pending.remove(c.id);
+                Kind next = Kind.values()[(int) due[0]];
+                if (fire(p, c, next, r)) continue; // продолжение цепочки вместо случайного события
+            }
+            if (r.nextInt(100) >= 40) continue;
+            Kind k = Kind.values()[r.nextInt(Kind.values().length)];
+            if (fire(p, c, k, r)) {
+                Kind nx = nextInChain(k);
+                if (nx != null) pending.put(c.id, new long[]{nx.ordinal(), day + CHAIN_DELAY_DAYS});
+            }
         }
     }
 

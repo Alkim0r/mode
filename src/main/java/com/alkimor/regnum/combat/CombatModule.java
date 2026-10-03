@@ -31,6 +31,8 @@ public class CombatModule implements RegnumModule {
     public void init(IEventBus modBus) {
         NeoForge.EVENT_BUS.register(Tactics.class);
         NeoForge.EVENT_BUS.register(PlayerParry.class);
+        NeoForge.EVENT_BUS.register(Posture.class);
+        NeoForge.EVENT_BUS.register(Combo.class);
         LOOT_MODIFIERS.register(modBus);
     }
 }

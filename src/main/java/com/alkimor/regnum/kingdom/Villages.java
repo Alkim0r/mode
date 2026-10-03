@@ -27,6 +27,11 @@ public final class Villages {
     private static final String[] NAMES = {"Ключи", "Зарное", "Липовка", "Дубровка", "Мостки", "Заречье", "Берёзовка", "Каменка", "Лужки", "Ольшаны"};
     private static long now = 0;
 
+    /** Торговая связность: деревня рядом с городом (до 160 блоков) приносит на 20% больше, далёкая (от 400) — на 20% меньше. */
+    public static double routeMul(double distSqr) {
+        return distSqr <= 160.0 * 160.0 ? 1.2 : distSqr >= 400.0 * 400.0 ? 0.8 : 1.0;
+    }
+
     public static int dailyBonus(KingdomData data, City c) {
         List<City> mine = data.ownedBy(c.owner);
         if (mine.isEmpty() || mine.get(0) != c) return 0;
@@ -35,7 +40,8 @@ public final class Villages {
             if (!c.owner.equals(v.owner) || now < v.unrestUntil) continue;
             if (v.loyalty < 20) continue;
             double taxMul = v.tax == 0 ? 0.6 : v.tax == 2 ? 1.6 : 1.0;
-            sum += (int) Math.round((3 + Math.min(20, v.villagers) / 2) * taxMul * (0.5 + v.loyalty / 100.0));
+            double routeMul = routeMul(v.pos().distSqr(c.hall));
+            sum += (int) Math.round((3 + Math.min(20, v.villagers) / 2) * taxMul * (0.5 + v.loyalty / 100.0) * routeMul);
             if (v.purpose == 1) sum += 4 + Math.min(20, v.villagers) / 3;
             sum -= v.garrison; // жалованье гарнизона
         }
