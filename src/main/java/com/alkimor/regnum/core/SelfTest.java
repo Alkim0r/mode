@@ -848,6 +848,28 @@ public final class SelfTest {
                     if (!pk) fails.add("persist");
                 } catch (Exception pse) { fails.add("persist " + pse); log("persist EX " + pse); }
                 try {
+                    boolean tgok = true;
+                    var tgDone = java.util.EnumSet.noneOf(com.alkimor.regnum.kingdom.Science.Tech.class);
+                    for (var tgT : com.alkimor.regnum.kingdom.Science.Tech.values()) {
+                        for (var tgP : tgT.prereq) tgok &= tgP.ordinal() < tgT.ordinal() && tgP.era <= tgT.era && tgP != tgT;
+                        tgok &= tgT.cost > 0 && tgT.era >= 1 && tgT.era <= 4;
+                    }
+                    int tgSteps = 0;
+                    boolean tgProg = true;
+                    while (tgProg && tgDone.size() < com.alkimor.regnum.kingdom.Science.Tech.values().length) {
+                        tgProg = false;
+                        for (var tgT : com.alkimor.regnum.kingdom.Science.Tech.values()) {
+                            if (tgDone.contains(tgT)) continue;
+                            boolean tgReady = true;
+                            for (var tgP : tgT.prereq) if (!tgDone.contains(tgP)) tgReady = false;
+                            if (tgReady) { tgDone.add(tgT); tgProg = true; tgSteps++; }
+                        }
+                    }
+                    tgok &= tgDone.size() == com.alkimor.regnum.kingdom.Science.Tech.values().length;
+                    log("techgraph: techs=" + tgSteps + " " + (tgok ? "OK" : "FAIL"));
+                    if (!tgok) fails.add("techgraph");
+                } catch (Exception tge) { fails.add("techgraph " + tge); log("techgraph EX " + tge); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
