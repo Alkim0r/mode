@@ -770,6 +770,15 @@ public final class SelfTest {
                     if (!sf) fails.add("scifocus");
                 } catch (Exception sfe) { fails.add("scifocus " + sfe); log("scifocus EX " + sfe); }
                 try {
+                    boolean rf = com.alkimor.regnum.kingdom.Retrofit.target(com.alkimor.regnum.kingdom.SoldierType.MILITIA) == com.alkimor.regnum.kingdom.SoldierType.SPEARMAN
+                            && com.alkimor.regnum.kingdom.Retrofit.target(com.alkimor.regnum.kingdom.SoldierType.ARCHER) == com.alkimor.regnum.kingdom.SoldierType.CROSSBOW
+                            && com.alkimor.regnum.kingdom.Retrofit.target(com.alkimor.regnum.kingdom.SoldierType.KNIGHT) == null
+                            && com.alkimor.regnum.kingdom.Retrofit.price(com.alkimor.regnum.kingdom.SoldierType.SWORDSMAN, com.alkimor.regnum.kingdom.SoldierType.KNIGHT) == 8
+                            && com.alkimor.regnum.kingdom.Retrofit.price(com.alkimor.regnum.kingdom.SoldierType.MILITIA, com.alkimor.regnum.kingdom.SoldierType.SPEARMAN) == 4;
+                    log("retrofit: " + (rf ? "OK" : "FAIL"));
+                    if (!rf) fails.add("retrofit");
+                } catch (Exception rfe) { fails.add("retrofit " + rfe); log("retrofit EX " + rfe); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
