@@ -814,6 +814,13 @@ public final class SelfTest {
                     if (!sd) fails.add("stewardpolicy");
                 } catch (Exception sde) { fails.add("stewardpolicy " + sde); log("stewardpolicy EX " + sde); }
                 try {
+                    boolean gl = com.alkimor.regnum.kingdom.Goals.techDone(20, true) && !com.alkimor.regnum.kingdom.Goals.techDone(19, true) && !com.alkimor.regnum.kingdom.Goals.techDone(30, false)
+                            && com.alkimor.regnum.kingdom.Goals.allianceDone(3) && !com.alkimor.regnum.kingdom.Goals.allianceDone(2) && com.alkimor.regnum.kingdom.Goals.conquestDone(3) && !com.alkimor.regnum.kingdom.Goals.conquestDone(0)
+                            && com.alkimor.regnum.kingdom.Goals.percent(1, 3) == 33 && com.alkimor.regnum.kingdom.Goals.percent(9, 3) == 100;
+                    log("goals: " + (gl ? "OK" : "FAIL"));
+                    if (!gl) fails.add("goals");
+                } catch (Exception gle) { fails.add("goals " + gle); log("goals EX " + gle); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
