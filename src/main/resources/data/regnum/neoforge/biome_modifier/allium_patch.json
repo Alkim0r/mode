@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#regnum:dt/collections/floral",
-  "features": "regnum:dt/azure_bluet_patch",
+  "features": "regnum:dt/allium_patch",
   "step": "vegetal_decoration"
 }

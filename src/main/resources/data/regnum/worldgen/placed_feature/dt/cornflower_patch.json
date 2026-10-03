@@ -1,9 +1,9 @@
 {
-  "feature": "regnum:dt/azure_bluet_patch",
+  "feature": "regnum:dt/cornflower_patch",
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 16
+      "chance": 12
     },
     {
       "type": "minecraft:count",
