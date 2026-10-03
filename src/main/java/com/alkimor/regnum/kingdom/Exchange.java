@@ -138,4 +138,32 @@ public final class Exchange {
         Text.good(p, (buy ? "Куплено " : "Продано ") + n + " × " + r.title.toLowerCase() + ". Казна: " + c.treasury + ", на складе: " + c.stock(r) + ".");
         return 1;
     }
+
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        net.minecraft.nbt.CompoundTag pr = new net.minecraft.nbt.CompoundTag();
+        pressure.forEach((r, v) -> pr.putInt(r.name(), v));
+        t.put("pressure", pr);
+        net.minecraft.nbt.CompoundTag sn = new net.minecraft.nbt.CompoundTag();
+        SEEN.forEach((r, v) -> sn.putIntArray(r.name(), v));
+        t.put("seen", sn);
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        pressure.clear();
+        SEEN.clear();
+        net.minecraft.nbt.CompoundTag pr = t.getCompound("pressure");
+        for (String k : pr.getAllKeys()) {
+            try { pressure.put(Resource.valueOf(k), pr.getInt(k)); } catch (IllegalArgumentException ignored) {}
+        }
+        net.minecraft.nbt.CompoundTag sn = t.getCompound("seen");
+        for (String k : sn.getAllKeys()) {
+            try {
+                int[] a = sn.getIntArray(k);
+                if (a.length == 2) SEEN.put(Resource.valueOf(k), a);
+            } catch (IllegalArgumentException ignored) {}
+        }
+    }
 }

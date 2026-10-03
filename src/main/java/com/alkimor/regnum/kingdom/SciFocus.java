@@ -62,4 +62,18 @@ public final class SciFocus {
                     return 1;
                 }))));
     }
+
+
+    public static void setFocus(UUID owner, int f) { if (f == NONE) FOCUS.remove(owner); else FOCUS.put(owner, f); }
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        FOCUS.forEach((k, v) -> t.putInt(k.toString(), v));
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        FOCUS.clear();
+        for (String k : t.getAllKeys()) FOCUS.put(UUID.fromString(k), t.getInt(k));
+    }
 }

@@ -70,4 +70,19 @@ public final class Goals {
             return 1;
         })));
     }
+
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        net.minecraft.nbt.ListTag l = new net.minecraft.nbt.ListTag();
+        for (String s : ANNOUNCED) l.add(net.minecraft.nbt.StringTag.valueOf(s));
+        t.put("done", l);
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        ANNOUNCED.clear();
+        net.minecraft.nbt.ListTag l = t.getList("done", 8);
+        for (int i = 0; i < l.size(); i++) ANNOUNCED.add(l.getString(i));
+    }
 }

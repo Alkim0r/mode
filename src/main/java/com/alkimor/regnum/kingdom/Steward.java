@@ -121,4 +121,34 @@ public final class Steward {
         Text.good(pl, on ? "Управляющий включён." : "Управляющий выключен.");
         return 1;
     }
+
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        POLICIES.forEach((id, p) -> {
+            net.minecraft.nbt.CompoundTag c = new net.minecraft.nbt.CompoundTag();
+            c.putInt("budget", p.budget);
+            c.putBoolean("on", p.on);
+            net.minecraft.nbt.CompoundTag m = new net.minecraft.nbt.CompoundTag();
+            p.min.forEach((r, v) -> m.putInt(r.name(), v));
+            c.put("min", m);
+            t.put(id.toString(), c);
+        });
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        POLICIES.clear();
+        for (String k : t.getAllKeys()) {
+            net.minecraft.nbt.CompoundTag c = t.getCompound(k);
+            Policy p = new Policy();
+            p.budget = c.getInt("budget");
+            p.on = c.getBoolean("on");
+            net.minecraft.nbt.CompoundTag m = c.getCompound("min");
+            for (String rk : m.getAllKeys()) {
+                try { p.min.put(Resource.valueOf(rk), m.getInt(rk)); } catch (IllegalArgumentException ignored) {}
+            }
+            POLICIES.put(UUID.fromString(k), p);
+        }
+    }
 }

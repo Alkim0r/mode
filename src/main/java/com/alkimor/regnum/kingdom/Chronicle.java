@@ -50,4 +50,25 @@ public final class Chronicle {
             return 1;
         })));
     }
+
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        LOG.forEach((k, q) -> {
+            net.minecraft.nbt.ListTag l = new net.minecraft.nbt.ListTag();
+            for (String s : q) l.add(net.minecraft.nbt.StringTag.valueOf(s));
+            t.put(k.toString(), l);
+        });
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        LOG.clear();
+        for (String k : t.getAllKeys()) {
+            ArrayDeque<String> q = new ArrayDeque<>();
+            net.minecraft.nbt.ListTag l = t.getList(k, 8);
+            for (int i = 0; i < l.size(); i++) push(q, l.getString(i));
+            LOG.put(UUID.fromString(k), q);
+        }
+    }
 }

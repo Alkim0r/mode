@@ -61,4 +61,16 @@ public final class Treaties {
         if (p != null) Chronicle.add(p.getUUID(), "нарушен договор с «" + target.name + "»");
         if (p != null) Text.bad(p, "Вы нарушили договор с «" + target.name + "»: остальные державы запомнили это (отношения −" + (pen / 2) + ").");
     }
+
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        EXPIRY.forEach((k, v) -> t.putLong(k.toString(), v));
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        EXPIRY.clear();
+        for (String k : t.getAllKeys()) EXPIRY.put(UUID.fromString(k), t.getLong(k));
+    }
 }

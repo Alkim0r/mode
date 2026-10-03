@@ -828,6 +828,26 @@ public final class SelfTest {
                     if (!chk) fails.add("chronicle");
                 } catch (Exception che) { fails.add("chronicle " + che); log("chronicle EX " + che); }
                 try {
+                    var pu = java.util.UUID.fromString("00000000-0000-0000-0000-0000000000a1");
+                    com.alkimor.regnum.kingdom.CaravanRoute.setMode(pu, 3);
+                    com.alkimor.regnum.kingdom.SciFocus.setFocus(pu, 2);
+                    var pc = com.alkimor.regnum.kingdom.CaravanRoute.toTag();
+                    var ps = com.alkimor.regnum.kingdom.SciFocus.toTag();
+                    com.alkimor.regnum.kingdom.CaravanRoute.setMode(pu, 0);
+                    com.alkimor.regnum.kingdom.SciFocus.setFocus(pu, 0);
+                    com.alkimor.regnum.kingdom.CaravanRoute.fromTag(pc);
+                    com.alkimor.regnum.kingdom.SciFocus.fromTag(ps);
+                    boolean pk = com.alkimor.regnum.kingdom.CaravanRoute.mode(pu) == 3 && com.alkimor.regnum.kingdom.SciFocus.focus(pu) == 2;
+                    var pg = com.alkimor.regnum.kingdom.Goals.toTag();
+                    com.alkimor.regnum.kingdom.Goals.fromTag(pg);
+                    var pe = com.alkimor.regnum.kingdom.Exchange.toTag();
+                    com.alkimor.regnum.kingdom.Exchange.fromTag(pe);
+                    com.alkimor.regnum.kingdom.CaravanRoute.setMode(pu, 0);
+                    com.alkimor.regnum.kingdom.SciFocus.setFocus(pu, 0);
+                    log("persist: " + (pk ? "OK" : "FAIL"));
+                    if (!pk) fails.add("persist");
+                } catch (Exception pse) { fails.add("persist " + pse); log("persist EX " + pse); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

@@ -62,4 +62,18 @@ public final class CaravanRoute {
                     return 1;
                 }))));
     }
+
+
+    public static void setMode(UUID city, int mode) { MODE.put(city, mode); }
+
+    public static net.minecraft.nbt.CompoundTag toTag() {
+        net.minecraft.nbt.CompoundTag t = new net.minecraft.nbt.CompoundTag();
+        MODE.forEach((k, v) -> t.putInt(k.toString(), v));
+        return t;
+    }
+
+    public static void fromTag(net.minecraft.nbt.CompoundTag t) {
+        MODE.clear();
+        for (String k : t.getAllKeys()) MODE.put(UUID.fromString(k), t.getInt(k));
+    }
 }
