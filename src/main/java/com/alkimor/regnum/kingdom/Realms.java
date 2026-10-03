@@ -660,6 +660,7 @@ public final class Realms {
     private static void endWar(ServerLevel ow, KingdomData data, Realm r, String msg) {
         r.state = Realm.PEACE;
         r.warGoal = 0;
+        Chronicle.add(r.warOwner, "война с «" + r.name + "» окончена");
         r.armiesLost = 0;
         Diplomacy.setTruce(ow, r, 3);
         r.armyTimer = 0;

@@ -821,6 +821,13 @@ public final class SelfTest {
                     if (!gl) fails.add("goals");
                 } catch (Exception gle) { fails.add("goals " + gle); log("goals EX " + gle); }
                 try {
+                    var chq = new java.util.ArrayDeque<String>();
+                    for (int i = 0; i < 35; i++) com.alkimor.regnum.kingdom.Chronicle.push(chq, "e" + i);
+                    boolean chk = chq.size() == 30 && chq.peekFirst().equals("e5") && chq.peekLast().equals("e34");
+                    log("chronicle: " + (chk ? "OK" : "FAIL"));
+                    if (!chk) fails.add("chronicle");
+                } catch (Exception che) { fails.add("chronicle " + che); log("chronicle EX " + che); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

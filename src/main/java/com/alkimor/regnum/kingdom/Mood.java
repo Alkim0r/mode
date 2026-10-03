@@ -43,6 +43,7 @@ public final class Mood {
         c.unrestDays = 0;
         int loss = Math.max(1, c.treasury / 10);
         c.treasury -= Math.min(c.treasury, loss);
+        Chronicle.add(c.owner, "бунт в «" + c.name + "»: потеряно " + loss + " монет");
         return "БУНТ: толпа разграбила казну на " + loss + " монет; накормите и вылечите людей";
     }
 

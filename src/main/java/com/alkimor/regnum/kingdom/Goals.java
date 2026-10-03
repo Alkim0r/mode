@@ -51,6 +51,7 @@ public final class Goals {
                 ServerPlayer p = e.getServer().getPlayerList().getPlayer(owner);
                 if (p != null) {
                     Text.gold(p, "══ ЦЕЛЬ КАМПАНИИ ДОСТИГНУТА: " + NAMES[i] + " ══");
+                    Chronicle.add(owner, "достигнута цель кампании: " + NAMES[i]);
                     Text.info(p, "Мир остаётся открытым: можно продолжать играть и ставить новые цели.");
                 }
             }

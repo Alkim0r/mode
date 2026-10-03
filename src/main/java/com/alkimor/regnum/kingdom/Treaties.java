@@ -39,6 +39,7 @@ public final class Treaties {
             r.ally = false;
             EXPIRY.remove(r.id);
             r.note("торговый договор истёк");
+            if (owner != null) Chronicle.add(owner.getUUID(), "истёк торговый договор с «" + r.name + "»");
             if (owner != null) Text.bad(owner, "Договор с «" + r.name + "» истёк: торговля и союз прекращены. Продлить: /regnum realm treaty рядом с их правителем.");
         } else if (daysLeft(e, now) == RENEW_WINDOW_DAYS && owner != null) {
             Text.info(owner, "Договор с «" + r.name + "» истекает через " + RENEW_WINDOW_DAYS + " сут.: продлите заранее.");
@@ -57,6 +58,7 @@ public final class Treaties {
             o.relation = Math.max(-100, o.relation - pen / 2);
         }
         target.note("вы нарушили договор");
+        if (p != null) Chronicle.add(p.getUUID(), "нарушен договор с «" + target.name + "»");
         if (p != null) Text.bad(p, "Вы нарушили договор с «" + target.name + "»: остальные державы запомнили это (отношения −" + (pen / 2) + ").");
     }
 }
