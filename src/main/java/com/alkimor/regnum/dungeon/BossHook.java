@@ -32,16 +32,19 @@ import java.util.Map;
 public final class BossHook {
     private BossHook() {}
 
-    private record Rule(java.util.function.Supplier<Block> altar, ResourceKey<LootTable> loot, int arena) {}
+    private enum Theme { CRYPT, MIRE, FORGE, SUN }
+
+    private record Rule(java.util.function.Supplier<Block> altar, ResourceKey<LootTable> loot, int arena, Theme theme) {}
+    private record Palette(Block wall, Block floor, Block trim, Block core) {}
 
     private static final Map<String, Rule> RULES = new HashMap<>();
 
     private static void rules() {
         if (!RULES.isEmpty()) return;
-        Rule crypt = new Rule(() -> DungeonModule.CRYPT_ALTAR.get(), DungeonModule.CRYPT_TREASURE_LOOT, 8);
-        Rule mire = new Rule(() -> RegionsModule.MIRE_ALTAR.get(), RegionsModule.SHRINE_LOOT, 7);
-        Rule forge = new Rule(() -> RegionsModule.FORGE_ALTAR.get(), RegionsModule.FORTRESS_LOOT, 10);
-        Rule sun = new Rule(() -> RegionsModule.SUN_ALTAR.get(), RegionsModule.TOMB_LOOT, 10);
+        Rule crypt = new Rule(() -> DungeonModule.CRYPT_ALTAR.get(), DungeonModule.CRYPT_TREASURE_LOOT, 8, Theme.CRYPT);
+        Rule mire = new Rule(() -> RegionsModule.MIRE_ALTAR.get(), RegionsModule.SHRINE_LOOT, 7, Theme.MIRE);
+        Rule forge = new Rule(() -> RegionsModule.FORGE_ALTAR.get(), RegionsModule.FORTRESS_LOOT, 10, Theme.FORGE);
+        Rule sun = new Rule(() -> RegionsModule.SUN_ALTAR.get(), RegionsModule.TOMB_LOOT, 10, Theme.SUN);
         RULES.put("dt/undead_crypt", crypt);
         RULES.put("dt/creeping_crypt", crypt);
         RULES.put("dt/toxic_lair", mire);
@@ -136,7 +139,7 @@ public final class BossHook {
     /** Центр залы: под землёй — в середине структуры, на поверхности — рядом с ней (южнее края), чтобы не вырезать саму постройку. */
     private static int[] site(ServerLevel l, BoundingBox b, int r) {
         int cx = (b.minX() + b.maxX()) / 2, cz = (b.minZ() + b.maxZ()) / 2;
-        int surface = l.getHeight(Heightmap.Types.WORLD_SURFACE_WG, cx, cz);
+        int surface = l.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx, cz);
         boolean underground = b.maxY() < surface - 6;
         if (underground) {
             int[] best = bestHollow(l, b, r);
@@ -144,7 +147,7 @@ public final class BossHook {
             return new int[]{cx, cz, b.minY() + 2, 1};
         }
         int z2 = b.maxZ() + r + 5;
-        int g = l.getHeight(Heightmap.Types.WORLD_SURFACE_WG, cx, z2);
+        int g = l.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, cx, z2);
         return new int[]{cx, z2, g, 0};
     }
 
@@ -222,31 +225,112 @@ public final class BossHook {
         int[] st = site(l, b, r);
         int cx = st[0], cz = st[1], floor = st[2];
         boolean underground = st[3] == 1;
+        Palette palette = palette(p.rule.theme);
         if (!underground) {
             // подсыпка площадки до пола, чтобы зала не висела над обрывом
             for (int x = cx - r; x <= cx + r; x++)
                 for (int z = cz - r; z <= cz + r; z++)
                     for (int y = floor - 6; y < floor - 1; y++) {
                         BlockPos q = new BlockPos(x, y, z);
-                        if (l.getBlockState(q).canBeReplaced() || !l.getFluidState(q).isEmpty()) l.setBlock(q, Blocks.STONE_BRICKS.defaultBlockState(), 2 | 16);
+                        if (l.getBlockState(q).canBeReplaced() || !l.getFluidState(q).isEmpty()) l.setBlock(q, palette.wall.defaultBlockState(), 2 | 16);
                     }
         }
-        // зала: вырезаем объём, кладём пол и стены-подпорки по краю
+        // Ритуальный круг даёт каждой арене свой силуэт и связывает пол с тематикой босса.
         for (int x = cx - r; x <= cx + r; x++)
             for (int z = cz - r; z <= cz + r; z++) {
-                l.setBlock(new BlockPos(x, floor - 1, z), Blocks.DEEPSLATE_BRICKS.defaultBlockState(), 2 | 16);
+                int dx = x - cx, dz = z - cz;
+                int radiusSquared = dx * dx + dz * dz;
+                Block floorBlock = palette.floor;
+                if (radiusSquared <= 4) floorBlock = palette.core;
+                else if (radiusSquared >= 25 && radiusSquared <= 36) floorBlock = palette.trim;
+                l.setBlock(new BlockPos(x, floor - 1, z), floorBlock.defaultBlockState(), 2 | 16);
                 for (int y = floor; y <= floor + 7; y++) {
                     boolean edge = Math.abs(x - cx) == r || Math.abs(z - cz) == r;
                     BlockPos q = new BlockPos(x, y, z);
                     boolean gap = !underground && z == cz - r && Math.abs(x - cx) <= 1;
-                    if (edge && underground) l.setBlock(q, Blocks.DEEPSLATE_BRICKS.defaultBlockState(), 2 | 16);
-                    else if (edge && !gap && y <= floor + 3) l.setBlock(q, Blocks.DEEPSLATE_BRICK_WALL.defaultBlockState(), 2 | 16);
+                    // Наружная зала — закрытый двор с высокими стенами: обычный рывок
+                    // или отбрасывание босса не должны выносить бой за пределы арены.
+                    // Единственный проход оставлен у входа; подземная зала полностью замкнута.
+                    if (edge && !gap) l.setBlock(q, palette.wall.defaultBlockState(), 2 | 16);
                     else l.setBlock(q, Blocks.AIR.defaultBlockState(), 2 | 16);
                 }
-                if (underground) l.setBlock(new BlockPos(x, floor + 8, z), Blocks.DEEPSLATE_BRICKS.defaultBlockState(), 2 | 16);
+                if (underground) l.setBlock(new BlockPos(x, floor + 8, z), palette.wall.defaultBlockState(), 2 | 16);
             }
+
+        if (!underground) {
+            // Зубчатый верх читается как крепостная стена и поднимает барьер ещё на блок.
+            // Оставляем трёхблочный вход открытым для группы игроков.
+            for (int offset = -r; offset <= r; offset++) {
+                int[] northSouth = {cx + offset, cz - r, cx + offset, cz + r};
+                int[] eastWest = {cx - r, cz + offset, cx + r, cz + offset};
+                if ((offset & 1) == 0) {
+                    if (Math.abs(offset) > 1) l.setBlock(new BlockPos(northSouth[0], floor + 8, northSouth[1]), palette.trim.defaultBlockState(), 2 | 16);
+                    l.setBlock(new BlockPos(northSouth[2], floor + 8, northSouth[3]), palette.trim.defaultBlockState(), 2 | 16);
+                    l.setBlock(new BlockPos(eastWest[0], floor + 8, eastWest[1]), palette.trim.defaultBlockState(), 2 | 16);
+                    l.setBlock(new BlockPos(eastWest[2], floor + 8, eastWest[3]), palette.trim.defaultBlockState(), 2 | 16);
+                }
+            }
+            // Башенки по углам возвышаются над бойницами; камень без block entity не добавляет тиков.
+            for (int sx : new int[]{-1, 1}) for (int sz : new int[]{-1, 1})
+                for (int dx = 0; dx <= 1; dx++) for (int dz = 0; dz <= 1; dz++)
+                    for (int y = floor + 8; y <= floor + 10; y++) {
+                        Block cap = y == floor + 8 || y == floor + 10 ? palette.trim : palette.wall;
+                        l.setBlock(new BlockPos(cx + sx * (r - 1) + dx * sx,
+                                y, cz + sz * (r - 1) + dz * sz), cap.defaultBlockState(), 2 | 16);
+                    }
+        }
+
+        // Четыре несущих колонны, потолочные подвесы и небольшой знак за алтарём ломают длинные голые плоскости.
+        for (int sx : new int[]{-1, 1}) for (int sz : new int[]{-1, 1}) {
+            int px = cx + sx * (r - 2), pz = cz + sz * (r - 2);
+            for (int dx = 0; dx <= 1; dx++) for (int dz = 0; dz <= 1; dz++)
+                for (int y = floor; y <= floor + 6; y++) {
+                    Block material = y == floor || y == floor + 6 ? palette.trim : palette.wall;
+                    l.setBlock(new BlockPos(px + dx, y, pz + dz), material.defaultBlockState(), 2 | 16);
+                }
+            if (underground) {
+                BlockPos lamp = new BlockPos(cx + sx * 3, floor + 4, cz + sz * 3);
+                for (int y = floor + 5; y <= floor + 7; y++)
+                    l.setBlock(new BlockPos(lamp.getX(), y, lamp.getZ()), Blocks.CHAIN.defaultBlockState()
+                            .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS, net.minecraft.core.Direction.Axis.Y), 2 | 16);
+                l.setBlock(lamp, Blocks.SOUL_LANTERN.defaultBlockState(), 3);
+            }
+        }
+
+        if (underground) {
+            // Разбейте четыре голые стены контрфорсами; камень с резьбой даёт
+            // контраст палитре, не добавляя block entities или постоянных тиков.
+            for (int side : new int[]{-1, 1}) {
+                for (int y = floor + 1; y <= floor + 6; y++) {
+                    Block accent = y == floor + 1 || y == floor + 6 ? palette.trim : palette.core;
+                    l.setBlock(new BlockPos(cx + side * r, y, cz), accent.defaultBlockState(), 2 | 16);
+                    l.setBlock(new BlockPos(cx, y, cz + side * r), accent.defaultBlockState(), 2 | 16);
+                }
+                l.setBlock(new BlockPos(cx + side * (r - 1), floor, cz), Blocks.LANTERN.defaultBlockState(), 3);
+                l.setBlock(new BlockPos(cx, floor, cz + side * (r - 1)), Blocks.LANTERN.defaultBlockState(), 3);
+            }
+
+            // Рёбра потолка собирают комнату в сводчатый зал, а не в пустую коробку.
+            for (int offset = -r + 2; offset <= r - 2; offset++) {
+                Block rib = Math.abs(offset) == 3 ? palette.core : palette.trim;
+                l.setBlock(new BlockPos(cx + offset, floor + 8, cz), rib.defaultBlockState(), 2 | 16);
+                l.setBlock(new BlockPos(cx, floor + 8, cz + offset), rib.defaultBlockState(), 2 | 16);
+            }
+
+            // У алтаря — высокий каменный портал с замковыми камнями.
+            for (int side : new int[]{-3, 3})
+                for (int y = floor + 1; y <= floor + 6; y++)
+                    l.setBlock(new BlockPos(cx + side, y, cz + r), palette.trim.defaultBlockState(), 2 | 16);
+            for (int dx = -3; dx <= 3; dx++)
+                if ((dx & 1) == 0)
+                    l.setBlock(new BlockPos(cx + dx, floor + 6, cz + r), palette.core.defaultBlockState(), 2 | 16);
+        }
+
         BlockPos altar = new BlockPos(cx, floor, cz + r - 2);
         l.setBlock(altar, p.rule.altar.get().defaultBlockState(), 3);
+        for (int dx = -2; dx <= 2; dx++)
+            l.setBlock(new BlockPos(cx + dx, floor + 3, cz + r), palette.trim.defaultBlockState(), 2 | 16);
+        l.setBlock(new BlockPos(cx, floor + 2, cz + r), palette.trim.defaultBlockState(), 2 | 16);
         BlockPos chest = new BlockPos(cx + r - 2, floor, cz + r - 2);
         l.setBlock(chest, Blocks.CHEST.defaultBlockState(), 3);
         if (l.getBlockEntity(chest) instanceof ChestBlockEntity ce) ce.setLootTable(p.rule.loot, l.random.nextLong());
@@ -257,5 +341,18 @@ public final class BossHook {
         lastArena = new BlockPos(cx, floor, cz);
         Regnum.LOGGER.info("[BossHook] зала босса в {} {} {}", cx, floor, cz);
         return true;
+    }
+
+    private static Palette palette(Theme theme) {
+        return switch (theme) {
+            case CRYPT -> new Palette(Blocks.DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES,
+                    Blocks.CHISELED_DEEPSLATE, Blocks.BONE_BLOCK);
+            case MIRE -> new Palette(Blocks.MUD_BRICKS, Blocks.MOSSY_STONE_BRICKS,
+                    Blocks.MOSS_BLOCK, Blocks.MUD_BRICKS);
+            case FORGE -> new Palette(Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.POLISHED_BASALT,
+                    Blocks.CHISELED_POLISHED_BLACKSTONE, Blocks.GILDED_BLACKSTONE);
+            case SUN -> new Palette(Blocks.SANDSTONE, Blocks.CUT_SANDSTONE,
+                    Blocks.CHISELED_SANDSTONE, Blocks.SMOOTH_SANDSTONE);
+        };
     }
 }

@@ -62,6 +62,7 @@ public final class ClientVisualTest {
 
     private static final List<Step> STEPS = new ArrayList<>();
     private static final List<Entity> scene = new ArrayList<>();
+    private static final java.util.Set<String> REQUIRED_STEPS = new java.util.HashSet<>();
     private static ServerLevel sceneLevel;
     private static int index = -1, timer = 0, readyTicks = 0;
     private static boolean shotPending = false;
@@ -72,6 +73,20 @@ public final class ClientVisualTest {
 
     private static final int Y = 200;
     private static BlockPos DT_AT;
+    private static BlockPos DT_ARENA;
+    private static java.util.UUID crawlerTestLossTarget;
+    private static java.util.UUID crawlerTestBackupTarget;
+    private static com.alkimor.regnum.mine.CrawlerQueenEntity crawlerTestQueen;
+    private static SoldierEntity crawlerTestPrimary;
+    private static SoldierEntity crawlerTestBackup;
+    private static SoldierEntity crawlerTestFlank;
+    private static final java.util.Set<java.util.UUID> crawlerTestReplacementTargets = new java.util.HashSet<>();
+    private static long crawlerTestTargetLostAt = -1L;
+    private static final java.util.Map<java.util.UUID, net.minecraft.world.phys.Vec3> crawlerTestPositionsAtLoss = new java.util.HashMap<>();
+    private static final List<com.alkimor.regnum.mine.CrawlerEntity> crawlerTestMinions = new ArrayList<>();
+    private static java.util.UUID cryptBattleBossId;
+    private static final java.util.Set<Integer> cryptBattleActionsSeen = new java.util.HashSet<>();
+    private static int cryptBattlePeakPhase;
 
     private static boolean enabled() {
         return Boolean.getBoolean("regnum.visualtest");
@@ -85,6 +100,11 @@ public final class ClientVisualTest {
 
     private static void build() {
         STEPS.add(new Step(null, ClientVisualTest::setupWorld, null, 60, false));
+        STEPS.add(new Step("00_world_flora_overview", ClientVisualTest::floraShowcase, null, 100, false));
+        STEPS.add(new Step("00_world_flora_close_west", s -> { floraShowcase(s); floraCamera(s, -11.5); }, null, 100, false));
+        STEPS.add(new Step("00_world_flora_close_east", s -> { floraShowcase(s); floraCamera(s, 11.5); }, null, 100, false));
+        STEPS.add(new Step("00_world_natural_flora", ClientVisualTest::naturalFlora, null, 300, false));
+        STEPS.add(new Step("00_world_natural_forest", s -> naturalFlora(s, true), null, 300, false));
 
         for (int culture = 0; culture < 6; culture++) {
             final int selectedCulture = culture;
@@ -174,22 +194,95 @@ public final class ClientVisualTest {
                 ServerLevel l = level(sv);
                 var reg = l.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE);
                 var h = reg.getHolder(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE, com.alkimor.regnum.Regnum.id("dt/" + dn)));
-                if (h.isEmpty()) return;
-                var found = l.getChunkSource().getGenerator().findNearestMapStructure(l, net.minecraft.core.HolderSet.direct(h.get()), new BlockPos(0, 64, 0), 120, false);
-                if (found == null) return;
+                String stepName = "50_dt_" + dn;
+                if (h.isEmpty()) {
+                    log("DUNGEON_LOCATOR_MISS " + dn + ": structure registry entry missing");
+                    if (REQUIRED_STEPS.contains(stepName)) throw new IllegalStateException("Required dungeon is not registered: regnum:dt/" + dn);
+                    return;
+                }
+                BlockPos origin = l.getSharedSpawnPos();
+                log("DUNGEON_LOCATOR_SEARCH " + dn + " origin=" + origin.getX() + "," + origin.getZ() + " radiusChunks=120");
+                var found = l.getChunkSource().getGenerator().findNearestMapStructure(l, net.minecraft.core.HolderSet.direct(h.get()), origin, 120, false);
+                if (found == null) {
+                    log("DUNGEON_LOCATOR_MISS " + dn + ": no candidate near shared spawn");
+                    if (REQUIRED_STEPS.contains(stepName)) throw new IllegalStateException("Required dungeon was not located near shared spawn: regnum:dt/" + dn);
+                    return;
+                }
                 BlockPos at = found.getFirst();
+                log("DUNGEON_LOCATOR_FOUND " + dn + " at=" + at.getX() + "," + at.getY() + "," + at.getZ());
                 for (int dx = -9; dx <= 9; dx++)
                     for (int dz = -9; dz <= 9; dz++) l.getChunk((at.getX() >> 4) + dx, (at.getZ() >> 4) + dz);
                 com.alkimor.regnum.dungeon.BossHook.flush(l);
                 int gy = l.getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE, at.getX(), at.getZ());
                 DT_AT = at;
-                player(sv).teleportTo(l, at.getX() + 0.5, gy + 35, at.getZ() - 55.5, 0f, 30f);
+                if (dn.equals("undead_crypt")) {
+                    DT_ARENA = findCryptArena(l, at);
+                    if (DT_ARENA == null) {
+                        log("DUNGEON_ARENA_MISS undead_crypt: no matching crypt altar near located structure");
+                        if (REQUIRED_STEPS.contains("51_dt_arena_undead_crypt")
+                                || REQUIRED_STEPS.contains("52_dt_boss_undead_crypt"))
+                            throw new IllegalStateException("Required crypt arena not found near the selected structure");
+                    } else {
+                        log("DUNGEON_ARENA_MATCH undead_crypt at=" + DT_ARENA.toShortString());
+                        // The selected crypt is underground. A camera ten blocks over the arena
+                        // starts inside natural stone; use a high interior shot below the roof.
+                        player(sv).teleportTo(l, DT_ARENA.getX() + 0.5, DT_ARENA.getY() + 4,
+                                DT_ARENA.getZ() - 5.5, 0f, 12f);
+                    }
+                } else {
+                    player(sv).teleportTo(l, at.getX() + 0.5, gy + 35, at.getZ() - 55.5, 0f, 30f);
+                }
             }, null, 500, false));
             STEPS.add(new Step("51_dt_arena_" + dn, sv -> {
-                var a = com.alkimor.regnum.dungeon.BossHook.lastArena;
-                if (a != null) player(sv).teleportTo(level(sv), a.getX() + 0.5, a.getY() + 3, a.getZ() - 5.5, 0f, 20f);
+                var a = dn.equals("undead_crypt") ? DT_ARENA : com.alkimor.regnum.dungeon.BossHook.lastArena;
+                if (a == null) {
+                    log("DUNGEON_ARENA_MISS " + dn + ": BossHook produced no arena");
+                    if (REQUIRED_STEPS.contains("51_dt_arena_" + dn)) throw new IllegalStateException("Required boss arena was not generated: " + dn);
+                    return;
+                }
+                log("DUNGEON_ARENA_FOUND " + dn + " at=" + a.getX() + "," + a.getY() + "," + a.getZ());
+                DT_ARENA = a;
+                player(sv).teleportTo(level(sv), a.getX() + 0.5, a.getY() + 3, a.getZ() - 5.5, 0f, 20f);
             }, null, 300, false));
         }
+
+        STEPS.add(new Step("52_dt_boss_undead_crypt", sv -> {
+            clearScene();
+            ServerLevel l = level(sv);
+            BlockPos arena = DT_ARENA;
+            if (arena == null) {
+                log("DUNGEON_BOSS_MISS undead_crypt: no arena position");
+                if (REQUIRED_STEPS.contains("52_dt_boss_undead_crypt")) throw new IllegalStateException("Required crypt boss showcase has no arena");
+                return;
+            }
+            BlockPos altarPos = arena.offset(0, 0, 6);
+            if (!l.getBlockState(altarPos).is(DungeonModule.CRYPT_ALTAR.get())) {
+                log("DUNGEON_BOSS_MISS undead_crypt: crypt altar absent at " + altarPos.toShortString());
+                if (REQUIRED_STEPS.contains("52_dt_boss_undead_crypt")) throw new IllegalStateException("Crypt summon altar not found at generated arena");
+                return;
+            }
+            var lord = DungeonModule.CRYPT_LORD.get().create(l);
+            if (lord == null) throw new IllegalStateException("Crypt Lord entity factory returned null");
+            lord.moveTo(arena.getX() + 0.5, arena.getY(), arena.getZ() + 0.5, 180f, 0f);
+            lord.finalizeSpawn(l, l.getCurrentDifficultyAt(arena), MobSpawnType.TRIGGERED, null);
+            lord.restrictTo(altarPos, 20);
+            lord.setTarget(player(sv));
+            if (!l.addFreshEntity(lord)) throw new IllegalStateException("Crypt Lord was rejected by the test world");
+            cryptBattleBossId = lord.getUUID();
+            cryptBattleActionsSeen.clear();
+            cryptBattlePeakPhase = 1;
+            scene.add(lord);
+            player(sv).teleportTo(l, arena.getX() + 0.5, arena.getY() + 1, arena.getZ() - 6.5, 0f, -10f);
+            log("DUNGEON_BOSS_SPAWNED undead_crypt: real CryptLordEntity at=" + arena.toShortString());
+        }, null, 50, true));
+
+        STEPS.add(new Step("53_dt_live_crypt_phase2_a", ClientVisualTest::startCryptBattle, null, 25, false));
+        STEPS.add(new Step("54_dt_live_crypt_phase2_b", s -> sampleCryptBattle(s, "phase2_b"), null, 25, false));
+        STEPS.add(new Step("55_dt_live_crypt_phase2_c", s -> sampleCryptBattle(s, "phase2_c"), null, 25, false));
+        STEPS.add(new Step("56_dt_live_crypt_phase3_a", ClientVisualTest::forceCryptPhaseThree, null, 25, false));
+        STEPS.add(new Step("57_dt_live_crypt_phase3_b", s -> sampleCryptBattle(s, "phase3_b"), null, 25, false));
+        STEPS.add(new Step("58_dt_live_crypt_phase3_c", s -> sampleCryptBattle(s, "phase3_c"), null, 25, false));
+        STEPS.add(new Step("59_dt_live_crypt_fight_summary", ClientVisualTest::finishCryptBattle, null, 1, false));
 
         // 60: осадные орудия и здания игроков
         STEPS.add(new Step("60_siege", sv -> {
@@ -303,6 +396,9 @@ public final class ClientVisualTest {
         mineShot("17_crawler_queen_phase3_lite", com.alkimor.regnum.mine.MineModule.CRAWLER_QUEEN::get, 0.28F, true);
         broodShot(false);
         broodShot(true);
+        STEPS.add(new Step("19_crawler_live_brood", ClientVisualTest::liveQueenBrood, null, 140, false));
+        STEPS.add(new Step("20_crawler_brood_target_loss", ClientVisualTest::removeCrawlerBroodTarget, null, 50, false));
+        STEPS.add(new Step("21_crawler_brood_retarget", ClientVisualTest::checkCrawlerBroodRetarget, null, 1, false));
         STEPS.add(new Step(null, s -> {}, ClientVisualTest::checkMineModels, 1, false));
         STEPS.add(new Step(null, s -> {}, () -> com.alkimor.regnum.core.RegnumClientConfig.LITE_MODE.set(originalMineLite), 1, false));
         STEPS.add(new Step(null, s -> {}, ClientVisualTest::checkAnimationReset, 5, false));
@@ -606,6 +702,264 @@ public final class ClientVisualTest {
         }, () -> com.alkimor.regnum.core.RegnumClientConfig.LITE_MODE.set(lite), 40, false));
     }
 
+    /** A real server-side Queen summons its own brood; soldiers are harmless, visible test targets. */
+    private static void liveQueenBrood(MinecraftServer server) {
+        clearScene();
+        ServerLevel level = level(server);
+        ServerPlayer viewer = player(server);
+        viewer.setGameMode(GameType.CREATIVE); // keep the observer out of the Queen/minion target sets
+        viewer.getAbilities().invulnerable = true;
+        viewer.getAbilities().flying = true;
+        viewer.onUpdateAbilities();
+
+        SoldierEntity first = crawlerTestSoldier(server, 5, 0);
+        SoldierEntity backup = crawlerTestSoldier(server, -7, 1);
+        SoldierEntity flank = crawlerTestSoldier(server, 1, 8);
+        crawlerTestPrimary = first;
+        crawlerTestBackup = backup;
+        crawlerTestFlank = flank;
+        crawlerTestLossTarget = first.getUUID();
+        crawlerTestBackupTarget = backup.getUUID();
+        crawlerTestReplacementTargets.clear();
+        crawlerTestReplacementTargets.add(backup.getUUID());
+        crawlerTestReplacementTargets.add(flank.getUUID());
+        crawlerTestTargetLostAt = -1L;
+        crawlerTestPositionsAtLoss.clear();
+
+        var queen = com.alkimor.regnum.mine.MineModule.CRAWLER_QUEEN.get().create(level);
+        if (queen == null) throw new IllegalStateException("Cannot create live brood Queen");
+        queen.moveTo(0.5, Y + 1, 0.5, 0f, 0f);
+        queen.finalizeSpawn(level, level.getCurrentDifficultyAt(queen.blockPosition()), MobSpawnType.COMMAND, null);
+        queen.setHealth(queen.getMaxHealth() * 0.65f); // starts in phase two; ability logic remains live
+        queen.setInvulnerable(true); // keep the showcase running while soldiers engage
+        queen.setTarget(first);
+        queen.setPersistenceRequired();
+        if (!level.addFreshEntity(queen)) throw new IllegalStateException("Live brood Queen was rejected by the test world");
+        crawlerTestQueen = queen;
+        scene.add(queen);
+
+        // Keep the full Queen and the summoned ring in frame even if she lunges toward a target.
+        viewer.teleportTo(level, 0.5, Y + 10.0, -20.5, 0f, 19f);
+        log("LIVE_BROOD_SETUP queen=" + queen.getUUID() + " phaseHp=" + queen.getHealth()
+                + " primary=" + first.getUUID() + " backup=" + backup.getUUID());
+    }
+
+    private static SoldierEntity crawlerTestSoldier(MinecraftServer server, int x, int z) {
+        ServerLevel level = level(server);
+        SoldierEntity soldier = KingdomModule.SOLDIER.get().create(level);
+        if (soldier == null) throw new IllegalStateException("Cannot create brood test target");
+        soldier.setup(SoldierType.SPEARMAN, player(server).getUUID(), null, 1);
+        soldier.moveTo(x + 0.5, Y + 1, z + 0.5, 180f, 0f);
+        soldier.setNoAi(true);
+        soldier.setInvulnerable(true);
+        soldier.setPersistenceRequired();
+        if (!level.addFreshEntity(soldier)) throw new IllegalStateException("Brood test target was rejected by the test world");
+        scene.add(soldier);
+        return soldier;
+    }
+
+    /** Kill a minion's live target under controlled conditions and require a real replacement/movement. */
+    private static void removeCrawlerBroodTarget(MinecraftServer server) {
+        ServerLevel level = level(server);
+        if (crawlerTestQueen == null || crawlerTestQueen.isRemoved()) throw new IllegalStateException("Live Queen disappeared before target-loss test");
+        // The Queen has already had 7 seconds to summon naturally; hold her now so her attacks do not
+        // consume the test dummies before the scripted target-loss transition.
+        crawlerTestQueen.setNoAi(true);
+        var minions = level.getEntitiesOfClass(com.alkimor.regnum.mine.CrawlerEntity.class,
+                crawlerTestQueen.getBoundingBox().inflate(32),
+                e -> e.isAlive() && e.isMinion());
+        if (minions.isEmpty()) throw new IllegalStateException("Queen did not naturally summon any brood within 7 seconds");
+        SoldierEntity lossTarget = crawlerTestPrimary != null && crawlerTestPrimary.isAlive() ? crawlerTestPrimary
+                : crawlerTestBackup != null && crawlerTestBackup.isAlive() ? crawlerTestBackup
+                : crawlerTestFlank != null && crawlerTestFlank.isAlive() ? crawlerTestFlank : null;
+        if (lossTarget == null) throw new IllegalStateException("All local brood targets died before target-loss trigger");
+        crawlerTestLossTarget = lossTarget.getUUID();
+        crawlerTestReplacementTargets.clear();
+        for (SoldierEntity candidate : List.of(crawlerTestPrimary, crawlerTestBackup, crawlerTestFlank))
+            if (candidate != null && candidate.isAlive() && candidate != lossTarget)
+                crawlerTestReplacementTargets.add(candidate.getUUID());
+        if (crawlerTestReplacementTargets.isEmpty()) throw new IllegalStateException("No living replacement soldier remains");
+        crawlerTestMinions.clear();
+        crawlerTestMinions.addAll(minions);
+        crawlerTestPositionsAtLoss.clear();
+        for (var minion : minions) {
+            minion.setTarget(lossTarget);
+            crawlerTestPositionsAtLoss.put(minion.getUUID(), minion.position());
+        }
+        crawlerTestTargetLostAt = level.getGameTime();
+        log("LIVE_BROOD_LOSS_TARGET id=" + lossTarget.getUUID() + " pos=" + lossTarget.position()
+                + " health=" + lossTarget.getHealth() + " replacements=" + crawlerTestReplacementTargets);
+        lossTarget.kill();
+        log("LIVE_BROOD_TARGET_LOST t=" + crawlerTestTargetLostAt + " minions=" + minions.size()
+                + " backup=" + crawlerTestBackupTarget);
+        logCrawlerBrood(level, minions, "target-lost");
+    }
+
+    private static void checkCrawlerBroodRetarget(MinecraftServer server) {
+        ServerLevel level = level(server);
+        if (crawlerTestTargetLostAt < 0) throw new IllegalStateException("Brood target-loss marker was not set");
+        long elapsed = level.getGameTime() - crawlerTestTargetLostAt;
+        SoldierEntity backup = crawlerTestBackup;
+        var minions = crawlerTestMinions.stream().filter(e -> e.isAlive() && e.isMinion()).toList();
+        int switched = 0, switchedToBackup = 0, moved = 0;
+        for (var minion : minions) {
+            var old = crawlerTestPositionsAtLoss.get(minion.getUUID());
+            if (old != null && old.distanceToSqr(minion.position()) > 0.04) moved++;
+            if (minion.getTarget() instanceof SoldierEntity target
+                    && crawlerTestReplacementTargets.contains(target.getUUID())) {
+                switched++;
+                if (backup != null && target == backup) switchedToBackup++;
+            }
+        }
+        log("LIVE_BROOD_RETARGET elapsedTicks=" + elapsed + " alive=" + minions.size()
+                + " switchedToReplacement=" + switched + " switchedToBackup=" + switchedToBackup
+                + " moved=" + moved + " backupAlive=" + (backup != null && backup.isAlive()));
+        logCrawlerBrood(level, minions, "retarget-check");
+        if (backup == null || !backup.isAlive() || elapsed > 60 || minions.isEmpty() || switched == 0 || moved == 0)
+            throw new IllegalStateException("Live brood failed to move and retarget a reachable replacement within 60 ticks");
+        log("LIVE_BROOD_RETARGET: OK (replacement acquired within 3 seconds)");
+    }
+
+    private static void logCrawlerBrood(ServerLevel level, List<com.alkimor.regnum.mine.CrawlerEntity> minions, String label) {
+        for (var minion : minions) {
+            var target = minion.getTarget();
+            var old = crawlerTestPositionsAtLoss.get(minion.getUUID());
+            double moved = old == null ? 0 : old.distanceTo(minion.position());
+            log("LIVE_BROOD_MINION " + label + " id=" + minion.getUUID() + " pos=" + minion.position()
+                    + " target=" + (target == null ? "none" : target.getUUID())
+                    + " targetAlive=" + (target != null && target.isAlive())
+                    + " noAI=" + minion.isNoAi()
+                    + " backup=" + (target != null && target.getUUID().equals(crawlerTestBackupTarget))
+                    + " movedSinceLoss=" + String.format(java.util.Locale.ROOT, "%.2f", moved)
+                    + " navDone=" + minion.getNavigation().isDone()
+                    + " attackAnim=" + String.format(java.util.Locale.ROOT, "%.2f", minion.getAttackAnim(1.0f)));
+        }
+    }
+
+    /** Start a real, unscripted Crypt Lord fight in the generated hall with ten live soldier AI units. */
+    private static void startCryptBattle(MinecraftServer server) {
+        ServerLevel level = level(server);
+        BlockPos arena = DT_ARENA;
+        if (arena == null) throw new IllegalStateException("Crypt battle has no generated arena");
+        com.alkimor.regnum.dungeon.CryptLordEntity boss = findCryptBoss(level);
+        if (boss == null) throw new IllegalStateException("Crypt Lord from the preceding arena shot disappeared");
+
+        int[][] slots = {{-6,-4},{-3,-7},{0,-7},{3,-7},{6,-4},{6,0},{6,4},{3,7},{-3,7},{-6,4}};
+        SoldierType[] types = {SoldierType.SHIELDMAN, SoldierType.SPEARMAN, SoldierType.SWORDSMAN,
+                SoldierType.KNIGHT, SoldierType.ARCHER, SoldierType.GREATSWORD, SoldierType.CROSSBOW,
+                SoldierType.KNIGHT, SoldierType.SPEARMAN, SoldierType.SWORDSMAN};
+        ServerPlayer viewer = player(server);
+        viewer.setGameMode(GameType.CREATIVE);
+        viewer.getAbilities().invulnerable = true;
+        viewer.getAbilities().flying = true;
+        viewer.onUpdateAbilities();
+
+        List<SoldierEntity> fighters = new ArrayList<>();
+        for (int i = 0; i < slots.length; i++) {
+            SoldierEntity soldier = KingdomModule.SOLDIER.get().create(level);
+            if (soldier == null) throw new IllegalStateException("Cannot create Crypt Lord battle soldier " + i);
+            soldier.setup(types[i], viewer.getUUID(), null, i % 4 + 1);
+            soldier.moveTo(arena.getX() + slots[i][0] + 0.5, arena.getY(), arena.getZ() + slots[i][1] + 0.5,
+                    (float) (i * 36), 0f);
+            soldier.setNoAi(false);
+            soldier.setInvulnerable(true); // keep the showcase readable; AI and attack clips stay live
+            soldier.setPersistenceRequired();
+            if (!level.addFreshEntity(soldier)) throw new IllegalStateException("Crypt Lord battle soldier was rejected");
+            fighters.add(soldier);
+            scene.add(soldier);
+        }
+        boss.setHealth(boss.getMaxHealth() * 0.60f); // transition through the normal boss AI into phase 2
+        boss.setInvulnerable(true); // hold the encounter open while recording the actual attack telegraphs
+        boss.setTarget(fighters.get(0));
+        fighters.forEach(soldier -> soldier.setTarget(boss));
+        // The crypt room is sealed underground. Keep the observer inside the perimeter wall,
+        // looking diagonally across the arena; the previous outside position was buried in terrain.
+        viewer.teleportTo(level, arena.getX() - 4.5, arena.getY() + 2.0, arena.getZ() - 4.5, -45f, 8f);
+        cryptBattlePeakPhase = 1;
+        cryptBattleActionsSeen.clear();
+        log("CRYPT_BATTLE_START boss=" + boss.getUUID() + " arena=" + arena.toShortString()
+                + " soldiers=" + fighters.size() + " phaseHp=" + boss.getHealth());
+        sampleCryptBattle(server, "start");
+    }
+
+    private static void forceCryptPhaseThree(MinecraftServer server) {
+        var boss = findCryptBoss(level(server));
+        if (boss == null || !boss.isAlive()) throw new IllegalStateException("Crypt Lord died before phase-three battle sample");
+        boss.setHealth(boss.getMaxHealth() * 0.30f);
+        sampleCryptBattle(server, "phase3-trigger");
+    }
+
+    private static void sampleCryptBattle(MinecraftServer server, String label) {
+        ServerLevel level = level(server);
+        var boss = findCryptBoss(level);
+        if (boss == null || !boss.isAlive()) throw new IllegalStateException("Crypt Lord died during live battle showcase");
+        int action = boss.getVisualAction();
+        int phase = boss.getVisualPhase();
+        cryptBattlePeakPhase = Math.max(cryptBattlePeakPhase, phase);
+        if (action != com.alkimor.regnum.dungeon.boss.VisualAction.IDLE)
+            cryptBattleActionsSeen.add(action);
+        boolean attackingAction = action >= com.alkimor.regnum.dungeon.boss.VisualAction.SWEEP
+                && action <= com.alkimor.regnum.dungeon.boss.VisualAction.PLATES;
+        if (attackingAction) cryptBattleActionsSeen.add(-action); // negative IDs indicate a real attack, not the phase pose
+        var arena = DT_ARENA;
+        var fighters = level.getEntitiesOfClass(SoldierEntity.class,
+                new net.minecraft.world.phys.AABB(arena).inflate(12), e -> e.isAlive());
+        long targetBoss = fighters.stream().filter(e -> e.getTarget() == boss).count();
+        long activeSwings = fighters.stream().filter(e -> e.getAttackAnim(1.0f) > 0.05f).count();
+        long dodging = fighters.stream().filter(SoldierEntity::isDodging).count();
+        long guards = fighters.stream().filter(e -> e.getSoldierType() == SoldierType.SHIELDMAN && e.isBlocking()).count();
+        log("CRYPT_BATTLE_SAMPLE label=" + label + " t=" + level.getGameTime() + " phase=" + phase
+                + " action=" + action + " actionTicks=" + boss.getVisualActionElapsed()
+                + " impact=" + boss.getVisualActionImpact() + " hp=" + boss.getHealth()
+                + " soldiers=" + fighters.size() + " targeting=" + targetBoss
+                + " activeSwings=" + activeSwings + " dodging=" + dodging + " shieldGuard=" + guards
+                + " bossTarget=" + (boss.getTarget() == null ? "none" : boss.getTarget().getUUID()));
+    }
+
+    private static void finishCryptBattle(MinecraftServer server) {
+        sampleCryptBattle(server, "final");
+        boolean actualAttackSeen = cryptBattleActionsSeen.stream().anyMatch(action -> action < 0);
+        if (cryptBattlePeakPhase < 3 || !actualAttackSeen)
+            throw new IllegalStateException("Live Crypt Lord clip did not show phase three and a synced attack action; phases="
+                    + cryptBattlePeakPhase + " actions=" + cryptBattleActionsSeen);
+        log("CRYPT_BATTLE_VISUAL: OK phases=" + cryptBattlePeakPhase + " syncedAttackActions=" + cryptBattleActionsSeen);
+    }
+
+    private static com.alkimor.regnum.dungeon.CryptLordEntity findCryptBoss(ServerLevel level) {
+        if (cryptBattleBossId == null) return null;
+        for (var boss : level.getEntitiesOfClass(com.alkimor.regnum.dungeon.CryptLordEntity.class,
+                new net.minecraft.world.phys.AABB(DT_ARENA).inflate(16, 16, 16),
+                e -> e.isAlive() && e.getUUID().equals(cryptBattleBossId))) return boss;
+        return null;
+    }
+
+    /** Find the crypt altar belonging to the selected located structure; nearby D&T structures may load together. */
+    private static BlockPos findCryptArena(ServerLevel level, BlockPos structure) {
+        BlockPos best = null;
+        long bestDistance = Long.MAX_VALUE;
+        int minY = Math.max(level.getMinBuildHeight(), structure.getY() - 64);
+        int maxY = Math.min(level.getMaxBuildHeight() - 1, structure.getY() + 64);
+        for (int cx = (structure.getX() - 64) >> 4; cx <= (structure.getX() + 64) >> 4; cx++)
+            for (int cz = (structure.getZ() - 64) >> 4; cz <= (structure.getZ() + 64) >> 4; cz++) {
+                if (!level.hasChunk(cx, cz)) continue;
+                var chunk = level.getChunk(cx, cz);
+                for (int x = Math.max(structure.getX() - 64, cx << 4); x <= Math.min(structure.getX() + 64, (cx << 4) + 15); x++)
+                    for (int z = Math.max(structure.getZ() - 64, cz << 4); z <= Math.min(structure.getZ() + 64, (cz << 4) + 15); z++)
+                        for (int y = minY; y <= maxY; y++) {
+                            var altar = new BlockPos(x, y, z);
+                            if (!chunk.getBlockState(altar).is(DungeonModule.CRYPT_ALTAR.get())) continue;
+                            BlockPos arena = altar.offset(0, 0, -6);
+                            long dx = arena.getX() - structure.getX(), dy = arena.getY() - structure.getY(), dz = arena.getZ() - structure.getZ();
+                            long distance = dx * dx + 2 * dy * dy + dz * dz;
+                            if (distance < bestDistance) {
+                                best = arena;
+                                bestDistance = distance;
+                            }
+                        }
+            }
+        return best;
+    }
+
     /** Same inputs must produce the same pose, including after another entity used the model. */
     private static void checkAnimationReset() {
         Minecraft mc = Minecraft.getInstance();
@@ -834,6 +1188,9 @@ public final class ClientVisualTest {
         // A quick-play test world can load the previous run's persistent subjects
         // after the initial login cleanup. Remove them before each arena shot.
         if (sceneLevel != null) {
+            // The copied self-test world may save lingering boss effects on its player.
+            // Those can black out the first dungeon frame even though the room is loaded.
+            for (ServerPlayer viewer : sceneLevel.players()) viewer.removeAllEffects();
             for (Entity e : sceneLevel.getEntities((Entity) null,
                     new net.minecraft.world.phys.AABB(-25, Y - 2, -25, 25, Y + 15, 25),
                     e -> !(e instanceof net.minecraft.world.entity.player.Player))) e.discard();
@@ -864,6 +1221,152 @@ public final class ClientVisualTest {
                 for (int y = Y + 1; y <= Y + 12; y++) l.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
             }
         camera(s, 0, -7, 10);
+    }
+
+    /** A compact in-game look check for the new flower/understory palette. */
+    private static void floraShowcase(MinecraftServer s) {
+        clearScene();
+        ServerLevel level = level(s);
+        ServerPlayer viewer = player(s);
+        viewer.getInventory().clearContent();
+        net.minecraft.world.level.block.state.BlockState oakLeaves = Blocks.OAK_LEAVES.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.PERSISTENT, true);
+        net.minecraft.world.level.block.state.BlockState birchLeaves = Blocks.BIRCH_LEAVES.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.PERSISTENT, true);
+
+        for (int x = -30; x <= 30; x++) for (int z = -22; z <= 44; z++) {
+            int surface = floraSurface(x, z);
+            for (int y = Y - 5; y <= surface; y++)
+                level.setBlock(new BlockPos(x, y, z), y == surface ? Blocks.GRASS_BLOCK.defaultBlockState() : Blocks.DIRT.defaultBlockState(), 3);
+            for (int y = surface + 1; y <= Y + 80; y++)
+                level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 2);
+        }
+
+        floraTree(level, -21, 10, birchLeaves, 8);
+        floraTree(level, -13, 15, oakLeaves, 7);
+        floraTree(level, -4, 13, birchLeaves, 8);
+        floraTree(level, 5, 16, oakLeaves, 7);
+        floraTree(level, 15, 13, birchLeaves, 8);
+        floraTree(level, 22, 8, oakLeaves, 7);
+
+        floraPatch(level, Blocks.FERN, -17, 1, 5, 0.66, 1841L);
+        floraPatch(level, Blocks.ALLIUM, -6, 4, 4, 0.70, 1842L);
+        floraPatch(level, Blocks.CORNFLOWER, 6, 2, 5, 0.68, 1843L);
+        floraPatch(level, Blocks.OXEYE_DAISY, 17, -1, 5, 0.70, 1844L);
+
+        // A few mossy stones break the flatness and frame the plant clusters.
+        for (int[] p : new int[][]{{-9, -8}, {10, -7}, {21, 3}}) {
+            int top = floraSurface(p[0], p[1]);
+            level.setBlock(new BlockPos(p[0], top + 1, p[1]), Blocks.MOSSY_COBBLESTONE.defaultBlockState(), 3);
+            if ((p[0] & 1) == 0) level.setBlock(new BlockPos(p[0] + 1, top + 1, p[1]), Blocks.MOSSY_COBBLESTONE.defaultBlockState(), 3);
+        }
+
+        viewer.teleportTo(level, 0.5, Y + 19, -25.5, 0f, 54f);
+    }
+
+    private static void floraCamera(MinecraftServer s, double x) {
+        player(s).teleportTo(level(s), x, Y + 11, -15.5, 0f, 33f);
+    }
+
+    private static int floraSurface(int x, int z) {
+        return Y + (int) Math.round(0.8 * Math.sin(x * 0.12) + 0.6 * Math.cos(z * 0.15));
+    }
+
+    private static void floraTree(ServerLevel level, int x, int z,
+                                  net.minecraft.world.level.block.state.BlockState leaves, int height) {
+        int ground = floraSurface(x, z);
+        net.minecraft.world.level.block.Block log = leaves.is(Blocks.BIRCH_LEAVES) ? Blocks.BIRCH_LOG : Blocks.OAK_LOG;
+        for (int y = 1; y <= height; y++)
+            level.setBlock(new BlockPos(x, ground + y, z), log.defaultBlockState(), 3);
+        for (int dy = height - 3; dy <= height; dy++) {
+            int radius = dy == height ? 1 : 2;
+            for (int dx = -radius; dx <= radius; dx++) for (int dz = -radius; dz <= radius; dz++) {
+                if (Math.abs(dx) + Math.abs(dz) > radius + 1) continue;
+                BlockPos leaf = new BlockPos(x + dx, ground + dy, z + dz);
+                if (level.isEmptyBlock(leaf)) level.setBlock(leaf, leaves, 3);
+            }
+        }
+    }
+
+    private static void floraPatch(ServerLevel level, net.minecraft.world.level.block.Block plant,
+                                   int cx, int cz, int radius, double density, long seed) {
+        net.minecraft.util.RandomSource random = net.minecraft.util.RandomSource.create(seed);
+        for (int dx = -radius; dx <= radius; dx++) for (int dz = -radius; dz <= radius; dz++) {
+            if (dx * dx + dz * dz > radius * radius || random.nextDouble() > density) continue;
+            int x = cx + dx;
+            int z = cz + dz;
+            BlockPos pos = new BlockPos(x, floraSurface(x, z) + 1, z);
+            level.setBlock(pos, plant.defaultBlockState(), 3);
+        }
+    }
+
+    /** Inspect actual biome-generated flora in fresh chunks, without painting a showcase over the terrain. */
+    private static void naturalFlora(MinecraftServer s) {
+        naturalFlora(s, false);
+    }
+
+    private static void naturalFlora(MinecraftServer s, boolean forestOnly) {
+        clearScene();
+        ServerLevel level = level(s);
+        ServerPlayer viewer = player(s);
+        int centerX = 1024;
+        int centerZ = 1024;
+        String selectedBiome = "unknown";
+        // Sample distant, previously ungenerated chunks so worldgen changes are visible.
+        // Prefer an open meadow/flower forest; fall back to a regular forest only if none is nearby.
+        for (int pass = forestOnly ? 1 : 0; pass < 2 && selectedBiome.equals("unknown"); pass++) {
+            search:
+            for (int radius = 10240; radius <= 16384; radius += 128) {
+                for (int x = -radius; x <= radius; x += 128) {
+                    for (int z = -radius; z <= radius; z += 128) {
+                        if (Math.max(Math.abs(x), Math.abs(z)) != radius) continue;
+                        BlockPos sample = new BlockPos(x, level.getSeaLevel(), z);
+                        String biome = level.getBiome(sample).unwrapKey()
+                                .map(key -> key.location().getPath()).orElse("unknown");
+                        boolean openFlowerBiome = biome.equals("flower_forest") || biome.equals("meadow");
+                        boolean forestFallback = biome.equals("forest") || biome.equals("birch_forest")
+                                || biome.equals("old_growth_birch_forest") || biome.equals("dark_forest");
+                        if (pass == 0 ? openFlowerBiome : forestFallback) {
+                            centerX = x;
+                            centerZ = z;
+                            selectedBiome = biome;
+                            break search;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Load a modest fresh neighborhood so the screenshot and the counts come from real worldgen.
+        int chunkX = centerX >> 4;
+        int chunkZ = centerZ >> 4;
+        for (int dx = -3; dx <= 3; dx++) for (int dz = -3; dz <= 3; dz++)
+            level.getChunk(chunkX + dx, chunkZ + dz);
+
+        int ferns = 0;
+        int oxeye = 0;
+        int cornflowers = 0;
+        int alliums = 0;
+        int azureBluets = 0;
+        for (int x = centerX - 48; x <= centerX + 63; x++) {
+            for (int z = centerZ - 48; z <= centerZ + 63; z++) {
+                int surface = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                for (int y = Math.max(level.getMinBuildHeight(), surface - 20); y <= surface + 6; y++) {
+                    var block = level.getBlockState(new BlockPos(x, y, z)).getBlock();
+                    if (block == Blocks.FERN) ferns++;
+                    else if (block == Blocks.OXEYE_DAISY) oxeye++;
+                    else if (block == Blocks.CORNFLOWER) cornflowers++;
+                    else if (block == Blocks.ALLIUM) alliums++;
+                    else if (block == Blocks.AZURE_BLUET) azureBluets++;
+                }
+            }
+        }
+        int cameraZ = centerZ - 35;
+        int cameraY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, centerX, cameraZ) + 8;
+        log("natural flora sample biome=" + selectedBiome + " at=" + centerX + "," + centerZ
+                + " counts fern=" + ferns + " oxeye=" + oxeye + " cornflower=" + cornflowers
+                + " allium=" + alliums + " azure_bluet=" + azureBluets + " cameraY=" + cameraY);
+        viewer.teleportTo(level, centerX + 0.5, cameraY, cameraZ + 0.5, 0f, 26f);
     }
 
     private static void giveItems(MinecraftServer s, int from) {
@@ -930,10 +1433,19 @@ public final class ClientVisualTest {
             if (only != null && !only.isBlank()) {
                 String[] pre = only.split(",");
                 List<Step> keep = new ArrayList<>();
+                REQUIRED_STEPS.clear();
                 for (int i = 0; i < STEPS.size(); i++) {
                     Step s = STEPS.get(i);
                     boolean k = i == 0 || s.name() == null;
-                    for (String p : pre) if (s.name() != null && s.name().startsWith(p.trim())) k = true;
+                    for (String raw : pre) {
+                        String p = raw.trim();
+                        boolean required = p.endsWith("!");
+                        if (required) p = p.substring(0, p.length() - 1);
+                        if (s.name() != null && s.name().startsWith(p)) {
+                            k = true;
+                            if (required) REQUIRED_STEPS.add(s.name());
+                        }
+                    }
                     if (k) keep.add(s);
                 }
                 STEPS.clear();
