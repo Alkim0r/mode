@@ -790,7 +790,7 @@ public final class SelfTest {
                 try {
                     com.alkimor.regnum.kingdom.Exchange.resetPressure();
                     boolean go = com.alkimor.regnum.kingdom.GuildOrders.qty(10) == 5 && com.alkimor.regnum.kingdom.GuildOrders.qty(100) == 20 && com.alkimor.regnum.kingdom.GuildOrders.qty(500) == 30
-                            && com.alkimor.regnum.kingdom.GuildOrders.reward(10, 10) == 130 && com.alkimor.regnum.kingdom.GuildOrders.byKey("лекари") == 1
+                            && com.alkimor.regnum.kingdom.GuildOrders.reward(10, 10) == 100 && com.alkimor.regnum.kingdom.GuildOrders.byKey("лекари") == 1
                             && com.alkimor.regnum.kingdom.GuildOrders.pick(0) == null;
                     com.alkimor.regnum.kingdom.Exchange.addPressure(com.alkimor.regnum.kingdom.Resource.IRON, 60);
                     go &= com.alkimor.regnum.kingdom.GuildOrders.pick(0) == com.alkimor.regnum.kingdom.Resource.IRON && com.alkimor.regnum.kingdom.GuildOrders.pick(1) == null && com.alkimor.regnum.kingdom.GuildOrders.pick(2) == com.alkimor.regnum.kingdom.Resource.IRON;

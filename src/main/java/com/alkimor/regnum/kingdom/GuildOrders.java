@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * Гильдейские поручения (I048): кузнецы, лекари и торговцы просят ресурсы, которых сейчас не хватает на рынке (давление спроса
- * от 20). Выполнить можно со склада города один раз в сутки на гильдию: гильдия платит на 30% выше рынка, а нехватка на рынке ослабевает.
+ * от 20). Выполнить можно со склада города один раз в сутки на гильдию: гильдия платит полную базовую цену (рынок скупает за 60%), а нехватка на рынке ослабевает.
  */
 public final class GuildOrders {
     private GuildOrders() {}
@@ -33,7 +33,8 @@ public final class GuildOrders {
     /** Сколько единиц просят при данном давлении: 5..30. */
     public static int qty(int pressure) { return Math.max(5, Math.min(30, pressure / 5)); }
 
-    public static int reward(int price, int qty) { return (int) Math.round(price * qty * 1.3); }
+    /** Гильдия платит полную базовую цену (рынок скупает за 60%), но не больше: перепродажа купленного на рынке не даёт прибыли. */
+    public static int reward(int price, int qty) { return price * qty; }
 
     public static int byKey(String s) {
         for (int i = 0; i < GUILDS.length; i++) if (GUILDS[i].equalsIgnoreCase(s)) return i;
@@ -64,7 +65,7 @@ public final class GuildOrders {
                         else if (r == null) Text.info(p, GUILDS[g] + ": поручений нет, рынок спокоен.");
                         else {
                             int q = qty(Exchange.pressure(r));
-                            Text.info(p, GUILDS[g] + ": нужно " + q + " ед. «" + r.title + "», заплатят " + reward(Exchange.priceNow(r, s), q) + " (на складе " + c.stock(r) + ").");
+                            Text.info(p, GUILDS[g] + ": нужно " + q + " ед. «" + r.title + "», заплатят " + reward(Exchange.price(r, s), q) + " (на складе " + c.stock(r) + ").");
                         }
                     }
                     Text.info(p, "Сдать: /regnum поручения <кузнецы|лекари|торговцы>");
@@ -84,7 +85,7 @@ public final class GuildOrders {
                     if (r == null) { Text.bad(p, "У гильдии сейчас нет поручений."); return 0; }
                     int q = qty(Exchange.pressure(r));
                     if (c.stock(r) < q) { Text.bad(p, "На складе не хватает: нужно " + q + " ед. «" + r.title + "», есть " + c.stock(r) + "."); return 0; }
-                    int pay = reward(Exchange.priceNow(r, com.alkimor.regnum.survival.Seasons.index(p.level())), q);
+                    int pay = reward(Exchange.price(r, com.alkimor.regnum.survival.Seasons.index(p.level())), q);
                     c.take(r, q);
                     c.treasury += pay;
                     Exchange.addPressure(r, -q * 3);
