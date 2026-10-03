@@ -758,6 +758,18 @@ public final class SelfTest {
                     if (!tr) fails.add("treaties");
                 } catch (Exception tre) { fails.add("treaties " + tre); log("treaties EX " + tre); }
                 try {
+                    boolean sf = com.alkimor.regnum.kingdom.SciFocus.mult(com.alkimor.regnum.kingdom.SciFocus.WAR, com.alkimor.regnum.kingdom.SciFocus.WAR) == 1.25
+                            && com.alkimor.regnum.kingdom.SciFocus.mult(com.alkimor.regnum.kingdom.SciFocus.MED, com.alkimor.regnum.kingdom.SciFocus.WAR) == 0.85
+                            && com.alkimor.regnum.kingdom.SciFocus.mult(com.alkimor.regnum.kingdom.SciFocus.BASE, com.alkimor.regnum.kingdom.SciFocus.WAR) == 1.0
+                            && com.alkimor.regnum.kingdom.SciFocus.mult(com.alkimor.regnum.kingdom.SciFocus.ECON, com.alkimor.regnum.kingdom.SciFocus.NONE) == 1.0
+                            && com.alkimor.regnum.kingdom.SciFocus.branchOf(com.alkimor.regnum.kingdom.Science.Tech.AGRICULTURE) == com.alkimor.regnum.kingdom.SciFocus.BASE
+                            && com.alkimor.regnum.kingdom.SciFocus.branchOf(com.alkimor.regnum.kingdom.Science.Tech.ARTILLERY) == com.alkimor.regnum.kingdom.SciFocus.WAR
+                            && com.alkimor.regnum.kingdom.SciFocus.branchOf(com.alkimor.regnum.kingdom.Science.Tech.BANKING) == com.alkimor.regnum.kingdom.SciFocus.ECON
+                            && com.alkimor.regnum.kingdom.SciFocus.byKey("медицина") == 3;
+                    log("scifocus: " + (sf ? "OK" : "FAIL"));
+                    if (!sf) fails.add("scifocus");
+                } catch (Exception sfe) { fails.add("scifocus " + sfe); log("scifocus EX " + sfe); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9

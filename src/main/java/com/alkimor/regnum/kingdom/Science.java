@@ -178,6 +178,7 @@ public class Science extends SavedData {
     public Tech addPoints(UUID owner, int pts) {
         Kingdom k = of(owner);
         if (k.current == null) return null;
+        pts = (int) Math.round(pts * SciFocus.mult(SciFocus.branchOf(k.current), SciFocus.focus(owner)));
         k.progress += pts;
         setDirty();
         if (k.progress >= k.current.cost) {
