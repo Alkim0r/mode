@@ -931,6 +931,23 @@ public final class SelfTest {
                     mq.discard(); mqs1.discard(); mqs2.discard();
                 } catch (Exception mex) { fails.add("minion " + mex); log("minion EX " + mex); }
                 try {
+                    var rq = com.alkimor.regnum.mine.MineModule.CRAWLER.get().create(level);
+                    var rqs = com.alkimor.regnum.kingdom.KingdomModule.SOLDIER.get().create(level);
+                    rqs.setup(com.alkimor.regnum.kingdom.SoldierType.SPEARMAN, spy.getUUID(), null, 1);
+                    rq.moveTo(1.5, 120, 1.5); rqs.moveTo(2.5, 120, 1.5);
+                    level.addFreshEntity(rq); level.addFreshEntity(rqs);
+                    rq.addTag("regnum_minion");
+                    rq.setTarget(rqs);
+                    rqs.kill();
+                    rq.retarget();
+                    boolean rtok = com.alkimor.regnum.mine.CrawlerEntity.nearestIndex(new double[]{9, 4, 16}) == 1
+                            && com.alkimor.regnum.mine.CrawlerEntity.nearestIndex(new double[]{}) == -1
+                            && rq.getTarget() != rqs;
+                    log("minionretarget: " + (rtok ? "OK" : "FAIL"));
+                    if (!rtok) fails.add("minionretarget");
+                    rq.discard(); rqs.discard();
+                } catch (Exception rte) { fails.add("minionretarget " + rte); log("minionretarget EX " + rte); }
+                try {
                     var fv1 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:bread");
                     var fv2 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:bread");
                     var fv3 = com.alkimor.regnum.survival.FoodVariety.record(spy, "minecraft:apple");

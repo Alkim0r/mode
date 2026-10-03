@@ -41,6 +41,45 @@ public class CrawlerEntity extends Spider {
                         || e instanceof net.minecraft.world.entity.player.Player p && !p.isCreative() && !p.isSpectator())));
     }
 
+    private net.minecraft.world.phys.Vec3 stallPos = net.minecraft.world.phys.Vec3.ZERO;
+    private int stallTicks;
+
+    /** Индекс ближайшей из дистанций (-1 — список пуст). */
+    public static int nearestIndex(double[] dists) {
+        int best = -1;
+        for (int i = 0; i < dists.length; i++) if (best < 0 || dists[i] < dists[best]) best = i;
+        return best;
+    }
+
+    /** Выводок застрял на недостижимой цели: берём ближайшую другую досягаемую; иначе сбрасываем цель, и поиск идёт заново. */
+    public boolean retarget() {
+        LivingEntity cur = getTarget();
+        java.util.List<LivingEntity> cands = new java.util.ArrayList<>();
+        for (LivingEntity e : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(28),
+                e -> e != cur && e.isAlive() && (e instanceof com.alkimor.regnum.kingdom.SoldierEntity
+                        || e instanceof net.minecraft.world.entity.player.Player p && !p.isCreative() && !p.isSpectator()))) {
+            if (getNavigation().createPath(e, 0) != null) cands.add(e);
+        }
+        double[] d = new double[cands.size()];
+        for (int i = 0; i < d.length; i++) d[i] = distanceToSqr(cands.get(i));
+        int idx = nearestIndex(d);
+        if (idx >= 0) { super.setTarget(cands.get(idx)); return true; }
+        super.setTarget(null);
+        return false;
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (level().isClientSide || !isMinion()) return;
+        LivingEntity t = getTarget();
+        if (t == null || !t.isAlive() || distanceToSqr(t) < 9.0) { stallTicks = 0; stallPos = position(); return; }
+        if (tickCount % 10 == 0) {
+            if (position().distanceToSqr(stallPos) < 0.04) stallTicks += 10; else stallTicks = 0;
+            stallPos = position();
+            if (stallTicks >= 60) { stallTicks = 0; retarget(); }
+        }
+    }
     public boolean isMinion() {
         return getTags().contains("regnum_minion");
     }
