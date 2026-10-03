@@ -230,6 +230,14 @@ public class Science extends SavedData {
         return c;
     }
 
+    /** Потеря очков при смене исследования: половина накопленного. */
+    public static int lossOnSwitch(int progress) { return progress / 2; }
+
+    /** Нужно ли подтверждение: идёт другое исследование и накоплено хоть что-то. */
+    public static boolean needsConfirm(boolean hasOther, int progress) { return hasOther && lossOnSwitch(progress) > 0; }
+
+    private static final java.util.Map<UUID, long[]> PENDING_SWITCH = new java.util.HashMap<>();
+
     public static boolean research(ServerPlayer p, @Nullable Tech t) {
         Science sc = Science.get(p.server);
         Kingdom k = sc.of(p.getUUID());
@@ -237,7 +245,19 @@ public class Science extends SavedData {
             Text.bad(p, "Эту технологию сейчас изучить нельзя.");
             return false;
         }
-        if (k.current != null && k.current != t) k.progress = k.progress / 2; // смена курса: теряется половина
+        if (k.current != null && k.current != t) {
+            if (needsConfirm(true, k.progress)) {
+                long nowT = p.serverLevel().getGameTime();
+                long[] pend = PENDING_SWITCH.get(p.getUUID());
+                if (pend == null || pend[0] != t.ordinal() || nowT - pend[1] > 400) {
+                    PENDING_SWITCH.put(p.getUUID(), new long[]{t.ordinal(), nowT});
+                    Text.bad(p, "Смена исследования «" + k.current.title + "» → «" + t.title + "» сожжёт " + lossOnSwitch(k.progress) + " из " + k.progress + " очков. Повторите выбор в течение 20 с, чтобы подтвердить.");
+                    return false;
+                }
+                PENDING_SWITCH.remove(p.getUUID());
+            }
+            k.progress = lossOnSwitch(k.progress); // смена курса: теряется половина
+        }
         k.current = t;
         sc.setDirty();
         Text.good(p, "Учёные взялись за «" + t.title + "» (" + t.cost + " очков, +" + dailyPoints(p.server, p.getUUID()) + "/день).");

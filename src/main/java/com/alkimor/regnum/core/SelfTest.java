@@ -799,6 +799,12 @@ public final class SelfTest {
                     if (!go) fails.add("guildorders");
                 } catch (Exception goe) { fails.add("guildorders " + goe); log("guildorders EX " + goe); }
                 try {
+                    boolean sw = com.alkimor.regnum.kingdom.Science.lossOnSwitch(61) == 30 && com.alkimor.regnum.kingdom.Science.lossOnSwitch(1) == 0
+                            && com.alkimor.regnum.kingdom.Science.needsConfirm(true, 10) && !com.alkimor.regnum.kingdom.Science.needsConfirm(true, 1) && !com.alkimor.regnum.kingdom.Science.needsConfirm(false, 100);
+                    log("scienceswitch: " + (sw ? "OK" : "FAIL"));
+                    if (!sw) fails.add("scienceswitch");
+                } catch (Exception swe) { fails.add("scienceswitch " + swe); log("scienceswitch EX " + swe); }
+                try {
                     boolean encok = Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(1, 4) - Math.PI / 2) < 1e-9
                             && com.alkimor.regnum.combat.Tactics.slotAngle(0, 3) == 0
                             && Math.abs(com.alkimor.regnum.combat.Tactics.slotAngle(5, 4) - Math.PI / 2) < 1e-9
